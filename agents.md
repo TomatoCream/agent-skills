@@ -127,9 +127,14 @@ Use the `skill` tool:
 
 ### Creating a New Skill
 
+**MUST add to install.org for EVERY personal skill** — do not skip this step.
+
 1. Create `skills/df-your-skill/SKILL.md`
 2. Follow the format above
-3. Add to install.org if it requires external tools
+3. **Add entry to install.org Personal Skills table** — all fields required:
+   - Skill name (df-*)
+   - When to Use (description)
+   - External Tools (even "None")
 4. Commit
 
 ### Evaluating Skills

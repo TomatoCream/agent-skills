@@ -60,6 +60,7 @@ See =skills/df-*/SKILL.md= for documentation.
 
 | Skill | When to Use | External Tools |
 |-------|-------------|----------------|
+| df-commit | Commit changes and push to remote — review diff, craft message, commit, push | git |
 | df-skill-creator | Create new skills, edit/verify existing skills, run evals | None |
 | df-treefmt-nix | Setting up treefmt-nix in Nix flakes, =nix fmt= / =nix flake check= | nix |
 | df-flashcard-org | Generate Anki flashcards in org-mode format | None |
