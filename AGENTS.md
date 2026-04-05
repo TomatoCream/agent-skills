@@ -4,7 +4,10 @@ This is a personal collection of agent skills for use with Claude Code and compa
 
 ## What This Repo Is
 
-Each directory under `skills/` is one skill — a reusable reference guide that Claude loads on demand to improve how it handles specific tasks or domains.
+Two types of Claude Code extensions live here:
+
+- **Skills** (`skills/`) — reference guides Claude loads on demand to handle specific tasks
+- **Agents** (`agents/`) — specialized subagents with their own system prompts, invokable via the `Agent` tool
 
 ## Skill Format
 
@@ -30,6 +33,31 @@ Rules:
 - `name`: letters, numbers, hyphens only
 - `description`: max ~500 chars, describes WHEN to use (not what it does), never summarizes the skill's workflow
 - Total frontmatter: max 1024 characters
+
+## Agent Format
+
+Agents are single `.md` files in `agents/` with frontmatter and a system prompt body.
+
+```
+agents/
+  my-agent.md       # frontmatter + system prompt
+```
+
+### Frontmatter
+
+```yaml
+---
+name: agent-name
+description: Use this agent when [triggering conditions with examples]
+model: sonnet        # or opus, haiku — defaults to sonnet
+---
+```
+
+- `name`: letters, numbers, hyphens
+- `description`: same rules as skills — "Use this agent when...", never summarizes workflow. Include `<example>` blocks showing user messages and when to dispatch the agent.
+- `model`: optional. Use `opus` for complex reasoning tasks, `haiku` for fast/cheap tasks, `sonnet` for default.
+
+The body (after frontmatter) is the agent's full system prompt. Write it as instructions to the agent, not to the user.
 
 ## Writing New Skills
 
@@ -70,7 +98,8 @@ To install a single skill:
 ```
 agent-skills/
   skills/           # One subdirectory per skill
-  install.sh        # Install script
+  agents/           # One .md file per agent
+  install.sh        # Symlinks both into ~/.claude/
   AGENTS.md         # This file
   README.md
 ```

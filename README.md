@@ -16,7 +16,13 @@ Skills are symlinked into `~/.claude/skills/`. Pulling the repo and re-running `
 ## Adding a Skill
 
 1. Create `skills/<skill-name>/SKILL.md` with required frontmatter
-2. Run `./install.sh <skill-name>`
+2. Run `./install.sh`
 3. Commit and push
 
-See `AGENTS.md` for the full skill format and authoring guidelines.
+## Adding an Agent
+
+1. Create `agents/<agent-name>.md` with frontmatter + system prompt
+2. Run `./install.sh`
+3. Commit and push
+
+See `AGENTS.md` for formats and authoring guidelines.
