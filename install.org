@@ -33,17 +33,17 @@ npx skills install 199-biotechnologies/claude-deep-research-skill
 
 Some skills require external CLI tools:
 
-| Skill | Tool | Install |
-|-------|------|---------|
-| tavily-* | [[https://tavily.com][tavily CLI]] | ~curl -fsSL https://cli.tavily.com/install.sh \| bash && tvly login~ |
+| Skill    | Tool       | Install                                         |                     |
+|----------+------------+-------------------------------------------------+---------------------|
+| tavily-* | [[https://tavily.com][tavily CLI]] | ~curl -fsSL https://cli.tavily.com/install.sh \ | bash && tvly login~ |
 
 ## Skill Sources
 
-| Repo | Skills |
-|------|--------|
-| [[https://github.com/tavily-ai/skills][tavily-ai/skills]] | tavily-search, tavily-extract, tavily-map, tavily-crawl, tavily-best-practices, tavily-research |
-| [[https://github.com/obra/superpowers][obra/superpowers]] | brainstorming, writing-plans, executing-plans, subagent-driven-development, dispatching-parallel-agents, systematic-debugging, test-driven-development, verification-before-completion, using-git-worktrees, finishing-a-development-branch, receiving-code-review, requesting-code-review, writing-skills, using-superpowers |
-| [[https://github.com/199-biotechnologies/claude-deep-research-skill][199-biotechnologies/claude-deep-research-skill]] | deep-research |
+| Repo                                           | Skills                                                                                                                                                                                                                                                                                                                        |
+|------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [[https://github.com/tavily-ai/skills][tavily-ai/skills]]                               | tavily-search, tavily-extract, tavily-map, tavily-crawl, tavily-best-practices, tavily-research                                                                                                                                                                                                                               |
+| [[https://github.com/obra/superpowers][obra/superpowers]]                               | brainstorming, writing-plans, executing-plans, subagent-driven-development, dispatching-parallel-agents, systematic-debugging, test-driven-development, verification-before-completion, using-git-worktrees, finishing-a-development-branch, receiving-code-review, requesting-code-review, writing-skills, using-superpowers |
+| [[https://github.com/199-biotechnologies/claude-deep-research-skill][199-biotechnologies/claude-deep-research-skill]] | deep-research                                                                                                                                                                                                                                                                                                                 |
 
 ## opencode
 
