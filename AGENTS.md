@@ -71,21 +71,21 @@ This enforces the RED-GREEN-REFACTOR cycle: run a baseline test first, write the
 
 **Do not write a skill without a failing baseline test.**
 
-## Installing Skills
+## Installing
 
-Run the install script to symlink skills into the agent skill directory:
+Run the install script after adding any skill or agent:
 
 ```bash
 ./install.sh
 ```
 
-This symlinks each `skills/<name>` directory into `~/.claude/skills/<name>`.
+`install.sh` is **idempotent** — safe to re-run at any time. It symlinks:
+- `skills/*` → `~/.claude/skills/` and `~/.config/opencode/skills/`
+- `agents/*.md` → `~/.claude/agents/`
 
-To install a single skill:
-
-```bash
-./install.sh skill-name
-```
+**When adding a new install target** (new tool, new config directory), update `install.sh`
+to include it. The script is the single source of truth for where things get installed —
+keep it complete so a fresh clone + `./install.sh` fully bootstraps the environment.
 
 ## Naming Conventions
 
