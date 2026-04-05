@@ -101,13 +101,35 @@ keep it complete so a fresh clone + `./install.sh` fully bootstraps the environm
 
 ```
 agent-skills/
-  skills/                    # One subdirectory per skill
+  skills/                    # One subdirectory per skill (or symlink to vendor/)
   agents/                    # One .md file per agent
-  vendor/superpowers/        # obra/superpowers submodule (reference copy)
+  vendor/                    # Upstream skill submodules
+    superpowers/             # obra/superpowers (skills/ inside)
+    tavily-skills/           # tavily-ai/skills (skills/ inside)
+    claude-deep-research-skill/ # 199-biotechnologies (SKILL.md at root)
   install.sh                 # Symlinks skills → ~/.claude/ and ~/.config/opencode/
   AGENTS.md                  # This file
   README.md
 ```
+
+## Vendor Submodules
+
+Upstream skills are added as git submodules in `vendor/` for upstream tracking. Two patterns exist:
+
+1. **skills/ at root** (e.g., claude-deep-research-skill): SKILL.md lives at repo root
+   - Create symlink: `skills/deep-research → ../vendor/claude-deep-research-skill`
+   - install.sh picks up the symlink like any local skill
+
+2. **skills/ subdirectory** (e.g., tavily-skills, superpowers): Repo contains a `skills/` subdirectory
+   - install.sh automatically finds `vendor/*/skills` and installs from there
+   - No symlink needed
+
+To add a new vendor skill:
+1. Add submodule: `git submodule add [-f] https://github.com/owner/repo.git vendor/name`
+2. If skills/ pattern: ensure install.sh handles `vendor/*/skills` (already configured)
+3. If root SKILL.md pattern: create symlink in skills/
+4. Run `./install.sh`
+5. Add entry to `tools.org`
 
 ## Opencode Setup
 
