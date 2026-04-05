@@ -5,13 +5,23 @@ Personal collection of agent skills for Claude Code.
 ## Install
 
 ```bash
-git clone git@github.com:TomatoCream/agent-skills.git ~/projects/agent-skills
+git clone --recurse-submodules git@github.com:TomatoCream/agent-skills.git ~/projects/agent-skills
 cd ~/projects/agent-skills
 chmod +x install.sh
 ./install.sh
 ```
 
-Skills are symlinked into `~/.claude/skills/`. Pulling the repo and re-running `./install.sh` keeps them up to date (symlinks are idempotent).
+`install.sh` symlinks skills into both `~/.claude/skills/` and `~/.config/opencode/skills/`. Re-running after a pull is idempotent.
+
+### Opencode — superpowers plugin
+
+Add to `~/.config/opencode/opencode.jsonc`:
+
+```json
+"plugin": ["superpowers@git+https://github.com/obra/superpowers.git"]
+```
+
+Then restart opencode. The plugin auto-fetches and registers all superpowers skills.
 
 ## Adding a Skill
 

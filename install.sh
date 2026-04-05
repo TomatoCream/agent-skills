@@ -4,10 +4,12 @@ set -euo pipefail
 REPO_DIR="$(cd "$(dirname "$0")" && pwd)"
 SKILLS_SRC="${REPO_DIR}/skills"
 AGENTS_SRC="${REPO_DIR}/agents"
-SKILLS_DST="${HOME}/.claude/skills"
-AGENTS_DST="${HOME}/.claude/agents"
 
-mkdir -p "$SKILLS_DST" "$AGENTS_DST"
+CLAUDE_SKILLS="${HOME}/.claude/skills"
+CLAUDE_AGENTS="${HOME}/.claude/agents"
+OPENCODE_SKILLS="${HOME}/.config/opencode/skills"
+
+mkdir -p "$CLAUDE_SKILLS" "$CLAUDE_AGENTS" "$OPENCODE_SKILLS"
 
 link() {
     local src="$1"
@@ -32,7 +34,8 @@ install_skills() {
         [[ -d "$src" ]] || continue
         local name
         name="$(basename "$src")"
-        link "$src" "${SKILLS_DST}/${name}" "skill/${name}"
+        link "$src" "${CLAUDE_SKILLS}/${name}"   "claude/skill/${name}"
+        link "$src" "${OPENCODE_SKILLS}/${name}" "opencode/skill/${name}"
     done
 }
 
@@ -41,7 +44,7 @@ install_agents() {
         [[ -f "$src" ]] || continue
         local name
         name="$(basename "$src")"
-        link "$src" "${AGENTS_DST}/${name}" "agent/${name}"
+        link "$src" "${CLAUDE_AGENTS}/${name}" "claude/agent/${name}"
     done
 }
 

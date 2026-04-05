@@ -97,12 +97,30 @@ To install a single skill:
 
 ```
 agent-skills/
-  skills/           # One subdirectory per skill
-  agents/           # One .md file per agent
-  install.sh        # Symlinks both into ~/.claude/
-  AGENTS.md         # This file
+  skills/                    # One subdirectory per skill
+  agents/                    # One .md file per agent
+  vendor/superpowers/        # obra/superpowers submodule (reference copy)
+  install.sh                 # Symlinks skills → ~/.claude/ and ~/.config/opencode/
+  AGENTS.md                  # This file
   README.md
 ```
+
+## Opencode Setup
+
+Superpowers loads in opencode via the plugin system — no symlinks needed for it.
+The plugin entry is in `~/.config/opencode/opencode.jsonc`:
+
+```json
+{
+  "plugin": ["superpowers@git+https://github.com/obra/superpowers.git"]
+}
+```
+
+The `vendor/superpowers` submodule is a local reference copy. The live opencode install
+fetches directly from GitHub on restart.
+
+Personal skills in `skills/` are symlinked to both `~/.claude/skills/` and
+`~/.config/opencode/skills/` by `install.sh`.
 
 ## Repo-Specific Conventions
 
