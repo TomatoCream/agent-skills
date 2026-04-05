@@ -1,0 +1,38 @@
+#+title: Agent Skills
+
+* [[https://github.com/obra/superpowers][superpowers]]
+
+| Skill                          | When to use                                                                |
+|--------------------------------+----------------------------------------------------------------------------|
+| brainstorming                  | Before any creative work — features, components, behavior changes          |
+| dispatching-parallel-agents    | 2+ independent tasks with no shared state or sequential dependencies       |
+| executing-plans                | Executing a written plan in a separate session with review checkpoints     |
+| finishing-a-development-branch | Implementation complete, tests pass — decide how to merge/PR/cleanup       |
+| receiving-code-review          | Before implementing review feedback, especially if unclear or questionable |
+| requesting-code-review         | Completing tasks or major features, before merging                         |
+| subagent-driven-development    | Executing implementation plans with independent tasks in current session   |
+| systematic-debugging           | Any bug, test failure, or unexpected behavior — before proposing fixes     |
+| test-driven-development        | Before writing implementation code for any feature or bugfix               |
+| using-git-worktrees            | Starting feature work needing isolation, or before executing plans         |
+| using-superpowers              | Start of any conversation — establishes skill discovery                    |
+| verification-before-completion | Before claiming work is done, committing, or creating PRs                  |
+| writing-plans                  | Have a spec or requirements for a multi-step task, before touching code    |
+| writing-skills                 | Creating, editing, or verifying skills before deployment                   |
+
+* [[https://github.com/tavily-ai/skills][tavily-skills]]
+
+| Skill                 | When to use                                                      |
+|-----------------------+------------------------------------------------------------------|
+| tavily-cli            | Web search, extraction, crawling, or research via the Tavily CLI |
+| tavily-search         | Search the web for articles, news, or current information        |
+| tavily-extract        | Extract clean content from specific URLs (up to 20 at once)      |
+| tavily-crawl          | Crawl a site and bulk-extract pages as markdown                  |
+| tavily-map            | Discover all URLs on a domain without extracting content         |
+| tavily-research       | Deep research with citations — multi-source synthesis, 30–120s   |
+| tavily-best-practices | Reference for building production Tavily integrations            |
+
+* Personal (~df-~)
+
+| Skill          | When to use                                                                  |
+|----------------+------------------------------------------------------------------------------|
+| df-treefmt-nix | Setting up treefmt-nix in a Nix flake, configuring ~nix fmt~ / ~nix flake check~ |
