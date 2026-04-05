@@ -234,6 +234,51 @@
       "skillFolderHash": "a980e9b6139b520922696a11ffa01a7d2380e608",
       "installedAt": "2026-04-05T14:53:07.925Z",
       "updatedAt": "2026-04-05T14:53:07.925Z"
+    },
+    "research": {
+      "source": "Weizhena/Deep-Research-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/Weizhena/Deep-Research-skills.git",
+      "skillPath": "skills/research-codex-en/research/SKILL.md",
+      "skillFolderHash": "bb9ece6e35eb1b99c491d8a82325efde5ea22e7e",
+      "installedAt": "2026-04-05T17:06:10.678Z",
+      "updatedAt": "2026-04-05T17:06:10.678Z"
+    },
+    "research-add-fields": {
+      "source": "Weizhena/Deep-Research-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/Weizhena/Deep-Research-skills.git",
+      "skillPath": "skills/research-codex-en/research-add-fields/SKILL.md",
+      "skillFolderHash": "aebd429412d204aae719ba5bf8faf3dcf5f3dd4c",
+      "installedAt": "2026-04-05T17:06:11.090Z",
+      "updatedAt": "2026-04-05T17:06:11.090Z"
+    },
+    "research-add-items": {
+      "source": "Weizhena/Deep-Research-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/Weizhena/Deep-Research-skills.git",
+      "skillPath": "skills/research-codex-en/research-add-items/SKILL.md",
+      "skillFolderHash": "a6038e43f049c963a418b35dcc5fb880a74cf0e7",
+      "installedAt": "2026-04-05T17:06:11.505Z",
+      "updatedAt": "2026-04-05T17:06:11.505Z"
+    },
+    "research-deep": {
+      "source": "Weizhena/Deep-Research-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/Weizhena/Deep-Research-skills.git",
+      "skillPath": "skills/research-codex-en/research-deep/SKILL.md",
+      "skillFolderHash": "bab483035cefe0ed664a239836b2a11b044dca8f",
+      "installedAt": "2026-04-05T17:06:11.916Z",
+      "updatedAt": "2026-04-05T17:06:11.916Z"
+    },
+    "research-report": {
+      "source": "Weizhena/Deep-Research-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/Weizhena/Deep-Research-skills.git",
+      "skillPath": "skills/research-codex-en/research-report/SKILL.md",
+      "skillFolderHash": "09d394189462c66d1e0b00baf1f83a194a11f1ce",
+      "installedAt": "2026-04-05T17:06:12.762Z",
+      "updatedAt": "2026-04-05T17:06:12.762Z"
     }
   },
   "dismissed": {

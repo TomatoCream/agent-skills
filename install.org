@@ -71,6 +71,8 @@ https://skills.sh/
 https://github.com/github/awesome-copilot/blob/main/docs/README.skills.md
 https://github.com/hesreallyhim/awesome-claude-code
 https://github.com/shubhamsaboo/awesome-llm-apps
+https://github.com/qx-labs/agents-deep-research
+https://github.com/Weizhena/Deep-Research-skills
 
 * Additional Tools Required
 

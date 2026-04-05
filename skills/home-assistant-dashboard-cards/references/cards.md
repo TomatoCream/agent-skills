@@ -834,3 +834,57 @@ All cards support these actions via `tap_action`, `hold_action`, `double_tap_act
 - **Interactive Demo:** https://demo.home-assistant.io
 - **Custom Cards:** https://github.com/custom-cards
 - **Card Gallery:** https://home-assistant-cards.bessarabov.com/
+
+---
+
+## Documentation Links
+
+### Views
+- [Masonry](https://www.home-assistant.io/dashboards/masonry/)
+- [Panel](https://www.home-assistant.io/dashboards/panel/)
+- [Sections](https://www.home-assistant.io/dashboards/sections/)
+- [Sidebar](https://www.home-assistant.io/dashboards/sidebar/)
+
+### Cards
+- [Activity (Logbook)](https://www.home-assistant.io/dashboards/logbook/)
+- [Alarm Panel](https://www.home-assistant.io/dashboards/alarm-panel/)
+- [Area](https://www.home-assistant.io/dashboards/area/)
+- [Button](https://www.home-assistant.io/dashboards/button/)
+- [Calendar](https://www.home-assistant.io/dashboards/calendar/)
+- [Clock](https://www.home-assistant.io/dashboards/clock/)
+- [Conditional](https://www.home-assistant.io/dashboards/conditional/)
+- [Energy Cards](https://www.home-assistant.io/dashboards/energy/)
+- [Entities](https://www.home-assistant.io/dashboards/entities/)
+- [Entity](https://www.home-assistant.io/dashboards/entity/)
+- [Entity Filter](https://www.home-assistant.io/dashboards/entity-filter/)
+- [Gauge](https://www.home-assistant.io/dashboards/gauge/)
+- [Glance](https://www.home-assistant.io/dashboards/glance/)
+- [Grid](https://www.home-assistant.io/dashboards/grid/)
+- [Heading](https://www.home-assistant.io/dashboards/heading/)
+- [History Graph](https://www.home-assistant.io/dashboards/history-graph/)
+- [Horizontal Stack](https://www.home-assistant.io/dashboards/horizontal-stack/)
+- [Humidifier](https://www.home-assistant.io/dashboards/humidifier/)
+- [Light](https://www.home-assistant.io/dashboards/light/)
+- [Map](https://www.home-assistant.io/dashboards/map/)
+- [Markdown](https://www.home-assistant.io/dashboards/markdown/)
+- [Media Control](https://www.home-assistant.io/dashboards/media-control/)
+- [Picture](https://www.home-assistant.io/dashboards/picture/)
+- [Picture Elements](https://www.home-assistant.io/dashboards/picture-elements/)
+- [Picture Entity](https://www.home-assistant.io/dashboards/picture-entity/)
+- [Picture Glance](https://www.home-assistant.io/dashboards/picture-glance/)
+- [Plant Status](https://www.home-assistant.io/dashboards/plant-status/)
+- [Sensor](https://www.home-assistant.io/dashboards/sensor/)
+- [Statistic](https://www.home-assistant.io/dashboards/statistic/)
+- [Statistics Graph](https://www.home-assistant.io/dashboards/statistics-graph/)
+- [Thermostat](https://www.home-assistant.io/dashboards/thermostat/)
+- [Tile](https://www.home-assistant.io/dashboards/tile/)
+- [To-do List](https://www.home-assistant.io/dashboards/todo-list/)
+- [Vertical Stack](https://www.home-assistant.io/dashboards/vertical-stack/)
+- [Weather Forecast](https://www.home-assistant.io/dashboards/weather-forecast/)
+- [Webpage (Iframe)](https://www.home-assistant.io/dashboards/iframe/)
+
+### Advanced
+- [Features](https://www.home-assistant.io/dashboards/features/)
+- [Headers & Footers](https://www.home-assistant.io/dashboards/header-footer/)
+- [Actions](https://www.home-assistant.io/dashboards/actions/)
+- [Custom Cards Dev](https://developers.home-assistant.io/docs/frontend/custom-ui/custom-card/)
