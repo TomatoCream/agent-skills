@@ -1,8 +1,8 @@
 ---
-name: flashcard-org
+name: df-flashcard-org
 description: >-
   Generate Anki flashcards in Emacs org-mode format for the org-anki plugin.
-  Use when the user says "flashcard-org", "org-anki", "anki org-mode",
+  Use when the user says "df-flashcard-org", "flashcard-org", "org-anki", "anki org-mode",
   "make org flashcards", or wants to create study cards in .org format.
 ---
 
@@ -12,10 +12,10 @@ Generate Anki flashcards in Emacs org-mode format for the `org-anki` plugin.
 
 ## Invocation
 
-The user invokes this skill as `/flashcard-org` with arguments:
+The user invokes this skill as `/df-flashcard-org` with arguments:
 
 ```
-/flashcard-org <output-path> [source]
+/df-flashcard-org <output-path> [source]
 ```
 
 - `output-path` (required): The `.org` file to append cards to (e.g., `~/org/cs-notes.org`)
@@ -106,7 +106,7 @@ No retries, no fallbacks. If an error occurs, fail clearly and stop.
 
 ## Example
 
-Given `/flashcard-org ~/org/python.org "Python decorators"`, generate cards like:
+Given `/df-flashcard-org ~/org/python.org "Python decorators"`, generate cards like:
 
 ```org
 * Decorator Purpose :study_card:python:decorators:

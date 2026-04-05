@@ -87,6 +87,9 @@ Run the install script after adding any skill or agent:
 to include it. The script is the single source of truth for where things get installed —
 keep it complete so a fresh clone + `./install.sh` fully bootstraps the environment.
 
+**When adding any new skill or agent**, also add a row to the appropriate table in
+`tools.org` with a short "when to use" description.
+
 ## Naming Conventions
 
 - Use hyphens, not underscores

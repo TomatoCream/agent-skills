@@ -31,8 +31,9 @@
 | tavily-research       | Deep research with citations — multi-source synthesis, 30–120s   |
 | tavily-best-practices | Reference for building production Tavily integrations            |
 
-* Personal (~df-~)
+* Personal
 
-| Skill          | When to use                                                                  |
-|----------------+------------------------------------------------------------------------------|
+| Skill          | When to use                                                                       |
+|----------------+-----------------------------------------------------------------------------------|
 | df-treefmt-nix | Setting up treefmt-nix in a Nix flake, configuring ~nix fmt~ / ~nix flake check~ |
+| df-flashcard-org | Generate Anki flashcards in org-mode format for the org-anki plugin             |
