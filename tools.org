@@ -19,6 +19,12 @@
 | writing-plans                  | Have a spec or requirements for a multi-step task, before touching code    |
 | writing-skills                 | Creating, editing, or verifying skills before deployment                   |
 
+* [[https://github.com/199-biotechnologies/claude-deep-research-skill][claude-deep-research-skill]]
+
+| Skill         | When to use                                                                                           |
+|---------------+-------------------------------------------------------------------------------------------------------|
+| deep-research | Enterprise-grade deep research with multi-source synthesis, citation tracking, and verification        |
+
 * [[https://github.com/tavily-ai/skills][tavily-skills]]
 
 | Skill                 | When to use                                                      |
@@ -37,3 +43,4 @@
 |----------------+-----------------------------------------------------------------------------------|
 | df-treefmt-nix | Setting up treefmt-nix in a Nix flake, configuring ~nix fmt~ / ~nix flake check~ |
 | df-flashcard-org | Generate Anki flashcards in org-mode format for the org-anki plugin             |
+| df-think-say-approve-do | Plan before acting — think → describe → approve → execute loop                  |

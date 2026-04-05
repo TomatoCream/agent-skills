@@ -4,3 +4,6 @@
 [submodule "vendor/tavily-skills"]
 	path = vendor/tavily-skills
 	url = https://github.com/tavily-ai/skills.git
+[submodule "vendor/claude-deep-research-skill"]
+	path = vendor/claude-deep-research-skill
+	url = https://github.com/199-biotechnologies/claude-deep-research-skill.git
