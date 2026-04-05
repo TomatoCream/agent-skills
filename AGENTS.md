@@ -92,6 +92,7 @@ keep it complete so a fresh clone + `./install.sh` fully bootstraps the environm
 - Use hyphens, not underscores
 - Verb-first / gerund form preferred: `reviewing-prs`, `deploying-nix`, `writing-nixos-modules`
 - Name by what you DO, not what the topic is: `condition-based-waiting` not `async-helpers`
+- Personal/private skills (not sourced from upstream registries) must use the `df-` prefix: `df-treefmt-nix`, `df-my-workflow`
 
 ## Directory Structure
 
