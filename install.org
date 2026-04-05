@@ -1,0 +1,61 @@
+# Skill Installation Guide
+
+This repository contains skills for coding agents (opencode, claude-code, etc.)
+
+## Installing Skills
+
+Use `npx skills install` with the repository and skill path:
+
+#+BEGIN_SRC bash
+npx skills install tavily-ai/skills skills/tavily-search
+npx skills install tavily-ai/skills skills/tavily-extract
+npx skills install tavily-ai/skills skills/tavily-map
+npx skills install tavily-ai/skills skills/tavily-crawl
+npx skills install tavily-ai/skills skills/tavily-best-practices
+npx skills install obra/superpowers skills/brainstorming
+npx skills install obra/superpowers skills/writing-plans
+npx skills install obra/superpowers skills/executing-plans
+npx skills install obra/superpowers skills/subagent-driven-development
+npx skills install obra/superpowers skills/dispatching-parallel-agents
+npx skills install obra/superpowers skills/systematic-debugging
+npx skills install obra/superpowers skills/test-driven-development
+npx skills install obra/superpowers skills/verification-before-completion
+npx skills install obra/superpowers skills/using-git-worktrees
+npx skills install obra/superpowers skills/finishing-a-development-branch
+npx skills install obra/superpowers skills/receiving-code-review
+npx skills install obra/superpowers skills/requesting-code-review
+npx skills install obra/superpowers skills/writing-skills
+npx skills install obra/superpowers skills/using-superpowers
+npx skills install 199-biotechnologies/claude-deep-research-skill
+#+END_SRC
+
+## Additional Tools Required
+
+Some skills require external CLI tools:
+
+| Skill | Tool | Install |
+|-------|------|---------|
+| tavily-* | [[https://tavily.com][tavily CLI]] | ~curl -fsSL https://cli.tavily.com/install.sh \| bash && tvly login~ |
+
+## Skill Sources
+
+| Repo | Skills |
+|------|--------|
+| [[https://github.com/tavily-ai/skills][tavily-ai/skills]] | tavily-search, tavily-extract, tavily-map, tavily-crawl, tavily-best-practices, tavily-research |
+| [[https://github.com/obra/superpowers][obra/superpowers]] | brainstorming, writing-plans, executing-plans, subagent-driven-development, dispatching-parallel-agents, systematic-debugging, test-driven-development, verification-before-completion, using-git-worktrees, finishing-a-development-branch, receiving-code-review, requesting-code-review, writing-skills, using-superpowers |
+| [[https://github.com/199-biotechnologies/claude-deep-research-skill][199-biotechnologies/claude-deep-research-skill]] | deep-research |
+
+## opencode
+
+Install opencode skills:
+- Skills are installed via `npx skills install`
+- See [[https://opencode.ai][opencode.ai]] for documentation
+- Agent reads skills from =skills/= directory
+- Use =skill= tool to load a skill
+
+## claude (Code)
+
+Install claude skills:
+- Skills are installed via `npx skills install`
+- See [[https://docs.anthropic.com/en/docs/claude-code][claude-code docs]] for documentation
+- Skills installed to =~/.claude/skills/=
