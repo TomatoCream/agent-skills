@@ -207,6 +207,33 @@
       "skillFolderHash": "1341bdb2a18332449aeb296482e0647b48dcfef7",
       "installedAt": "2026-04-05T11:42:31.477Z",
       "updatedAt": "2026-04-05T11:42:31.477Z"
+    },
+    "autoresearch": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/awesome-copilot.git",
+      "skillPath": "skills/autoresearch/SKILL.md",
+      "skillFolderHash": "a89e8007dc84571d21ad6717d96ccdc3d94d3039",
+      "installedAt": "2026-04-05T14:34:46.026Z",
+      "updatedAt": "2026-04-05T14:34:46.026Z"
+    },
+    "context7": {
+      "source": "intellectronica/agent-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/intellectronica/agent-skills.git",
+      "skillPath": "skills/context7/SKILL.md",
+      "skillFolderHash": "c7ab574e006997d98e8a2d8fb7a1db0d2477b180",
+      "installedAt": "2026-04-05T14:53:06.825Z",
+      "updatedAt": "2026-04-05T14:53:06.825Z"
+    },
+    "create-skill-from-repo": {
+      "source": "hairyf/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/hairyf/skills.git",
+      "skillPath": "skills/create-skill-from-repo/SKILL.md",
+      "skillFolderHash": "a980e9b6139b520922696a11ffa01a7d2380e608",
+      "installedAt": "2026-04-05T14:53:07.925Z",
+      "updatedAt": "2026-04-05T14:53:07.925Z"
     }
   },
   "dismissed": {

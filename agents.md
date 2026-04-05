@@ -40,10 +40,23 @@ description: When to use this skill and what it does
 
 | Source | Skills |
 |--------|--------|
-| `obra/superpowers` | brainstorming, writing-plans, executing-plans, subagent-driven-development, dispatching-parallel-agents, systematic-debugging, test-driven-development, verification-before-completion, using-git-worktrees, finishing-a-development-branch, receiving-code-review, requesting-code-review, writing-skills, using-superpowers |
+| `obra/superpowers` | brainstorming, writing-plans, executing-plans, subagent-driven-development, dispatching-parallel-agents, systematic-debugging, test-driven-development, verification-before-completion, using-git-worktrees, finishing-a-development-branch, receiving-code-review, requesting-code-review, writing-skills, using-superpowers, create-skill-from-repo |
 | `tavily-ai/skills` | tavily-search, tavily-extract, tavily-map, tavily-crawl, tavily-best-practices, tavily-cli, tavily-research |
 | `199-biotechnologies/claude-deep-research-skill` | deep-research |
 | `vercel-labs/skills` | find-skills |
+| `context7` | context7 |
+| `karpathy/autoresearch` | autoresearch |
+| Local | create-skill-from-repo |
+
+### Personal Skills (df-* prefix)
+
+| Skill | Description |
+|-------|-------------|
+| `df-commit` | Commit changes and push to remote — review diff, craft message, commit, push |
+| `df-skill-creator` | Create new skills, edit/verify existing skills, run evals |
+| `df-treefmt-nix` | Setting up treefmt-nix in Nix flakes, `nix fmt` / `nix flake check` |
+| `df-flashcard-org` | Generate Anki flashcards in org-mode format |
+| `df-think-say-approve-do` | Plan before acting — think → describe → approve → execute loop |
 
 ## Code Style Guidelines
 
