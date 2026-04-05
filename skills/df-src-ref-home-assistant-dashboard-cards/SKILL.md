@@ -1,5 +1,5 @@
 ---
-name: df-home-assistant-dashboard-cards
+name: df-src-ref-home-assistant-dashboard-cards
 description: |
   Complete YAML reference for Home Assistant dashboard cards. Use this skill whenever working with Home Assistant dashboards, Lovelace UI, or any Home Assistant card configuration. Trigger on mentions of "Home Assistant dashboard", "Lovelace card", "HA card YAML", home automation dashboard configuration, or when a user asks how to configure any Home Assistant dashboard card type (entities, sensor display, climate control, media player, picture cards, conditional cards, history graphs, etc.). This skill is the authoritative reference for all 36+ Home Assistant card types with working YAML examples.
 ---
