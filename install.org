@@ -1,17 +1,36 @@
 # Skill Installation Guide
 
-This repository contains skills for coding agents (opencode, claude-code, etc.)
+This repository contains skills for coding agents (opencode, claude-code, etc.).
+
+*NOTE: This file is idempotent. Running installation commands multiple times is safe.*
+
+* Finding Install Instructions
+
+For any skill, check its SKILL.md for:
+- Required external CLI tools (e.g., tavily CLI)
+- Installation commands specific to that skill
+- Any authentication/setup steps required
+
+If a skill requires additional CLI tools not listed here:
+1. Web search for the tool's official documentation
+2. Look for install instructions in the tool's GitHub repo
+3. Add the tool and install command to the Additional Tools table below
 
 * Installing Skills
 
 Use =npx skills install= with the repository and skill path:
 
 #+BEGIN_SRC bash
+# Tavily skills (web search, extraction, crawling)
 npx skills install tavily-ai/skills skills/tavily-search
 npx skills install tavily-ai/skills skills/tavily-extract
 npx skills install tavily-ai/skills skills/tavily-map
 npx skills install tavily-ai/skills skills/tavily-crawl
 npx skills install tavily-ai/skills skills/tavily-best-practices
+npx skills install tavily-ai/skills skills/tavily-cli
+npx skills install tavily-ai/skills skills/tavily-research
+
+# Superpowers skills (development workflows)
 npx skills install obra/superpowers skills/brainstorming
 npx skills install obra/superpowers skills/writing-plans
 npx skills install obra/superpowers skills/executing-plans
@@ -26,32 +45,49 @@ npx skills install obra/superpowers skills/receiving-code-review
 npx skills install obra/superpowers skills/requesting-code-review
 npx skills install obra/superpowers skills/writing-skills
 npx skills install obra/superpowers skills/using-superpowers
+
+# Deep research skill
 npx skills install 199-biotechnologies/claude-deep-research-skill
+
+# Find skills helper
+npx skills install vercel-labs/skills skills/find-skills
 #+END_SRC
+
+* Personal Skills (df-* prefix)
+
+Personal skills are stored locally in =skills/df-*/= and are already installed.
+See =skills/df-*/SKILL.md= for documentation.
+
+| Skill | When to Use | External Tools |
+|-------|-------------|----------------|
+| df-skill-creator | Create new skills, edit/verify existing skills, run evals | None |
+| df-treefmt-nix | Setting up treefmt-nix in Nix flakes, =nix fmt= / =nix flake check= | nix |
+| df-flashcard-org | Generate Anki flashcards in org-mode format | None |
+| df-think-say-approve-do | Plan before acting — think → describe → approve → execute loop | None |
 
 * Additional Tools Required
 
-Some skills require external CLI tools:
+Some skills require external CLI tools. Install these before using the corresponding skill:
 
-| Skill    | Tool       | Install Command                                 |                     |
-|----------+------------+-------------------------------------------------+---------------------|
-| tavily-* | [[https://tavily.com][tavily CLI]] | ~curl -fsSL https://cli.tavily.com/install.sh \ | bash && tvly login~ |
+| Skill | Tool | Install Command | Source |
+|-------|------|-----------------|--------|
+| tavily-* | tavily CLI | =curl -fsSL https://cli.tavily.com/install.sh \| bash && tvly login= | [[https://tavily.com][tavily.com]] |
+| df-treefmt-nix | nix | =sh <(curl -L https://nixos.org/nix/install)= | [[https://nixos.org][nixos.org]] |
 
 * Skill Sources
 
-| Repo                                           | Skills                                                                                                                                                                                                                                                                                                                        |
-|------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [[https://github.com/tavily-ai/skills][tavily-ai/skills]]                               | tavily-search, tavily-extract, tavily-map, tavily-crawl, tavily-best-practices, tavily-research                                                                                                                                                                                                                               |
-| [[https://github.com/obra/superpowers][obra/superpowers]]                               | brainstorming, writing-plans, executing-plans, subagent-driven-development, dispatching-parallel-agents, systematic-debugging, test-driven-development, verification-before-completion, using-git-worktrees, finishing-a-development-branch, receiving-code-review, requesting-code-review, writing-skills, using-superpowers |
-| [[https://github.com/199-biotechnologies/claude-deep-research-skill][199-biotechnologies/claude-deep-research-skill]] | deep-research                                                                                                                                                                                                                                                                                                                 |
+| Repo | Skills |
+|------|--------|
+| [[https://github.com/tavily-ai/skills][tavily-ai/skills]] | tavily-search, tavily-extract, tavily-map, tavily-crawl, tavily-best-practices, tavily-cli, tavily-research |
+| [[https://github.com/obra/superpowers][obra/superpowers]] | brainstorming, writing-plans, executing-plans, subagent-driven-development, dispatching-parallel-agents, systematic-debugging, test-driven-development, verification-before-completion, using-git-worktrees, finishing-a-development-branch, receiving-code-review, requesting-code-review, writing-skills, using-superpowers |
+| [[https://github.com/199-biotechnologies/claude-deep-research-skill][199-biotechnologies/claude-deep-research-skill]] | deep-research |
+| [[https://github.com/vercel-labs/skills][vercel-labs/skills]] | find-skills |
 
-* Personal
+* Documentation Structure
 
-| Skill                   | When to use                                                                  |
-|-------------------------+------------------------------------------------------------------------------|
-| df-treefmt-nix          | Setting up treefmt-nix in a Nix flake, configuring ~nix fmt~ / ~nix flake check~ |
-| df-flashcard-org        | Generate Anki flashcards in org-mode format for the org-anki plugin          |
-| df-think-say-approve-do | Plan before acting — think → describe → approve → execute loop               |
+Extra source documentation is kept in =docs/=:
+
+- =docs/= — Additional documentation for tools and workflows
 
 * opencode
 
