@@ -58,13 +58,18 @@ npx skills install vercel-labs/skills skills/find-skills
 Personal skills are stored locally in =skills/df-*/= and are already installed.
 See =skills/df-*/SKILL.md= for documentation.
 
-| Skill | When to Use | External Tools |
-|-------|-------------|----------------|
-| df-commit | Commit changes and push to remote — review diff, craft message, commit, push | git |
-| df-skill-creator | Create new skills, edit/verify existing skills, run evals | None |
-| df-treefmt-nix | Setting up treefmt-nix in Nix flakes, =nix fmt= / =nix flake check= | nix |
-| df-flashcard-org | Generate Anki flashcards in org-mode format | None |
-| df-think-say-approve-do | Plan before acting — think → describe → approve → execute loop | None |
+| Skill                   | When to Use                                                                  | External Tools |
+|-------------------------+------------------------------------------------------------------------------+----------------|
+| df-commit               | Commit changes and push to remote — review diff, craft message, commit, push | git            |
+| df-skill-creator        | Create new skills, edit/verify existing skills, run evals                    | None           |
+| df-treefmt-nix          | Setting up treefmt-nix in Nix flakes, =nix fmt= / =nix flake check=              | nix            |
+| df-flashcard-org        | Generate Anki flashcards in org-mode format                                  | None           |
+| df-think-say-approve-do | Plan before acting — think → describe → approve → execute loop               | None           |
+
+** notes
+https://skills.sh/
+https://github.com/github/awesome-copilot/blob/main/docs/README.skills.md
+https://github.com/hesreallyhim/awesome-claude-code
 
 * Additional Tools Required
 
@@ -77,12 +82,12 @@ Some skills require external CLI tools. Install these before using the correspon
 
 * Skill Sources
 
-| Repo | Skills |
-|------|--------|
-| [[https://github.com/tavily-ai/skills][tavily-ai/skills]] | tavily-search, tavily-extract, tavily-map, tavily-crawl, tavily-best-practices, tavily-cli, tavily-research |
-| [[https://github.com/obra/superpowers][obra/superpowers]] | brainstorming, writing-plans, executing-plans, subagent-driven-development, dispatching-parallel-agents, systematic-debugging, test-driven-development, verification-before-completion, using-git-worktrees, finishing-a-development-branch, receiving-code-review, requesting-code-review, writing-skills, using-superpowers |
-| [[https://github.com/199-biotechnologies/claude-deep-research-skill][199-biotechnologies/claude-deep-research-skill]] | deep-research |
-| [[https://github.com/vercel-labs/skills][vercel-labs/skills]] | find-skills |
+| Repo                                           | Skills                                                                                                                                                                                                                                                                                                                        |
+|------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [[https://github.com/tavily-ai/skills][tavily-ai/skills]]                               | tavily-search, tavily-extract, tavily-map, tavily-crawl, tavily-best-practices, tavily-cli, tavily-research                                                                                                                                                                                                                   |
+| [[https://github.com/obra/superpowers][obra/superpowers]]                               | brainstorming, writing-plans, executing-plans, subagent-driven-development, dispatching-parallel-agents, systematic-debugging, test-driven-development, verification-before-completion, using-git-worktrees, finishing-a-development-branch, receiving-code-review, requesting-code-review, writing-skills, using-superpowers |
+| [[https://github.com/199-biotechnologies/claude-deep-research-skill][199-biotechnologies/claude-deep-research-skill]] | deep-research                                                                                                                                                                                                                                                                                                                 |
+| [[https://github.com/vercel-labs/skills][vercel-labs/skills]]                             | find-skills                                                                                                                                                                                                                                                                                                                   |
 
 * Documentation Structure
 
