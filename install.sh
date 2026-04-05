@@ -10,6 +10,8 @@ VENDOR_DIR="${REPO_DIR}/vendor"
 CLAUDE_SKILLS="${HOME}/.claude/skills"
 CLAUDE_AGENTS="${HOME}/.claude/agents"
 OPENCODE_SKILLS="${HOME}/.config/opencode/skills"
+OPENCODE_CONFIG="${HOME}/.config/opencode"
+OPENCODE_SRC="${REPO_DIR}/opencode"
 
 mkdir -p "$CLAUDE_SKILLS" "$CLAUDE_AGENTS" "$OPENCODE_SKILLS"
 
@@ -60,6 +62,16 @@ install_agents() {
     done
 }
 
+install_opencode_config() {
+    for src in "${OPENCODE_SRC}"/*; do
+        [[ -f "$src" ]] || continue
+        local name
+        name="$(basename "$src")"
+        link "$src" "${OPENCODE_CONFIG}/${name}" "opencode/config/${name}"
+    done
+}
+
 install_skills
 install_agents
+install_opencode_config
 echo "Done."

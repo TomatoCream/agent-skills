@@ -1,0 +1,11 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "plugin": ["superpowers@git+https://github.com/obra/superpowers.git"],
+  "mcp": {
+    "ankidex": {
+      "type": "local",
+      "command": ["nix", "run", "/home/df/projects/ankidex", "--", "mcp"],
+      "enabled": true
+    }
+  }
+}

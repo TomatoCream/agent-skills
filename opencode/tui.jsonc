@@ -1,0 +1,184 @@
+{
+  // =============================================================================
+  // OpenCode TUI Configuration
+  // =============================================================================
+  // Motive: Emacs-style keybindings for muscle memory and efficient text editing
+  // - Ctrl+r: Reverse history search (like bash/readline)
+  // - Ctrl+p: Previous history item (up arrow)
+  // - Ctrl+n: Next history item (down arrow)
+  // - Ctrl+b/f: Backward/forward character
+  // - Alt+b/f: Backward/forward by word
+  // - Ctrl+a/e: Line home/end
+  // - Meta+x: Command palette (instead of Ctrl+p which becomes history navigation)
+  // =============================================================================
+
+  "$schema": "https://opencode.ai/tui.json",
+
+  // ===========================================================================
+  // LEADER KEY
+  // ===========================================================================
+  // The leader key is a prefix for most other keybindings.
+  // Press leader then the shortcut to trigger the action.
+  // Default: ctrl+x
+  // Having a leader avoids conflicts with terminal and shell shortcuts.
+  "leader": "ctrl+x",
+
+  // ===========================================================================
+  // KEYBINDINGS - Default values shown in comments
+  // ===========================================================================
+
+  "keybinds": {
+    // ---------------------------------------------------------------------------
+    // App-level actions
+    // ---------------------------------------------------------------------------
+    // "app_exit": "ctrl+c,ctrl+d,<leader>q",
+    "app_exit": "ctrl+c,ctrl+d,<leader>q",
+
+    // "editor_open": "<leader>e",
+    "editor_open": "<leader>e",
+
+    // "theme_list": "<leader>t",
+    "theme_list": "<leader>t",
+
+    // "sidebar_toggle": "<leader>b",
+    "sidebar_toggle": "<leader>b",
+
+    // "status_view": "<leader>s",
+    "status_view": "<leader>s",
+
+    // "tool_details": "none",
+    "tool_details": "none",
+
+    // "session_export": "<leader>x",
+    "session_export": "<leader>x",
+
+    // "session_new": "<leader>n",
+    "session_new": "<leader>n",
+
+    // "session_list": "<leader>l",
+    "session_list": "<leader>l",
+
+    // "session_timeline": "<leader>g",
+    "session_timeline": "<leader>g",
+
+    // "session_interrupt": "escape",
+    "session_interrupt": "escape",
+
+    // "session_compact": "<leader>c",
+    "session_compact": "<leader>c",
+
+    // ---------------------------------------------------------------------------
+    // History navigation - THE MAIN CHANGE FOR EMACS STYLE
+    // ---------------------------------------------------------------------------
+    // Default: "up" / "down"
+    // Emacs style: Ctrl+p (previous/up) and Ctrl+n (next/down)
+    // Also bind Ctrl+r for reverse history search (like readline/bash)
+    "history_previous": "ctrl+p,up",
+    "history_next": "ctrl+n,down",
+
+    // ---------------------------------------------------------------------------
+    // INPUT NAVIGATION - Emacs style b p n f
+    // ---------------------------------------------------------------------------
+    // Default: left/right for move, up/down for line navigation
+    // Emacs style:
+    //   Ctrl+b: backward char, Ctrl+f: forward char
+    //   Alt+b: backward word, Alt+f: forward word
+    //   Ctrl+p: previous (up), Ctrl+n: next (down)
+    // Note: input_move_up/down conflict with history, but we use them together
+    "input_move_up": "ctrl+p,up",
+    "input_move_down": "ctrl+n,down",
+    "input_move_left": "ctrl+b,left",
+    "input_move_right": "ctrl+f,right",
+
+    // Word movement - Alt+b and Alt+f (emacs standard)
+    // "input_word_forward": "alt+f,alt+right,ctrl+right",
+    // "input_word_backward": "alt+b,alt+left,ctrl+left",
+    "input_word_forward": "alt+f,ctrl+right",
+    "input_word_backward": "alt+b,ctrl+left",
+
+    // ---------------------------------------------------------------------------
+    // INPUT LINE OPERATIONS
+    // ---------------------------------------------------------------------------
+    // Emacs standard: Ctrl+a (home), Ctrl+e (end)
+    // "input_line_home": "ctrl+a",
+    // "input_line_end": "ctrl+e",
+    "input_line_home": "ctrl+a",
+    "input_line_end": "ctrl+e",
+
+    // Kill (delete) operations - Emacs style
+    // "input_delete_to_line_end": "ctrl+k",
+    // "input_delete_to_line_start": "ctrl+u",
+    // "input_delete_word_backward": "ctrl+w",
+    "input_delete_to_line_end": "ctrl+k",
+    "input_delete_to_line_start": "ctrl+u",
+    "input_delete_word_backward": "ctrl+w",
+
+    // Undo/Redo
+    // "input_undo": "ctrl+-,super+z",
+    // "input_redo": "ctrl+.,super+shift+z",
+    "input_undo": "ctrl+_,ctrl+z",
+    "input_redo": "ctrl+.,ctrl+shift+z",
+
+    // ---------------------------------------------------------------------------
+    // COMMAND SEARCH - Meta+x style for command palette
+    // ---------------------------------------------------------------------------
+    // Default: "ctrl+p" (conflicts with our history previous)
+    // Change to Meta+x (Alt+x) - the classic Emacs M-x command executor
+    // "command_list": "ctrl+p",
+    "command_list": "alt+x",
+
+    // Also keep ctrl+p for history since it's muscle memory for many
+    // (input_move_up already handles this)
+
+    // ---------------------------------------------------------------------------
+    // Agent/Session navigation
+    // ---------------------------------------------------------------------------
+    // "agent_list": "<leader>a",
+    // "agent_cycle": "tab",
+    // "agent_cycle_reverse": "shift+tab",
+    "agent_list": "<leader>a",
+    "agent_cycle": "tab",
+    "agent_cycle_reverse": "shift+tab",
+
+    // ---------------------------------------------------------------------------
+    // Message navigation
+    // ---------------------------------------------------------------------------
+    // "messages_page_up": "pageup,ctrl+alt+b",
+    // "messages_page_down": "pagedown,ctrl+alt+f",
+    // "messages_line_up": "ctrl+alt+y",
+    // "messages_line_down": "ctrl+alt+e",
+    // "messages_half_page_up": "ctrl+alt+u",
+    // "messages_half_page_down": "ctrl+alt+d",
+    // "messages_first": "ctrl+g,home",
+    // "messages_last": "ctrl+alt+g,end",
+    // "messages_copy": "<leader>y",
+    // "messages_undo": "<leader>u",
+    // "messages_redo": "<leader>r",
+
+    // ---------------------------------------------------------------------------
+    // Model switching
+    // ---------------------------------------------------------------------------
+    // "model_list": "<leader>m",
+    // "model_cycle_recent": "f2",
+    // "model_cycle_recent_reverse": "shift+f2",
+    // "variant_cycle": "ctrl+t",
+    "model_list": "<leader>m",
+    "model_cycle_recent": "f2",
+    "model_cycle_recent_reverse": "shift+f2",
+    "variant_cycle": "ctrl+t",
+
+    // ---------------------------------------------------------------------------
+    // Terminal
+    // ---------------------------------------------------------------------------
+    // "terminal_suspend": "ctrl+z",
+    // "terminal_title_toggle": "none",
+    "terminal_suspend": "ctrl+z",
+
+    // ---------------------------------------------------------------------------
+    // Misc
+    // ---------------------------------------------------------------------------
+    // "tips_toggle": "<leader>h",
+    // "display_thinking": "none",
+    "tips_toggle": "<leader>h"
+  }
+}
