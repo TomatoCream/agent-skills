@@ -1,0 +1,3 @@
+[submodule "sources/nixarr"]
+	path = sources/nixarr
+	url = https://github.com/nix-media-server/nixarr
