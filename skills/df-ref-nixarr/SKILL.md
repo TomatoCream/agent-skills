@@ -1,5 +1,5 @@
 ---
-name: nixarr
+name: df-ref-nixarr
 description: NixOS module for self-hosted home media server with VPN support, automatic directory/user management, and state management
 ---
 
