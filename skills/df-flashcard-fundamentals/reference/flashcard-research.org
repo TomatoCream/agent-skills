@@ -1,0 +1,271 @@
+#+TITLE: Flashcard Question Formulation for Technical Content
+#+DESCRIPTION: Research on effective flashcard writing for Linux commands and source code
+#+FILETAGS: flashcards learning research
+
+* Flashcard Question Formulation for Technical Content
+:PROPERTIES:
+:CREATED:  2026-04-19
+:TOPIC:    Flashcard Question Formulation for Technical Content (Linux Commands & Source Code)
+:END:
+
+** TL;DR - Direct Answers
+
+*** For Linux Commands (Best to Worst)
+| Approach                        | Why                                               |
+|---------------------------------+---------------------------------------------------|
+| Task → Command (Production)     | Best transfer to real terminal use                |
+| Pipeline Construction           | Combines multiple commands; high real-world value |
+| Flag Breakdown                  | Building block; useful but insufficient alone     |
+| Command → Meaning (Recognition) | Easiest but weakest retention                     |
+
+*** For Source Code
+| Approach                           | Why                                                  |
+|------------------------------------+------------------------------------------------------|
+| Produce Working Code               | Highest production value; write a call that compiles |
+| Function Name → Signature          | Recall parameter names, types, order                 |
+| Separated Overloads                | Each overload = separate card to avoid interference  |
+| Language Feature (e.g., constexpr) | Compile-time vs runtime behavior                     |
+| Parameter Enumeration              | How many params, what types, in what order?          |
+
+*** Key Principles
+1. *Production > Recognition* — Generating answers beats recognizing answers
+2. *Transfer-Appropriate Processing* — Practice matches your real task
+3. *Minimum Information Principle* — One card, one retrieval
+4. *Separation for Overloaded Functions* — Each overload separate
+5. *Desirable Difficulties* — Harder cards produce better retention
+
+*Research Source: flashcard-question-formulation/outline.yaml, flashcard-question-formulation/fields.yaml*
+
+---
+
+* Memory & Learning Research Foundations
+
+** Retrieval Practice (Testing Effect)
+Retrieving information from memory strengthens it more than passive re-exposure.
+Active generation of answers produces better long-term retention than passive review.
+
+** Desirable Difficulties
+Harder retrieval attempts enhance learning. Effortful recall (production) leads to
+better transfer than easy recognition.
+
+** Recognition vs Production Gap
+- *Recognition*: See command → identify meaning (easy, weak retention)
+- *Production*: Task description → generate command (harder, stronger retention)
+- Production training better matches terminal/interview conditions.
+
+** Transfer-Appropriate Processing
+Practice conditions should match test conditions.
+- Terminal work → production cards
+- Written exams → enumeration/trace cards
+- Oral interviews → explanation cards
+
+** Errorful Generation
+Making educated guesses—even incorrect ones—before seeing the correct answer
+enhances subsequent recall.
+
+** Concrete Encoding
+Specific concrete examples beat abstract rules.
+Good: ~grep -r "pattern" .~ with explanation
+Bad: memorizing generic ~grep [options]~
+
+** Interleaving
+Mix different card types (command recognition, flag breakdown, task-to-command)
+to improve discrimination between similar concepts (e.g., sed vs awk vs grep).
+
+** Minimum Information Principle
+One card = one retrieval trigger.
+Separate concerns across cards rather than bundling everything.
+
+** Separated Overloads
+Each function overload/signature gets its own card to avoid interference.
+
+** Bloom's Taxonomy Alignment
+- Lower-order (remember/understand) → syntax
+- Higher-order (apply/analyze/create) → combining commands, writing code
+
+---
+
+* Flashcard Item Index
+
+** 11 cards created below (extracted from outline.yaml)
+
+*** TODO Linux: Task → Command (Production) :flashcard:
+:PROPERTIES:
+:type: production
+:domain: linux_command
+:difficulty: hard
+:transfer: close
+:END:
+- *Front*: Given a task description, produce the command
+- *Back*: Example: "List all files in current directory, sorted by modification time, reverse order"
+  Answer: ~ls -lt --reverse~
+- *Note*: Highest transfer to real terminal use.
+
+*** TODO Linux: Command → Meaning (Recognition) :flashcard:
+:PROPERTIES:
+:type: recognition
+:domain: linux_command
+:difficulty: easy
+:transfer: moderate
+:END:
+- *Front*: What does this command do? ~find . -type f -name "*.txt"~
+- *Back*: Recursively find all .txt files in current directory
+- *Note*: Useful for quick lookups, weaker retention than production.
+
+*** TODO Linux: Flag Breakdown :flashcard:
+:PROPERTIES:
+:type: recognition/production
+:domain: linux_command
+:difficulty: medium
+:transfer: moderate
+:END:
+- *Front*: What does the ~-r~ flag do in ~grep -r~?
+- *Back*: Recursively search directories
+- *Note*: Building block for pipeline construction. Better as production: "Write grep to recursively search for pattern in current dir"
+
+*** TODO Linux: Pipeline Construction :flashcard:
+:PROPERTIES:
+:type: production
+:domain: linux_command
+:difficulty: high
+:transfer: close
+:END:
+- *Front*: Write a pipeline to find the most common error in /var/log/syslog
+- *Back*: ~grep -i error /var/log/syslog | sort | uniq -c | sort -rn | head~
+- *Note*: High cognitive load, high real-world value.
+
+*** TODO Source: Function Name → Signature :flashcard:
+:PROPERTIES:
+:type: production
+:domain: source_code
+:difficulty: medium
+:transfer: close
+:END:
+- *Front*: What are the parameters and return type of ~std::make_unique~?
+- *Back*: ~template<class T, class... Args> unique_ptr<T> make_unique(Args&&... args);~
+- *Note*: Separate card per overload.
+
+*** TODO Source: Produce Working Code :flashcard:
+:PROPERTIES:
+:type: production
+:domain: source_code
+:difficulty: hard
+:transfer: close
+:END:
+- *Front*: Write a call to ~std::vector::emplace_back~ that constructs a string
+- *Back*: ~vec.emplace_back("hello");~
+- *Note*: Highest production value. Must compile.
+
+*** TODO Source: Language Feature (constexpr vs consteval) :flashcard:
+:PROPERTIES:
+:type: production
+:domain: language_feature
+:difficulty: hard
+:transfer: moderate
+:END:
+- *Front*: What's the difference between ~constexpr~ and ~consteval~ in C++20?
+- *Back*: ~constexpr~ evaluated at compile time if possible, else runtime.
+  ~consteval~ must be evaluated at compile time (always).
+- *Note*: Deep understanding card. Can also ask: "Will this compile?" questions.
+
+*** TODO Source: Parameter Enumeration :flashcard:
+:PROPERTIES:
+:type: recall
+:domain: source_code
+:difficulty: medium
+:transfer: moderate
+:END:
+- *Front*: How many parameters does ~std::promise::set_value~ take? What are the types?
+- *Back*: One parameter: an rvalue reference to T (the value type).
+- *Note*: Useful for APIs with many parameters.
+
+*** TODO Source: Separated Overloads :flashcard:
+:PROPERTIES:
+:type: production
+:domain: source_code
+:difficulty: medium
+:transfer: moderate
+:END:
+- *Front*: Write the signature for ~std::vector::push_back~ with a moved value
+- *Back*: ~void push_back(T&& x);~
+- *Note*: Each overload separate card to avoid interference.
+
+*** TODO Source: Conceptual Explanation (Feynman) :flashcard:
+:PROPERTIES:
+:type: explanation
+:domain: concept
+:difficulty: hard
+:transfer: far
+:END:
+- *Front*: Explain ~std::optional~ as if teaching someone new to C++
+- *Back*: It's a container that holds either nothing or exactly one value.
+  Use when a value may or may not exist. Like a "maybe" type.
+- *Note*: Deep encoding; good for interviews.
+
+*** TODO Source: Command → Meaning (Recognition) :flashcard:
+:PROPERTIES:
+:type: recognition
+:domain: source_code
+:difficulty: easy
+:transfer: moderate
+:END:
+- *Front*: Given a function signature, identify which function it is
+- *Back*: ~unique_ptr<T>(T*)~ → constructors that take raw pointer
+- *Note*: Useful for API recognition.
+
+---
+
+* Field Definitions (from fields.yaml)
+
+** Card Metadata
+| Field                  | Description                                                | Values                                                 |
+|------------------------+------------------------------------------------------------+--------------------------------------------------------|
+| retrieval_mode         | How the card asks: recognition, production, or free-recall | recognition, production, free-recall                   |
+| difficulty_calibration | How hard to recall                                         | easy, medium, hard                                     |
+| blooms_level           | Cognitive complexity                                       | remember, understand, apply, analyze, evaluate, create |
+
+** Transfer
+| Field             | Description                                      | Values                                                      |
+|-------------------+--------------------------------------------------+-------------------------------------------------------------|
+| transfer_distance | How closely practice matches real-world usage    | close, moderate, far                                        |
+| target_context    | Real-world context this prepares for             | terminal, written-exam, oral-interview, whiteboard, general |
+| real_world_analog | The actual task/scenario this card practices for | -                                                           |
+
+** Technical Specifics
+| Field                        | Description                       | Values                                                |
+|------------------------------+-----------------------------------+-------------------------------------------------------|
+| domain                       | Technical domain                  | linux_command, source_code, language_feature, concept |
+| specific_command_or_function | Exact command or function name    | -                                                     |
+| flags_or_parameters          | Specific flags/parameters covered | -                                                     |
+| cognitive_load               | Steps or elements required        | low, medium, high                                     |
+
+** Quality
+| Field                | Description                                | Values            |
+|----------------------+--------------------------------------------+-------------------|
+| interference_risk    | Likelihood of confusion with similar cards | low, medium, high |
+| error_prone_elements | Commonly forgotten/confused parts          | -                 |
+| minimum_info_check   | Triggers exactly one retrieval?            | yes, no           |
+
+** Example
+| Field        | Description      |
+|--------------+------------------|
+| sample_front | Example question |
+| sample_back  | Example answer   |
+| card_note    | Additional notes |
+
+---
+
+* Uncertain Questions (for deep research)
+- Is cloze deletion or QA format better for production cards?
+- Optimal ratio of recognition vs production cards?
+- How many cards per concept before achieving automaticity?
+- Does writing code blind (without IDE) transfer to real coding?
+- For overloaded functions, should related overloads be reviewed together or separately?
+
+---
+
+* Sources
+- [[https://www.gwern.net/Spaced-repetition-software][Gwern.net: Spaced Repetition]] — Comprehensive review of spaced repetition evidence
+- [[https://www.science.org/doi/10.1126/science.1152408][Karpicke & Roediger, 2008]] — The Critical Importance of Retrieval for Learning
+- [[https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5126970/][Nature Reviews Neuroscience: The right time to learn]] — Molecular mechanisms of spaced learning
+- [[https://en.wikipedia.org/wiki/Spaced_repetition][Wikipedia: Spaced Repetition]] — Overview of algorithms and research
