@@ -213,6 +213,6 @@ grep -i error /var/log/syslog | sort | uniq -c | sort -rn | head
 
 ## See Also
 
-- [[file:///home/df/scratch/org-anki/flashcard-question-formulation/flashcard-research.org][flashcard-research.org]] — Evidence base: retrieval practice, testing effect, desirable difficulties
-- [[file:///home/df/scratch/org-anki/flashcard-question-formulation/question-taxonomy.org][question-taxonomy.org]] — Complete question type taxonomy
-- [[file:///home/df/scratch/org-anki/flashcard-question-formulation/when-to-use.org][when-to-use.org]] — Decision framework: which card type for which situation
+- [[file:reference/flashcard-research.org][flashcard-research.org]] — Evidence base: retrieval practice, testing effect, desirable difficulties
+- [[file:reference/question-taxonomy.org][question-taxonomy.org]] — Complete question type taxonomy
+- [[file:reference/when-to-use.org][when-to-use.org]] — Decision framework: which card type for which situation

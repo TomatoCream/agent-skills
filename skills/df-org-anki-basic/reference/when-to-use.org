@@ -1,0 +1,105 @@
+#+TITLE: When to Use Each Flashcard Scenario
+#+DESCRIPTION: Decision framework for choosing the right flashcard type
+#+FILETAGS: flashcards learning
+
+* When to Use Each Flashcard Scenario
+:PROPERTIES:
+:CREATED:  2026-04-19
+:END:
+
+** Core Decision Rule
+:PROPERTIES:
+:ID: core-decision
+:END:
+
+If you'll ever need to produce it without looking it up → *Production card*
+If it's a low-priority reference fact you'll always have docs for → *Recognition card*
+
+---
+
+* By Learning Phase
+
+| Phase                  | Use This                                        | Why                                   |
+|------------------------+-------------------------------------------------+---------------------------------------|
+| First encounter        | Recognition (Command→Meaning, Definition)       | Too hard too fast doesn't work        |
+| Building fluency       | Flag/Parameter Breakdown                        | Piece-by-piece understanding          |
+| Solidifying for recall | Production (Task→Command, Produce Working Code) | Moves to long-term retrievable memory |
+| Deep understanding     | Feynman/Explanation, Will It Compile            | Tests real comprehension              |
+| Avoiding confusion     | Comparison (X vs Y), Interleaving               | Separates similar concepts            |
+
+---
+
+* By Real-World Need
+
+| Real Need                  | Card Type                                 | Example Question                                   |
+|----------------------------+-------------------------------------------+----------------------------------------------------|
+| Type commands in terminal  | Task → Command                            | "Find all .log files over 100MB"                   |
+| Write code from scratch    | Produce Working Code                      | "Write an emplace_back call with a string literal" |
+| Read code reviews          | Command→Meaning, Signature→Function       | "What does this function signature do?"            |
+| Answer interview questions | Trace Execution, Will It Compile, Feynman | "What happens when you insert into a vector?"      |
+| Take written exams         | Enumeration, Flag Recall                  | "List all flags for grep that control..."          |
+| Use IDE with autocomplete  | Conceptual only (why/when to use)         | You don't need exact signatures                    |
+
+---
+
+* By Problem You're Solving
+
+| Problem                                         | Switch To                   | Example                                                                  |
+|-------------------------------------------------+-----------------------------+--------------------------------------------------------------------------|
+| Know it in review but can't recall when working | Recognition → Production    | Stop asking "what does this command do?"; ask "write the command for..." |
+| Mix up similar things (sed vs awk)              | Comparison cards            | "How does grep's behavior differ from ack?"                              |
+| Forget specific flags/params                    | Flag Breakdown + repetition | Separate card for each forgotten flag                                    |
+| Can describe it but can't write it              | Production with constraints | "Write the exact call that compiles"                                     |
+| Understand concept but forget it exists         | Enumeration + production    | "Which smart pointer for unique ownership?"                              |
+
+---
+
+* Quick Reference: Card Types by Use
+
+** Recognition (Passive) — "See → Identify"
+- Command → Meaning
+- Signature → Function Name
+- Definition (basic)
+- Example identification
+
+** Production (Active) — "Task → Generate"
+- Task → Command
+- Produce Working Code
+- Parameter/Flag recall under constraints
+- Write the signature from name
+
+** Breakdown — "Isolate the piece"
+- Flag Breakdown (individual flags)
+- Parameter Breakdown (individual params)
+- Syntax element isolation
+
+** Comparison — "X vs Y"
+- Command vs Command
+- Function vs Function
+- Concept vs Concept
+- When to use X vs Y
+
+** Deep Encoding — "Explain and understand"
+- Feynman/Teach
+- Will It Compile
+- Trace Execution
+- Why does it work this way
+
+** Enumeration — "List the things"
+- What flags does X have?
+- How many parameters?
+- Name all variants
+
+---
+
+* One-Liner Decision Guide
+
+| If you need...                       | Ask...                |
+|--------------------------------------+-----------------------|
+| To type it in terminal               | Task → Command        |
+| To write code on whiteboard          | Produce Working Code  |
+| To pass a written exam               | Enumeration, Trace    |
+| To explain in an interview           | Feynman, Why          |
+| To use it with autocomplete nearby   | Conceptual (why/when) |
+| To not mix it up with similar things | Comparison            |
+| To remember the exact syntax         | Production (specific) |

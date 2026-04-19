@@ -1,0 +1,227 @@
+#+TITLE: Question Dimensions & Taxonomy
+#+DESCRIPTION: How many ways can you ask questions about something
+#+FILETAGS: flashcards learning research
+
+* Question Dimensions & Taxonomy
+:PROPERTIES:
+:CREATED:  2026-04-19
+:END:
+
+** Core Finding
+:PROPERTIES:
+:ID: core-finding
+:END:
+
+For any non-trivial technical concept (like ~grep~ or ~constexpr~), there are
+*50-150 distinct, useful questions* spanning all cognitive levels and dimensions.
+
+---
+
+* Question Dimension Matrix
+
+Questions vary along these primary dimensions:
+
+| Dimension            | Spectrum                                                          |
+|----------------------+-------------------------------------------------------------------|
+| Retrieval Mode       | Recall (free generation) ← → Recognition (selection)              |
+| Response Format      | Open-ended ← → Closed (MCQ, fill-blank, true/false)               |
+| Cognitive Level      | Remember → Understand → Apply → Analyze → Evaluate → Create       |
+| Specificity          | Single fact ← → Multi-concept / General principle                 |
+| Temporal Framing     | Past / Present / Future / Counterfactual                          |
+| Knowledge Type       | Declarative (facts) / Procedural (processes) / Conditional (when) |
+| Generative Direction | Forward (cause → effect) / Backward (effect → cause)              |
+| Elaboration          | Low (single step) ← → High (chained, synthesis)                   |
+| Context              | Isolated (decontextualized) ← → Situated (in scenario)            |
+| Construction         | Production (generate) / Selection (choose from given)             |
+| Grounding            | Concrete (specific example) ← → Abstract (general principle)      |
+
+---
+
+* Question Type Taxonomy
+
+** 1. Factual/Recall Questions
+- *What it is*: "What does the ~grep~ command do?"
+- *When*: Initial encoding, basic retrieval practice
+- *Tests*: Memory of isolated facts
+
+** 2. Definition Questions
+- *What it is*: "Define polymorphism in OOP"
+- *When*: Building conceptual vocabulary
+- *Tests*: Understanding of terminology
+
+** 3. Conceptual What-If Questions
+- *What it is*: "What would happen if you pass a negative number to ~push_back~?"
+- *When*: Deepening causal understanding
+- *Tests*: Mental model of mechanisms
+
+** 4. Procedural/How Questions
+- *What it is*: "How do you search for files modified in last 7 days?"
+- *When*: Learning processes and algorithms
+- *Tests*: Knowledge of methods
+
+** 5. Elaborative Why Questions
+- *What it is*: "Why does ~constexpr~ enable compile-time computation?"
+- *When*: Building causal explanations (elaborative interrogation)
+- *Tests*: Deep causal reasoning
+
+** 6. Comparative Questions
+- *What it is*: "How does ~grep -E~ differ from basic ~grep~?"
+- *When*: Differentiating similar concepts
+- *Tests*: Understanding distinctions
+
+** 7. Diagnostic/Misconception Questions
+- *What it is*: "True or false: ~std::vector<int> v(5)~ creates vector with 5 elements?"
+- *When*: Identifying specific misconceptions
+- *Tests*: Common errors and partial understanding
+
+** 8. Application/Scenario Questions
+- *What it is*: "Write a ~grep~ command to find all lines containing numbers"
+- *When*: Bridging to real-world use
+- *Tests*: Applied knowledge
+
+** 9. Transfer/Generalization Questions
+- *What it is*: "Could the strategy used here be applied to parsing CSV files?"
+- *When*: Testing abstraction transfer
+- *Tests*: Ability to generalize
+
+** 10. Metacognitive Questions
+- *What it is*: "What don't you understand about ~constexpr~?"
+- *When*: Self-regulation and monitoring knowledge gaps
+- *Tests*: Meta-awareness
+
+** 11. Synthesis/Creation Questions
+- *What it is*: "Design a pipeline using ~grep~, ~sort~, and ~uniq~ to count unique errors"
+- *When*: Highest Bloom's levels
+- *Tests*: Recombination ability
+
+** 12. Recognition/Multiple-Choice Questions
+- *What it is*: "Which flag makes ~grep~ case-insensitive? (-i, -v, -c, -l)"
+- *When*: Quick assessment, high reliability
+- *Tests*: Recognition memory
+
+** 13. Contrastive/Exception Questions
+- *What it is*: "Which is NOT valid: constexpr function, variable, class, loop?"
+- *When*: Testing boundary knowledge
+- *Tests*: Edge cases and limitations
+
+** 14. Scaffolding/Funneling Questions
+- *What it is*: Series of increasingly specific questions
+- *When*: Guiding through complex reasoning
+- *Tests*: Guided problem-solving
+
+---
+
+* Questions by Subject
+
+** For a Linux Command: ~grep~
+
+| Question Type | Example                                                    |
+|---------------+------------------------------------------------------------|
+| Factual       | What does ~grep~ stand for?                                  |
+| Procedural    | How do you search recursively?                             |
+| Scenario      | Find all Python files containing "TODO"                    |
+| What-if       | What happens if file doesn't exist?                        |
+| Comparative   | How does ~grep -F~ differ from ~grep -E~?                      |
+| Negative      | Which patterns will NOT match?                             |
+| Output format | How to show line numbers with matches?                     |
+| Combination   | Pipeline to count unique error patterns                    |
+| Debugging     | Why might grep return nothing on a file you know has text? |
+
+** For a Function: ~std::vector::push_back~
+
+| Question Type    | Example                                          |
+|------------------+--------------------------------------------------|
+| Signature        | What parameters does ~push_back~ accept?           |
+| Behavior         | What happens to capacity when full?              |
+| What-if          | What if you push_back in a loop without reserve? |
+| Type constraints | Which types can be stored?                       |
+| Comparison       | How does ~push_back~ differ from ~emplace_back~?     |
+| Exception        | What exceptions can it throw?                    |
+| Performance      | Why might 1000 push_backs be slow?               |
+| Corner case      | What happens on moved-from vector?               |
+| Relationship     | How does it relate to ~size()~ and ~capacity()~?     |
+
+** For a Language Feature: ~constexpr~
+
+| Question Type | Example                                            |
+|---------------+----------------------------------------------------|
+| Definition    | What does ~constexpr~ guarantee at compile time?     |
+| Evolution     | What changed in C++14 vs C++11?                    |
+| Scope         | Which entities can be constexpr?                   |
+| Debugging     | Why might constexpr compute at runtime?            |
+| Comparison    | How does constexpr differ from const?              |
+| Boundary      | Max recursion depth for constexpr?                 |
+| Interaction   | What happens with virtual?                         |
+| Real-world    | Example where constexpr improves performance       |
+| Misconception | True or false: constexpr means value never changes |
+
+** For a General Concept: Polymorphism
+
+| Question Type | Example                                          |
+|---------------+--------------------------------------------------|
+| Definition    | What is polymorphism in OOP?                     |
+| Types         | How many forms exist?                            |
+| Mechanism     | How does virtual dispatch work?                  |
+| Contrast      | How does overloading differ from overriding?     |
+| Purpose       | Why is it useful in design?                      |
+| Example       | Write code demonstrating ad-hoc polymorphism     |
+| Edge case     | What when derived doesn't override base virtual? |
+| Trade-off     | Performance cost of dynamic polymorphism?        |
+| Relationship  | How does it relate to inheritance?               |
+| Application   | Design a Shape hierarchy using polymorphism      |
+
+---
+
+* Research Findings
+
+** The Testing Effect
+Retrieval practice is superior to passive re-studying for long-term retention.
+Students perform best on exam questions that appeared on short-answer quizzes (84%),
+then MCQ quizzes (83%), then restudied items (76%).
+
+** Retrieval Mode Matters
+Free recall produces stronger long-term retention when successful.
+Recognition can be equally effective when distractors require careful discrimination.
+
+** Optimal Mix
+~60% recognition (MCQ) and ~40% production (short answer) optimizes both
+learning and assessment efficiency.
+
+** Elaborative Interrogation
+Asking "why" and "how" questions about facts improves retention more than
+re-reading. Most effective when learners have prior knowledge to generate explanations.
+
+** Generation Effect
+Self-generated questions are particularly powerful for learning.
+
+** Is There an Optimal Mix?
+No single optimal mix, but:
+- Variety is key: interleaving enhances transfer
+- Difficulty progression: recognition → production → synthesis
+- Spaced practice: distribute across sessions
+
+---
+
+* Combinatorial Estimation
+
+For any given piece of technical information:
+
+| Subject                                         | Distinct Useful Questions         |
+|-------------------------------------------------+-----------------------------------|
+| Single fact (e.g., "grep uses regex")           | ~15-30                            |
+| Function with N parameters                      | N × (3-5) = ~5-10 per parameter   |
+| Concept with K aspects                          | K² + K×2 (pairwise + each aspect) |
+| Complete command with flags/behaviors           | 50-200+                           |
+| **Conservative estimate for non-trivial concept** | **50-150**                          |
+
+---
+
+* Sources
+- [[https://www.thoughtco.com/blooms-taxonomy-question-stems-770803][Question Stems for Each Level of Bloom's Taxonomy - ThoughtCo]]
+- [[https://theeffortfuleducator.com/2022/03/recall-or-recognition-questions-when-retrieving][Recall or Recognition Questions - The Effortful Educator]]
+- [[https://www.apa.org/ed/lscp/how-learn][Both MCQ and Short-Answer Enhance Exam Performance - APA]]
+- [[https://www.globalcognition.org/asking-questions-improves-learning/][Asking the Right Questions Improves Learning - Global Cognition]]
+- [[https://www.structural-learning.com/posts/elaborative-interrogation][Elaborative Interrogation: A Teacher's Guide]]
+- [[https://pmc.ncbi.nlm.nih.gov/articles/PMC6836478/][Best Practice Strategies for Questions - PMC]]
+- [[https://www.cultofpedagogy.com/retrieval-practice/][Retrieval Practice: The Most Powerful Learning Strategy]]
+- [[https://www.cs.memphis.edu/~kgate/FER_Papers/questions_taxonomy.pdf][A Taxonomy of Questions - U of Memphis]]
