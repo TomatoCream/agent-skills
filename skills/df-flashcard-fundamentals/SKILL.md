@@ -31,7 +31,39 @@ question here
 answer here
 ```
 
+**Source blocks**: Always wrap code/commands in Emacs org-mode source blocks:
+```org
+#+begin_src bash
+perf stat -e page-faults ./program
+#+end_src
+```
+
+Supported languages include: `bash`, `c++`, `python`, `javascript`, `sql`, `json`, etc.
+
 No cloze. No other types. Just Basic with Front/Back.
+
+## Org-Mode Formatting Conventions
+
+**Inline Code**: Use `~code~` (tilde) for inline code, NOT backticks.
+- `~ls -la~` → shows as literal code
+- DO NOT use backticks for inline code in org-mode
+
+**Emphasis**:
+- `*bold*` — asterisks
+- `/italic/` — slashes
+- `_underline_` — underscores
+- `~code~` — tildes (inline code)
+- `=verbatim=` — literal text
+
+**LaTeX in org-mode**: Use `#+begin_export latex` blocks or inline `$...$` syntax.
+- Inline: `$E=mc^2$`
+- Block: `#+begin_export latex` / `#+end_export`
+
+**Block Syntax**:
+- Source blocks: `#+begin_src <lang>` / `#+end_src`
+- Export blocks: `#+begin_export <format>` / `#+end_export`
+- Example blocks: `#+begin_example` / `#+end_example`
+- Quote blocks: `#+begin_quote` / `#+end_quote`
 
 ## The Question Dimensions
 
@@ -165,7 +197,9 @@ Inverts match
 ** Front
 Write `grep` to find all .py files in current directory recursively
 ** Back
+#+begin_src bash
 grep -r --include="*.py" .
+#+end_src
 ```
 
 ```org
@@ -187,7 +221,9 @@ Searches recursively through directories
 ** Front
 Write `grep` to find "error" in /var/log/ recursively with line numbers shown
 ** Back
+#+begin_src bash
 grep -rn "error" /var/log/
+#+end_src
 ```
 
 ## Quick Reference
