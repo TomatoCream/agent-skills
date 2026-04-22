@@ -1,0 +1,26 @@
+{
+  "should_trigger": [
+    "how do I use Jedis to connect to Redis",
+    "connect to Redis with Java",
+    "RedisClient builder example",
+    "JedisPool configuration for production",
+    "Redis pipeline in Java",
+    "Jedis cluster client setup",
+    "Redis transactions with WATCH in Java",
+    "JedisPooled vs Jedis difference",
+    "redis.clients.jedis timeout error",
+    "Jedis pub/sub example"
+  ],
+  "should_not_trigger": [
+    "connect to Redis with Python",
+    "Lettuce Redis client setup",
+    "Redisson distributed locks",
+    "Spring Data Redis repository",
+    "how does Redis replication work",
+    "install Redis server",
+    "Redis CLI commands",
+    "node-redis npm package",
+    "ioredis connection pool",
+    "Redis vs Memcached comparison"
+  ]
+}

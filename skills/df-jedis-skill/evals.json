@@ -1,0 +1,51 @@
+[
+  {
+    "id": "basic-standalone",
+    "prompt": "Write Java code to connect to Redis at localhost:6379 with password 'secret' and set/get a key using Jedis",
+    "expected_behaviors": [
+      "Uses RedisClient.builder() or RedisClient.create(), NOT bare Jedis class",
+      "Uses DefaultJedisClientConfig.builder().password() for authentication",
+      "Calls client.close() or uses try-with-resources"
+    ]
+  },
+  {
+    "id": "pool-configuration",
+    "prompt": "My Jedis application blocks under high load. Help me fix the connection pool configuration.",
+    "expected_behaviors": [
+      "Identifies default maxTotal=8 as the problem",
+      "Recommends increasing maxTotal and maxIdle",
+      "Suggests setting maxWait to avoid infinite blocking",
+      "Uses ConnectionPoolConfig (not JedisPoolConfig) for v7+"
+    ]
+  },
+  {
+    "id": "transaction-watch",
+    "prompt": "Implement an atomic increment using Redis WATCH/MULTI/EXEC with Jedis in Java",
+    "expected_behaviors": [
+      "Uses client.transaction(false) to create manual transaction",
+      "Calls tx.watch() before reading the key",
+      "Calls tx.multi() after reading",
+      "Checks exec() result for null (indicating WATCH failure)",
+      "Uses try-with-resources for the transaction"
+    ]
+  },
+  {
+    "id": "cluster-setup",
+    "prompt": "Set up a Jedis cluster client with 3 nodes and custom timeout using the latest API",
+    "expected_behaviors": [
+      "Uses RedisClusterClient.builder() (v7 API)",
+      "Creates Set<HostAndPort> with multiple nodes",
+      "Configures maxAttempts and/or maxTotalRetriesDuration",
+      "Sets timeout via DefaultJedisClientConfig.builder()"
+    ]
+  },
+  {
+    "id": "gotcha-subscribe-blocking",
+    "prompt": "Add Redis pub/sub to my Java web application using Jedis",
+    "expected_behaviors": [
+      "Warns that subscribe() is blocking",
+      "Runs subscribe in a separate thread",
+      "Shows how to unsubscribe to release the thread"
+    ]
+  }
+]

@@ -1,0 +1,71 @@
+{
+  "skill_name": "dataviz-advisor",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I have a CSV with 50,000 rows of customer transactions — columns are date, amount, category (12 categories), and region (4 regions). My VP wants a dashboard for the quarterly review. What should I build?",
+      "expected_output": "Multi-chart dashboard recommendation with specific chart types for each insight (line for trends, bar for category comparison, consideration of executive audience). Should mention keeping it simple for VP, suggest 4-6 charts max, and provide implementation guidance.",
+      "files": [],
+      "expectations": [
+        "Recommends a line chart for temporal trends",
+        "Recommends bar charts for category comparison",
+        "Considers the executive audience and keeps recommendations simple",
+        "Mentions sample size implications (50K rows may need WebGL or aggregation for scatter)",
+        "Suggests a limited number of charts (4-6) for a dashboard",
+        "Provides plotly code snippets or patterns for at least one recommended chart"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "I'm comparing the distribution of response times across 3 API endpoints. About 10,000 requests each. Some endpoints have bimodal distributions. What chart?",
+      "expected_output": "Recommends violin plot over box plot specifically because of bimodality. Explains why violin reveals bimodality that box plots hide. May mention ECDF as alternative. Code example.",
+      "files": [],
+      "expectations": [
+        "Recommends violin plot as the primary choice",
+        "Explicitly explains why violin is better than box plot for bimodal data",
+        "Mentions that box plots hide bimodality",
+        "Considers the sample size (10K per endpoint) in the recommendation",
+        "Provides a plotly code example for the violin plot"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "I want to show how our company's revenue breaks down by product line, then by region within each product line, over the last 4 quarters",
+      "expected_output": "Recognizes this as composition (hierarchical) + time. Recommends either sunburst/treemap for static breakdown OR faceted/small multiples for the temporal dimension. Should discuss the tradeoff between showing hierarchy and showing change over time.",
+      "files": [],
+      "expectations": [
+        "Identifies this as a composition question with a time dimension",
+        "Recommends sunburst or treemap for the hierarchical breakdown",
+        "Addresses the temporal dimension separately (stacked bar, faceted view, or small multiples)",
+        "Discusses the tradeoff between hierarchy and time visualization",
+        "Provides at least one code example"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "I have two continuous variables and I want to see if they're correlated. About 200 data points.",
+      "expected_output": "Recommends scatter plot with trendline='ols'. Mentions marginal distributions. Notes 200 points is perfect for scatter without overplotting. May mention R-squared.",
+      "files": [],
+      "expectations": [
+        "Recommends scatter plot as the primary choice",
+        "Suggests adding a trendline (OLS)",
+        "Mentions marginal distributions as an enhancement",
+        "Notes that 200 data points is a good size for scatter without overplotting",
+        "Provides a plotly code example"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "set up a new python project for data analysis",
+      "expected_output": "Provides uv + direnv setup instructions including uv init, dependency tiers, .envrc configuration. Should cover both machine-level and per-project setup.",
+      "files": [],
+      "expectations": [
+        "Uses uv for package management (not pip or conda)",
+        "Includes direnv setup with .envrc",
+        "Shows the per-project setup steps (uv init, uv add, etc.)",
+        "Mentions dependency tiers (minimum vs statistical vs ML etc.)",
+        "Provides complete runnable commands"
+      ]
+    }
+  ]
+}
