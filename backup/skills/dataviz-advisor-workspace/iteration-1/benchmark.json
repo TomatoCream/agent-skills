@@ -1,0 +1,270 @@
+{
+  "metadata": {
+    "skill_name": "dataviz-advisor",
+    "skill_path": "/Users/wongdingfeng/.claude/skills/dataviz-advisor",
+    "executor_model": "claude-opus-4-6",
+    "analyzer_model": "claude-opus-4-6",
+    "timestamp": "2026-03-19T00:00:00Z",
+    "evals_run": [1, 2, 3, 4, 5],
+    "runs_per_configuration": 1
+  },
+  "runs": [
+    {
+      "eval_id": 1,
+      "eval_name": "Executive Dashboard",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 6,
+        "failed": 0,
+        "total": 6,
+        "time_seconds": 97.0,
+        "tokens": 34277,
+        "tool_calls": 6,
+        "errors": 0
+      },
+      "expectations": [
+        {"text": "Recommends a line chart for temporal trends", "passed": true, "evidence": "Dedicated section with line chart recommendation and perceptual rationale"},
+        {"text": "Recommends bar charts for category comparison", "passed": true, "evidence": "Two bar chart variants recommended (horizontal sorted + grouped)"},
+        {"text": "Considers the executive audience", "passed": true, "evidence": "Full audience analysis section with executive dashboard rules"},
+        {"text": "Mentions sample size implications (50K rows)", "passed": true, "evidence": "Data characterization table mentions scatter needs WebGL or aggregation"},
+        {"text": "Suggests limited chart count (4-6)", "passed": true, "evidence": "States max 4-6 charts per view, delivers 5 components"},
+        {"text": "Provides plotly code snippets", "passed": true, "evidence": "Five complete plotly.express code snippets"}
+      ]
+    },
+    {
+      "eval_id": 1,
+      "eval_name": "Executive Dashboard",
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.67,
+        "passed": 4,
+        "failed": 2,
+        "total": 6,
+        "time_seconds": 48.5,
+        "tokens": 10235,
+        "tool_calls": 2,
+        "errors": 0
+      },
+      "expectations": [
+        {"text": "Recommends a line chart for temporal trends", "passed": true, "evidence": "Revenue trend line chart recommended"},
+        {"text": "Recommends bar charts for category comparison", "passed": true, "evidence": "Category bar chart included"},
+        {"text": "Considers the executive audience", "passed": true, "evidence": "Insight-driven titles, one-page constraint mentioned"},
+        {"text": "Mentions sample size implications (50K rows)", "passed": false, "evidence": "Mentions aggregation but no WebGL or scatter rendering discussion"},
+        {"text": "Suggests limited chart count (4-6)", "passed": true, "evidence": "6 visualizations recommended"},
+        {"text": "Provides plotly code snippets", "passed": false, "evidence": "Plotly Dash mentioned but zero code appears"}
+      ]
+    },
+    {
+      "eval_id": 2,
+      "eval_name": "Bimodal Distributions",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 5,
+        "failed": 0,
+        "total": 5,
+        "time_seconds": 52.6,
+        "tokens": 32363,
+        "tool_calls": 6,
+        "errors": 0
+      },
+      "expectations": [
+        {"text": "Recommends violin plot as primary choice", "passed": true, "evidence": "Title and opening paragraph make this unambiguous"},
+        {"text": "Explains why violin > box for bimodal data", "passed": true, "evidence": "Detailed explanation with comparison table"},
+        {"text": "Mentions box plots hide bimodality", "passed": true, "evidence": "Stated in three separate places"},
+        {"text": "Considers sample size (10K per endpoint)", "passed": true, "evidence": "Dedicated section on sample size with KDE reasoning"},
+        {"text": "Provides plotly code example", "passed": true, "evidence": "Complete px.violin() code with box=True"}
+      ]
+    },
+    {
+      "eval_id": 2,
+      "eval_name": "Bimodal Distributions",
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 5,
+        "failed": 0,
+        "total": 5,
+        "time_seconds": 36.4,
+        "tokens": 9651,
+        "tool_calls": 2,
+        "errors": 0
+      },
+      "expectations": [
+        {"text": "Recommends violin plot as primary choice", "passed": true, "evidence": "Unambiguously primary recommendation"},
+        {"text": "Explains why violin > box for bimodal data", "passed": true, "evidence": "Explicit comparison of density vs five-number summary"},
+        {"text": "Mentions box plots hide bimodality", "passed": true, "evidence": "Stated in violin section and What to Avoid table"},
+        {"text": "Considers sample size (10K per endpoint)", "passed": true, "evidence": "Dedicated subsection on handling 10K points"},
+        {"text": "Provides plotly code example", "passed": true, "evidence": "Includes px.violin one-liner"}
+      ]
+    },
+    {
+      "eval_id": 3,
+      "eval_name": "Hierarchical Composition",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.8,
+        "passed": 4,
+        "failed": 1,
+        "total": 5,
+        "time_seconds": 87.2,
+        "tokens": 34027,
+        "tool_calls": 6,
+        "errors": 0
+      },
+      "expectations": [
+        {"text": "Identifies composition + time question", "passed": true, "evidence": "Explicitly stated in opening"},
+        {"text": "Recommends sunburst or treemap for hierarchy", "passed": false, "evidence": "Argues AGAINST sunburst/treemap with perceptual reasoning, recommends faceted stacked bars"},
+        {"text": "Addresses temporal dimension", "passed": true, "evidence": "Faceted stacked bar with quarters on x-axis"},
+        {"text": "Discusses hierarchy vs time tradeoff", "passed": true, "evidence": "Extensively covered across multiple sections"},
+        {"text": "Provides code example", "passed": true, "evidence": "Two complete Plotly code examples"}
+      ]
+    },
+    {
+      "eval_id": 3,
+      "eval_name": "Hierarchical Composition",
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 5,
+        "failed": 0,
+        "total": 5,
+        "time_seconds": 54.1,
+        "tokens": 10658,
+        "tool_calls": 3,
+        "errors": 0
+      },
+      "expectations": [
+        {"text": "Identifies composition + time question", "passed": true, "evidence": "Immediately frames as hierarchical composition over time"},
+        {"text": "Recommends sunburst or treemap for hierarchy", "passed": true, "evidence": "Listed as Option B for single-quarter deep dives"},
+        {"text": "Addresses temporal dimension", "passed": true, "evidence": "Covers stacked bars, faceted small multiples, stacked area"},
+        {"text": "Discusses hierarchy vs time tradeoff", "passed": true, "evidence": "Multiple places contrast hierarchy vs time charts"},
+        {"text": "Provides code example", "passed": true, "evidence": "Two Plotly examples"}
+      ]
+    },
+    {
+      "eval_id": 4,
+      "eval_name": "Correlation Scatter",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 5,
+        "failed": 0,
+        "total": 5,
+        "time_seconds": 60.1,
+        "tokens": 32627,
+        "tool_calls": 6,
+        "errors": 0
+      },
+      "expectations": [
+        {"text": "Recommends scatter plot as primary", "passed": true, "evidence": "Entire response structured around scatter with perceptual justification"},
+        {"text": "Suggests OLS trendline", "passed": true, "evidence": "Explicitly recommended with trendline='ols'"},
+        {"text": "Mentions marginal distributions", "passed": true, "evidence": "Mentioned with code example"},
+        {"text": "Notes 200 points is good size", "passed": true, "evidence": "Called 'the sweet spot'"},
+        {"text": "Provides plotly code example", "passed": true, "evidence": "Three complete code examples"}
+      ]
+    },
+    {
+      "eval_id": 4,
+      "eval_name": "Correlation Scatter",
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.8,
+        "passed": 4,
+        "failed": 1,
+        "total": 5,
+        "time_seconds": 35.1,
+        "tokens": 9854,
+        "tool_calls": 2,
+        "errors": 0
+      },
+      "expectations": [
+        {"text": "Recommends scatter plot as primary", "passed": true, "evidence": "Clearly stated as best choice"},
+        {"text": "Suggests OLS trendline", "passed": true, "evidence": "Recommends linear regression line with code"},
+        {"text": "Mentions marginal distributions", "passed": true, "evidence": "Listed with jointplot example"},
+        {"text": "Notes 200 points is good size", "passed": true, "evidence": "States 200 points is ideal range"},
+        {"text": "Provides plotly code example", "passed": false, "evidence": "Uses Seaborn/ggplot2 instead; no Plotly code"}
+      ]
+    },
+    {
+      "eval_id": 5,
+      "eval_name": "Environment Setup",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 5,
+        "failed": 0,
+        "total": 5,
+        "time_seconds": 48.5,
+        "tokens": 14735,
+        "tool_calls": 4,
+        "errors": 0
+      },
+      "expectations": [
+        {"text": "Uses uv (not pip or conda)", "passed": true, "evidence": "Entire response built around uv"},
+        {"text": "Includes direnv setup with .envrc", "passed": true, "evidence": "Full direnv installation, shell hook, use_uv() function, per-project .envrc"},
+        {"text": "Shows per-project setup steps", "passed": true, "evidence": "uv init, uv add, .envrc, direnv allow in sequence"},
+        {"text": "Mentions dependency tiers", "passed": true, "evidence": "Seven-row table covering all tiers"},
+        {"text": "Provides complete runnable commands", "passed": true, "evidence": "Every step has copy-pasteable bash commands"}
+      ]
+    },
+    {
+      "eval_id": 5,
+      "eval_name": "Environment Setup",
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.2,
+        "passed": 1,
+        "failed": 4,
+        "total": 5,
+        "time_seconds": 141.6,
+        "tokens": 21241,
+        "tool_calls": 21,
+        "errors": 0
+      },
+      "expectations": [
+        {"text": "Uses uv (not pip or conda)", "passed": true, "evidence": "Uses uv sync and uv run"},
+        {"text": "Includes direnv setup with .envrc", "passed": false, "evidence": "No mention of direnv or .envrc"},
+        {"text": "Shows per-project setup steps", "passed": false, "evidence": "Prose summary, not reproducible commands"},
+        {"text": "Mentions dependency tiers", "passed": false, "evidence": "All deps in single flat group"},
+        {"text": "Provides complete runnable commands", "passed": false, "evidence": "Only post-setup commands shown"}
+      ]
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {"mean": 0.96, "stddev": 0.09, "min": 0.80, "max": 1.00},
+      "time_seconds": {"mean": 69.1, "stddev": 21.0, "min": 48.5, "max": 97.0},
+      "tokens": {"mean": 29606, "stddev": 9200, "min": 14735, "max": 34277}
+    },
+    "without_skill": {
+      "pass_rate": {"mean": 0.73, "stddev": 0.31, "min": 0.20, "max": 1.00},
+      "time_seconds": {"mean": 63.1, "stddev": 42.0, "min": 35.1, "max": 141.6},
+      "tokens": {"mean": 12328, "stddev": 4600, "min": 9651, "max": 21241}
+    },
+    "delta": {
+      "pass_rate": "+0.23",
+      "time_seconds": "+6.0",
+      "tokens": "+17278"
+    }
+  },
+  "notes": [
+    "Eval 2 (Bimodal) passes 100% in both configs — non-discriminating for this assertion set",
+    "Eval 3 with_skill 'failed' because it gave a BETTER answer — argued against sunburst/treemap. Assertion is too prescriptive.",
+    "Eval 5 (Env Setup) shows largest skill impact (+80%) — baseline didn't know direnv or tiers",
+    "With-skill uses ~2.4x more tokens (29.6K vs 12.3K) but only 10% more time",
+    "Eval 4 baseline used Seaborn not Plotly — 'Plotly code' assertion tests library preference, not quality",
+    "Assertions test presence, not reasoning quality — skill's main advantage (perceptual science, anti-patterns) is uncaptured"
+  ]
+}

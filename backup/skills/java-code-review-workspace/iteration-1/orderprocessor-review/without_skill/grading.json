@@ -1,0 +1,48 @@
+{
+  "expectations": [
+    {
+      "text": "Flags ArrayList used with concurrent ExecutorService submissions",
+      "passed": true,
+      "evidence": "Issue #3 (Critical): 'Thread-Safety -- Concurrent Modification of ArrayList' with multiple fix alternatives"
+    },
+    {
+      "text": "Notes Connection/PreparedStatement not closed in saveOrder",
+      "passed": true,
+      "evidence": "Issue #2 (Critical): 'Database Connection and Statement Are Never Closed' with try-with-resources fix"
+    },
+    {
+      "text": "Catches potential division by zero in calculateAverageOrderValue when list is empty",
+      "passed": true,
+      "evidence": "Issue #9 (Major): 'Division by Zero in calculateAverageOrderValue' explains NaN result"
+    },
+    {
+      "text": "Notes integer division issue in Math.round(total * 100) / 100",
+      "passed": true,
+      "evidence": "Issue #7 (Major): 'Rounding Bug' explains long/int integer division truncation"
+    },
+    {
+      "text": "Warns about CachedThreadPool with blocking database I/O",
+      "passed": true,
+      "evidence": "Issue #8 (Major): 'ExecutorService Is Never Shut Down' flags unbounded thread creation, recommends bounded pool"
+    },
+    {
+      "text": "Suggests enum over string literals for order status",
+      "passed": true,
+      "evidence": "Issue #15 (Minor): 'Status Strings Should Be an Enum'"
+    },
+    {
+      "text": "Review follows a clear structure with severity-based categorization",
+      "passed": true,
+      "evidence": "Uses Critical Issues -> Major Issues -> Moderate Issues -> Minor Issues -> Summary Table structure"
+    }
+  ],
+  "summary": {
+    "passed": 7,
+    "failed": 0,
+    "total": 7,
+    "pass_rate": 1.0
+  },
+  "timing": {
+    "total_duration_seconds": 59.6
+  }
+}

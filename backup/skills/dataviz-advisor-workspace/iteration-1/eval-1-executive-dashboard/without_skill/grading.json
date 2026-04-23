@@ -1,0 +1,93 @@
+{
+  "expectations": [
+    {
+      "text": "Recommends a line chart for temporal trends",
+      "passed": true,
+      "evidence": "Section 2 titled 'Revenue Trend Over Time (Line Chart)' explicitly recommends a line chart with 'X-axis: date, aggregated to weekly or monthly buckets' and 'Y-axis: total amount'. Rationale states: 'The first question in any quarterly review is \"what's the trajectory?\" A time-series line chart answers this immediately.'"
+    },
+    {
+      "text": "Recommends bar charts for category comparison",
+      "passed": true,
+      "evidence": "Section 3 titled 'Revenue by Category (Horizontal Bar Chart)' recommends 'Y-axis: 12 categories, sorted descending by total amount' and 'X-axis: total amount'. Explains: 'With 12 categories, a horizontal bar chart is more readable than a pie chart.'"
+    },
+    {
+      "text": "Considers the executive audience and keeps recommendations simple",
+      "passed": true,
+      "evidence": "Multiple sections address the executive audience: 'Your audience is a VP at a quarterly review -- this means the dashboard needs to be high-level, insight-driven, and polished. Executives want answers, not raw data.' A dedicated 'Presentation Tips for the VP Audience' section includes guidance like 'Lead with the story, not the chart', 'Limit to one page', and 'Prepare for \"why\" questions.'"
+    },
+    {
+      "text": "Mentions sample size implications (50K rows may need WebGL or aggregation for scatter)",
+      "passed": false,
+      "evidence": "The response mentions 50K rows only in the context of pre-computing summary tables: 'Pre-compute summary tables... This speeds up dashboard rendering on 50K rows.' It also recommends time aggregation ('aggregated to weekly or monthly buckets'). However, it never mentions WebGL, scatter plot performance, or the rendering challenges of plotting 50K individual points. The aggregation advice is about time-series bucketing, not about managing large point-cloud rendering. No scatter plot is recommended or discussed."
+    },
+    {
+      "text": "Suggests a limited number of charts (4-6) for a dashboard",
+      "passed": true,
+      "evidence": "Explicitly states 'Build a single-page interactive dashboard with 5-6 linked visualizations' and lists exactly 6 chart types (KPI cards, line chart, bar chart, donut/map, heatmap, histogram/box plot). The summary reinforces: 'Build a single-page dashboard with: KPI cards at the top, a revenue time-series, category bar chart, region breakdown, a category-by-region heatmap, and a transaction distribution chart.'"
+    },
+    {
+      "text": "Provides plotly code snippets or patterns for at least one recommended chart",
+      "passed": false,
+      "evidence": "The response mentions 'Plotly Dash' as a tool recommendation in the comparison table and states 'build it in Plotly Dash or Streamlit so you can re-run it every quarter with fresh data.' However, no code snippets, code patterns, or any Python/JavaScript code appears anywhere in the response. The output is entirely prose with no executable examples."
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 2,
+    "total": 6,
+    "pass_rate": 0.67
+  },
+  "timing": {
+    "executor_duration_seconds": 48.5,
+    "total_duration_seconds": 48.5
+  },
+  "claims": [
+    {
+      "claim": "Executives want answers, not raw data",
+      "type": "quality",
+      "verified": true,
+      "evidence": "This is a well-established principle in data visualization for executive audiences, and the response follows through by recommending KPI summary cards and insight-driven titles."
+    },
+    {
+      "claim": "With 12 categories, a horizontal bar chart is more readable than a pie chart",
+      "type": "factual",
+      "verified": true,
+      "evidence": "This aligns with established dataviz best practices. Pie charts become unreadable beyond ~5-7 slices. 12 categories clearly exceeds that threshold."
+    },
+    {
+      "claim": "A donut chart is acceptable for 4 regions (unlike with 12 categories)",
+      "type": "factual",
+      "verified": true,
+      "evidence": "With only 4 slices, a donut chart is readable. The distinction between 4 regions (donut OK) and 12 categories (bar chart preferred) is sound."
+    },
+    {
+      "claim": "Pre-computing summary tables speeds up dashboard rendering on 50K rows",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Pre-aggregation is a standard performance optimization. 50K rows is manageable for most tools but pre-aggregation still improves responsiveness, especially for interactive cross-filtering."
+    },
+    {
+      "claim": "The dashboard should fit on one page/screen",
+      "type": "quality",
+      "verified": true,
+      "evidence": "Standard executive dashboard best practice. The response recommends drill-down interactions instead of additional pages, which is appropriate."
+    }
+  ],
+  "user_notes_summary": null,
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "Mentions sample size implications (50K rows may need WebGL or aggregation for scatter)",
+        "reason": "This assertion bakes in a specific expected answer (WebGL, scatter plots) rather than testing whether the response addresses data volume concerns generally. The response does address 50K-row performance via aggregation and pre-computation, just not via the specific WebGL/scatter path. Consider splitting into two assertions: one for acknowledging data volume implications (which this response passes) and one for providing technical rendering guidance (which it fails). Also, the eval prompt may not have explicitly asked for scatter plots, so requiring scatter-specific advice may be unfair."
+      },
+      {
+        "assertion": "Provides plotly code snippets or patterns for at least one recommended chart",
+        "reason": "This is a strong, discriminating assertion -- it clearly separates actionable advice from general recommendations. However, whether code snippets are expected depends heavily on the eval prompt. If the prompt didn't ask for code, this assertion may be testing something the model wasn't prompted to do. That said, for a dataviz advisor skill, providing code is a key differentiator."
+      },
+      {
+        "reason": "No assertion checks whether the response provides reasoning for chart type choices (e.g., why line over area, why bar over pie). This response does an excellent job of explaining 'why' for each recommendation, which is arguably the most valuable part of dataviz advice. An assertion like 'Provides rationale for each chart type recommendation' would capture this."
+      }
+    ],
+    "overall": "The assertions cover breadth well (chart types, audience, data volume, code). The two failures are legitimate -- the response genuinely lacks code snippets and doesn't address scatter/WebGL rendering concerns. Consider adding an assertion for chart-type rationale, which this response handles well but goes unmeasured."
+  }
+}

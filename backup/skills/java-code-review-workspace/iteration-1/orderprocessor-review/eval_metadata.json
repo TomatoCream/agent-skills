@@ -1,0 +1,14 @@
+{
+  "eval_id": 1,
+  "eval_name": "orderprocessor-review",
+  "prompt": "Hey, I wrote this order processing class. Can you take a look and tell me if there are any issues? We're planning to deploy it next week.",
+  "assertions": [
+    {"name": "identifies_thread_safety_arraylist", "description": "Flags ArrayList used with concurrent ExecutorService submissions"},
+    {"name": "identifies_resource_leak_saveorder", "description": "Notes Connection/PreparedStatement not closed in saveOrder"},
+    {"name": "identifies_divide_by_zero", "description": "Catches potential division by zero in calculateAverageOrderValue when list is empty"},
+    {"name": "identifies_rounding_bug", "description": "Notes integer division issue in Math.round(total * 100) / 100"},
+    {"name": "identifies_cachedthreadpool_io", "description": "Warns about CachedThreadPool with blocking database I/O"},
+    {"name": "identifies_string_status", "description": "Suggests enum over string literals for order status"},
+    {"name": "structured_output", "description": "Review follows a clear structure with severity-based categorization"}
+  ]
+}

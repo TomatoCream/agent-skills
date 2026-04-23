@@ -1,0 +1,144 @@
+{
+  "metadata": {
+    "skill_name": "java-code-review",
+    "skill_path": "/Users/wongdingfeng/.claude/skills/java-code-review/SKILL.md",
+    "timestamp": "2026-03-22T01:42:00Z",
+    "evals_run": ["userservice-review", "orderprocessor-review", "cachemanager-review"],
+    "runs_per_configuration": 3
+  },
+  "runs": [
+    {
+      "eval_name": "userservice-review",
+      "configuration": "with_skill",
+      "pass_rate": 1.0,
+      "passed": 8,
+      "total": 8,
+      "time_seconds": 64.5,
+      "tokens": 16025,
+      "expectations": [
+        {"text": "identifies_sql_injection", "passed": true},
+        {"text": "identifies_resource_leak", "passed": true},
+        {"text": "identifies_thread_unsafe_dateformat", "passed": true},
+        {"text": "identifies_empty_catch", "passed": true},
+        {"text": "identifies_hardcoded_credentials", "passed": true},
+        {"text": "identifies_string_comparison_with_eq", "passed": true},
+        {"text": "identifies_instanceof_chain", "passed": true},
+        {"text": "structured_output", "passed": true}
+      ]
+    },
+    {
+      "eval_name": "userservice-review",
+      "configuration": "without_skill",
+      "pass_rate": 1.0,
+      "passed": 8,
+      "total": 8,
+      "time_seconds": 85.4,
+      "tokens": 13233,
+      "expectations": [
+        {"text": "identifies_sql_injection", "passed": true},
+        {"text": "identifies_resource_leak", "passed": true},
+        {"text": "identifies_thread_unsafe_dateformat", "passed": true},
+        {"text": "identifies_empty_catch", "passed": true},
+        {"text": "identifies_hardcoded_credentials", "passed": true},
+        {"text": "identifies_string_comparison_with_eq", "passed": true},
+        {"text": "identifies_instanceof_chain", "passed": true},
+        {"text": "structured_output", "passed": true}
+      ]
+    },
+    {
+      "eval_name": "orderprocessor-review",
+      "configuration": "with_skill",
+      "pass_rate": 1.0,
+      "passed": 7,
+      "total": 7,
+      "time_seconds": 68.3,
+      "tokens": 18814,
+      "expectations": [
+        {"text": "identifies_thread_safety_arraylist", "passed": true},
+        {"text": "identifies_resource_leak_saveorder", "passed": true},
+        {"text": "identifies_divide_by_zero", "passed": true},
+        {"text": "identifies_rounding_bug", "passed": true},
+        {"text": "identifies_cachedthreadpool_io", "passed": true},
+        {"text": "identifies_string_status", "passed": true},
+        {"text": "structured_output", "passed": true}
+      ]
+    },
+    {
+      "eval_name": "orderprocessor-review",
+      "configuration": "without_skill",
+      "pass_rate": 1.0,
+      "passed": 7,
+      "total": 7,
+      "time_seconds": 59.6,
+      "tokens": 12342,
+      "expectations": [
+        {"text": "identifies_thread_safety_arraylist", "passed": true},
+        {"text": "identifies_resource_leak_saveorder", "passed": true},
+        {"text": "identifies_divide_by_zero", "passed": true},
+        {"text": "identifies_rounding_bug", "passed": true},
+        {"text": "identifies_cachedthreadpool_io", "passed": true},
+        {"text": "identifies_string_status", "passed": true},
+        {"text": "structured_output", "passed": true}
+      ]
+    },
+    {
+      "eval_name": "cachemanager-review",
+      "configuration": "with_skill",
+      "pass_rate": 1.0,
+      "passed": 7,
+      "total": 7,
+      "time_seconds": 90.6,
+      "tokens": 17401,
+      "expectations": [
+        {"text": "identifies_not_thread_safe", "passed": true},
+        {"text": "identifies_concurrent_modification", "passed": true},
+        {"text": "identifies_mutable_state_exposure", "passed": true},
+        {"text": "identifies_reflection_abuse", "passed": true},
+        {"text": "identifies_string_concat_loop", "passed": true},
+        {"text": "identifies_singleton_raw_type", "passed": true},
+        {"text": "structured_output", "passed": true}
+      ]
+    },
+    {
+      "eval_name": "cachemanager-review",
+      "configuration": "without_skill",
+      "pass_rate": 1.0,
+      "passed": 7,
+      "total": 7,
+      "time_seconds": 68.3,
+      "tokens": 12903,
+      "expectations": [
+        {"text": "identifies_not_thread_safe", "passed": true},
+        {"text": "identifies_concurrent_modification", "passed": true},
+        {"text": "identifies_mutable_state_exposure", "passed": true},
+        {"text": "identifies_reflection_abuse", "passed": true},
+        {"text": "identifies_string_concat_loop", "passed": true},
+        {"text": "identifies_singleton_raw_type", "passed": true},
+        {"text": "structured_output", "passed": true}
+      ]
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "mean_pass_rate": 1.0,
+      "mean_time_seconds": 74.5,
+      "mean_tokens": 17413
+    },
+    "without_skill": {
+      "mean_pass_rate": 1.0,
+      "mean_time_seconds": 71.1,
+      "mean_tokens": 12826
+    },
+    "delta": {
+      "pass_rate": "+0.00",
+      "time_seconds": "+3.4",
+      "tokens": "+4587"
+    }
+  },
+  "notes": [
+    "All assertions pass for both with_skill and without_skill. Claude already catches Java bugs well without the skill.",
+    "The structured_output assertion passes for both versions since Claude naturally organizes by severity. The key difference is qualitative: with-skill reviews follow a consistent template (Summary/Critical/Major/Minor/What's Good) and include more detailed fixes with code examples.",
+    "With-skill reviews use ~35% more tokens on average, producing more thorough analyses with concrete code fix examples.",
+    "The assertions test bug detection (which both versions excel at) but do not capture the qualitative differences in review structure, fix quality, and constructive tone that the skill introduces."
+  ]
+}

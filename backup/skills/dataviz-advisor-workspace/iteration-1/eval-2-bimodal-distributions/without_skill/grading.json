@@ -1,0 +1,86 @@
+{
+  "expectations": [
+    {
+      "text": "Recommends violin plot as the primary choice",
+      "passed": true,
+      "evidence": "The response title is 'Primary Recommendation: Violin Plot' and the summary states 'Use a violin plot as your default choice'. Violin plot is unambiguously the primary recommendation."
+    },
+    {
+      "text": "Explicitly explains why violin is better than box plot for bimodal data",
+      "passed": true,
+      "evidence": "Response states: 'Unlike box plots, violin plots show the full density profile of each endpoint's response times. This is critical because you explicitly have bimodal distributions -- a box plot would hide the two peaks entirely, collapsing them into a single median and interquartile range.'"
+    },
+    {
+      "text": "Mentions that box plots hide bimodality",
+      "passed": true,
+      "evidence": "Stated twice: (1) 'a box plot would hide the two peaks entirely' in the violin plot section, and (2) 'Hides bimodality entirely. Two very different distributions can produce identical box plots.' in the 'What to Avoid' table."
+    },
+    {
+      "text": "Considers the sample size (10K per endpoint) in the recommendation",
+      "passed": true,
+      "evidence": "Dedicated subsection 'Handles 10,000 points well' explains that violin plots use KDE to summarize large datasets. Also references '10,000 points per endpoint (30,000 total)' when discussing why raw scatter/strip plots fall short."
+    },
+    {
+      "text": "Provides a plotly code example for the violin plot",
+      "passed": true,
+      "evidence": "Implementation Notes section includes: 'Python (Plotly): px.violin(df, x=\"endpoint\", y=\"response_time\", box=True, points=False) for an interactive version.' This is a working Plotly Express one-liner, though it is not a full multi-line code block with imports."
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "output_chars": 3674
+  },
+  "timing": {
+    "total_duration_seconds": 36.4
+  },
+  "claims": [
+    {
+      "claim": "Violin plots use kernel density estimation to summarize large datasets smoothly",
+      "type": "factual",
+      "verified": true,
+      "evidence": "This is a well-known property of violin plots -- they are built on KDE by definition."
+    },
+    {
+      "claim": "Two very different distributions can produce identical box plots",
+      "type": "factual",
+      "verified": true,
+      "evidence": "This is a well-documented limitation of box plots. Distributions with different shapes but similar quartiles will produce identical box plots."
+    },
+    {
+      "claim": "The mean of a bimodal distribution may sit in a valley between the two modes",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Correct by definition -- for bimodal distributions the mean often falls between modes where density is low."
+    },
+    {
+      "claim": "Seaborn's cut=0 prevents the KDE from extending beyond observed data",
+      "type": "factual",
+      "verified": true,
+      "evidence": "This is correct per Seaborn documentation for sns.violinplot."
+    },
+    {
+      "claim": "px.violin supports box=True parameter",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Correct per Plotly Express documentation -- box=True overlays a box plot inside the violin."
+    }
+  ],
+  "user_notes_summary": null,
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "Provides a plotly code example for the violin plot",
+        "reason": "The response includes only a one-liner (px.violin(...)) rather than a full runnable code block with imports and figure display. Consider tightening this assertion to require a multi-line, copy-pasteable code example with imports, to distinguish a casual mention from genuinely useful code."
+      },
+      {
+        "reason": "No assertion checks whether the response warns against specific bad alternatives (e.g., bar charts of means). The response does this well in the 'What to Avoid' table, but it would go ungraded if it were missing. Consider adding an expectation like 'Warns against using bar charts of means for bimodal data'."
+      }
+    ],
+    "overall": "Assertions cover the key aspects of this task well. The main gap is that the Plotly code expectation is satisfied by a minimal inline snippet -- tightening it to require a runnable example would make it more discriminating."
+  }
+}

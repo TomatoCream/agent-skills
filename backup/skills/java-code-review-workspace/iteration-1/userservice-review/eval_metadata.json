@@ -1,0 +1,15 @@
+{
+  "eval_id": 0,
+  "eval_name": "userservice-review",
+  "prompt": "Can you review this UserService.java? It's a service class we use for user management in our Spring Boot app. We've been seeing some intermittent issues in production and I want a fresh pair of eyes on it.",
+  "assertions": [
+    {"name": "identifies_sql_injection", "description": "Flags SQL string concatenation as a security vulnerability and suggests PreparedStatement"},
+    {"name": "identifies_resource_leak", "description": "Notes missing try-with-resources for Connection/Statement/ResultSet"},
+    {"name": "identifies_thread_unsafe_dateformat", "description": "Catches shared static SimpleDateFormat as not thread-safe"},
+    {"name": "identifies_empty_catch", "description": "Calls out the silent catch block that swallows exceptions"},
+    {"name": "identifies_hardcoded_credentials", "description": "Flags hardcoded database credentials in source code"},
+    {"name": "identifies_string_comparison_with_eq", "description": "Catches == used for string comparison instead of .equals()"},
+    {"name": "identifies_instanceof_chain", "description": "Suggests polymorphism over instanceof chain in isAdmin()"},
+    {"name": "structured_output", "description": "Review follows a clear structure with severity-based categorization (summary, critical, minor sections)"}
+  ]
+}

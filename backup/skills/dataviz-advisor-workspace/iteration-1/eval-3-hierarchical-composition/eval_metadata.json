@@ -1,0 +1,12 @@
+{
+  "eval_id": 3,
+  "eval_name": "hierarchical-composition",
+  "prompt": "I want to show how our company's revenue breaks down by product line, then by region within each product line, over the last 4 quarters",
+  "assertions": [
+    {"text": "Identifies this as a composition question with a time dimension"},
+    {"text": "Recommends sunburst or treemap for the hierarchical breakdown"},
+    {"text": "Addresses the temporal dimension separately (stacked bar, faceted view, or small multiples)"},
+    {"text": "Discusses the tradeoff between hierarchy and time visualization"},
+    {"text": "Provides at least one code example"}
+  ]
+}

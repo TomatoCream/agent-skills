@@ -1,0 +1,91 @@
+{
+  "expectations": [
+    {
+      "text": "Recommends scatter plot as the primary choice",
+      "passed": true,
+      "evidence": "The response title is 'Recommendation: Scatter Plot with OLS Trendline' and the decision framework states: '2 continuous variables + n ~ 200 = scatter plot with trendline'. The 'Why a Scatter Plot' section provides detailed perceptual justification citing Cleveland & McGill (1984)."
+    },
+    {
+      "text": "Suggests adding a trendline (OLS)",
+      "passed": true,
+      "evidence": "The 'Why Add a Trendline' section explicitly states: 'Use trendline=\"ols\" to overlay a linear regression line.' All three code examples include trendline parameters (two with 'ols', one with 'lowess' as an alternative)."
+    },
+    {
+      "text": "Mentions marginal distributions as an enhancement",
+      "passed": true,
+      "evidence": "The response states: 'You can optionally add marginal distributions (marginal_x=\"histogram\", marginal_y=\"box\") to simultaneously show each variable's individual distribution alongside the joint relationship.' A dedicated 'Enhanced version with marginal distributions' code block is also provided."
+    },
+    {
+      "text": "Notes that 200 data points is a good size for scatter without overplotting",
+      "passed": true,
+      "evidence": "The 'Sample Size Considerations' section states: 'At n = 200, you are in the sweet spot for a standard scatter plot' and '30-500: Default scatter works perfectly -- enough points to reveal structure, few enough to avoid overplotting'. It also notes no need for opacity reduction, WebGL, or density heatmaps."
+    },
+    {
+      "text": "Provides a plotly code example",
+      "passed": true,
+      "evidence": "Three complete Plotly code examples are provided: (1) basic scatter with OLS trendline using px.scatter, (2) enhanced version with marginal distributions, and (3) LOWESS smooth variant. All use 'import plotly.express as px'."
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "output_chars": 5513
+  },
+  "timing": {
+    "total_tokens": 32627,
+    "executor_duration_seconds": 60.1,
+    "total_duration_seconds": 60.1
+  },
+  "claims": [
+    {
+      "claim": "Position encoding sits at the top of Cleveland & McGill's perceptual hierarchy (1984)",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Cleveland & McGill (1984) established position along a common scale as the most accurately decoded visual channel. This is a well-known result in the visualization literature."
+    },
+    {
+      "claim": "Subjects decode position with roughly 1-2% error",
+      "type": "factual",
+      "verified": false,
+      "evidence": "The original Cleveland & McGill paper reports log absolute error, not percentage error. The '1-2%' figure is a simplified paraphrase that is directionally correct (position is most accurate) but the specific number is not directly verifiable from the citation given."
+    },
+    {
+      "claim": "Opacity reduction kicks in around 500+ points",
+      "type": "factual",
+      "verified": false,
+      "evidence": "This appears to reference the skill's internal sample size table. The threshold is plausible but cannot be independently verified from the output alone. Whether 500 is the right cutoff depends on display resolution, marker size, and data distribution."
+    },
+    {
+      "claim": "Plotly uses scipy internally for OLS trendline calculations",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Plotly Express trendlines rely on statsmodels (not scipy directly) for OLS, though scipy is used for lowess. The claim is partially correct -- scipy is indeed a dependency used by the trendline ecosystem, though the primary OLS engine is statsmodels."
+    },
+    {
+      "claim": "The response covers anti-patterns to avoid",
+      "type": "quality",
+      "verified": true,
+      "evidence": "Four specific anti-patterns are listed: using line charts without ordered data, truncating axes, adding gratuitous encodings, and forcing linear trendlines on curved relationships. These are sound recommendations."
+    }
+  ],
+  "user_notes_summary": null,
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "Provides a plotly code example",
+        "reason": "This assertion passes if any Plotly code is present, but doesn't check whether the code is runnable or correct. A stronger assertion would verify the code uses px.scatter (not just any Plotly call) and includes the correlation-relevant parameters (trendline, proper x/y mapping)."
+      },
+      {
+        "reason": "No assertion checks whether the response explains why alternatives (heatmap, line chart, bar chart) are inappropriate. The response includes a thorough 'Why Not Other Charts' comparison table, which is a valuable part of the advice but goes ungraded."
+      },
+      {
+        "reason": "No assertion checks that the response provides actionable guidance for non-linear relationships (e.g., LOWESS). The response includes a LOWESS variant, which is a meaningful enhancement over just recommending OLS."
+      }
+    ],
+    "overall": "Assertions cover the key recommendations well. The main gap is that they focus on presence of advice (mentions X, suggests Y) rather than quality or correctness of the advice. For a dataviz advisor skill, checking that alternatives are discussed and that the code is structurally correct would improve discrimination."
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "reviews": [
+    {
+      "concept": "The C++ Compilation Model (preprocessor, compiler, linker, native code vs JIT)",
+      "learned_date": "2026-04-20T10:15:00",
+      "review_count": 0,
+      "next_review": "2026-04-21T10:15:00",
+      "last_reviewed": null
+    },
+    {
+      "concept": "Memory Layout: Stack vs Heap (allocation cost, programmer control, Java comparison)",
+      "learned_date": "2026-04-20T10:30:00",
+      "review_count": 0,
+      "next_review": "2026-04-21T10:30:00",
+      "last_reviewed": null
+    },
+    {
+      "concept": "CPU Caches and Data Locality (cache hierarchy, cache lines, sequential vs random access, pointer chasing)",
+      "learned_date": "2026-04-20T10:45:00",
+      "review_count": 0,
+      "next_review": "2026-04-21T10:45:00",
+      "last_reviewed": null
+    }
+  ]
+}

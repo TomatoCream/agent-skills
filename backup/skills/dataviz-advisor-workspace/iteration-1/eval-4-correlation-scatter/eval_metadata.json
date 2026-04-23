@@ -1,0 +1,12 @@
+{
+  "eval_id": 4,
+  "eval_name": "correlation-scatter",
+  "prompt": "I have two continuous variables and I want to see if they're correlated. About 200 data points.",
+  "assertions": [
+    {"text": "Recommends scatter plot as the primary choice"},
+    {"text": "Suggests adding a trendline (OLS)"},
+    {"text": "Mentions marginal distributions as an enhancement"},
+    {"text": "Notes that 200 data points is a good size for scatter without overplotting"},
+    {"text": "Provides a plotly code example"}
+  ]
+}

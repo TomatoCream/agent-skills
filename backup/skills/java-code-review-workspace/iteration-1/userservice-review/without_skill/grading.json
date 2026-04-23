@@ -1,0 +1,53 @@
+{
+  "expectations": [
+    {
+      "text": "Flags SQL string concatenation as a security vulnerability and suggests PreparedStatement",
+      "passed": true,
+      "evidence": "Issue #1 (Critical): 'SQL Injection Vulnerabilities' with PreparedStatement recommendation"
+    },
+    {
+      "text": "Notes missing try-with-resources for Connection/Statement/ResultSet",
+      "passed": true,
+      "evidence": "Issue #2 (Critical): 'Database Connection Leaks' with try-with-resources example"
+    },
+    {
+      "text": "Catches shared static SimpleDateFormat as not thread-safe",
+      "passed": true,
+      "evidence": "Issue #6 (Critical): 'Thread-Unsafe SimpleDateFormat' with DateTimeFormatter recommendation"
+    },
+    {
+      "text": "Calls out the silent catch block that swallows exceptions",
+      "passed": true,
+      "evidence": "Issue #4 (Critical): 'Swallowed Exceptions' quotes the catch block"
+    },
+    {
+      "text": "Flags hardcoded database credentials in source code",
+      "passed": true,
+      "evidence": "Issue #3 (Critical): 'Hardcoded Database Credentials' recommends externalization"
+    },
+    {
+      "text": "Catches == used for string comparison instead of .equals()",
+      "passed": true,
+      "evidence": "Issue #8 (Major): 'String Comparison with == Instead of .equals()' with fix"
+    },
+    {
+      "text": "Suggests polymorphism over instanceof chain in isAdmin()",
+      "passed": true,
+      "evidence": "Issue #15 (Minor): 'isAdmin Uses Object Parameter and instanceof Chains' recommends common interface"
+    },
+    {
+      "text": "Review follows a clear structure with severity-based categorization",
+      "passed": true,
+      "evidence": "Uses Critical Issues -> Major Issues -> Minor / Performance Issues -> Summary Table -> Root Cause Assessment structure"
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "failed": 0,
+    "total": 8,
+    "pass_rate": 1.0
+  },
+  "timing": {
+    "total_duration_seconds": 85.4
+  }
+}

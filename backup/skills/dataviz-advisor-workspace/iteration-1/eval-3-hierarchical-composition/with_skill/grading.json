@@ -1,0 +1,89 @@
+{
+  "expectations": [
+    {
+      "text": "Identifies this as a composition question with a time dimension",
+      "passed": true,
+      "evidence": "Line 5 of response.md: \"You are asking a **composition** question with a **temporal** dimension: 'What makes up our total revenue, broken down hierarchically (product line then region), and how has that composition changed over time?'\" This is an explicit, accurate identification."
+    },
+    {
+      "text": "Recommends sunburst or treemap for the hierarchical breakdown",
+      "passed": false,
+      "evidence": "The response explicitly recommends AGAINST sunburst and treemap. Under 'Alternatives Considered and Why They Are Worse', sunburst is dismissed ('cannot show change over time... better suited for a single-point-in-time deep hierarchy') and treemap is dismissed ('Same problem as sunburst: excellent for a single snapshot of hierarchical composition, but it has no natural temporal axis'). The primary recommendation is a faceted stacked bar chart. The response acknowledges these are good for hierarchy but argues they are the wrong choice when time is also a dimension."
+    },
+    {
+      "text": "Addresses the temporal dimension separately (stacked bar, faceted view, or small multiples)",
+      "passed": true,
+      "evidence": "The entire primary recommendation is 'A faceted stacked bar chart -- one panel (facet) per product line, with quarters on the x-axis, revenue on the y-axis, and region encoded as color within each stack.' The response discusses stacked bars, faceted views, and small multiples extensively (points 2, 3, and 5 under 'Why This Is the Best Choice'), and the perception science section explicitly references Tufte's small multiples."
+    },
+    {
+      "text": "Discusses the tradeoff between hierarchy and time visualization",
+      "passed": true,
+      "evidence": "The tradeoff is discussed in multiple places: (1) Line 11: 'This is one of the most common and nuanced business visualization scenarios because it combines part-to-whole composition, hierarchical nesting, and change over time.' (2) The 'Alternatives Considered' section explicitly contrasts sunburst/treemap (good for hierarchy, no time axis) vs. stacked bars (good for time, uses faceting for hierarchy). (3) The response explains that sunburst/treemap 'cannot show change over time' while the faceted stacked bar handles both dimensions by encoding hierarchy through facets and color, and time through the x-axis."
+    },
+    {
+      "text": "Provides at least one code example",
+      "passed": true,
+      "evidence": "Two complete Python/Plotly code examples are provided: (1) Lines 72-133: A faceted stacked bar chart using px.bar with facet_col, including sample data, layout configuration, and export options. (2) Lines 141-182: A subplot dashboard version using make_subplots with go.Bar for a macro/micro view. Both are runnable and well-annotated."
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 1,
+    "total": 5,
+    "pass_rate": 0.8
+  },
+  "timing": {
+    "total_duration_seconds": 87.2
+  },
+  "claims": [
+    {
+      "claim": "Bar charts use length encoding ranked 3rd by Cleveland & McGill with ~2-5% error",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Cleveland & McGill (1984) established the perceptual ranking of visual encodings. Position on a common scale is rank 1-2, and length is indeed highly ranked. The ~2-5% error estimate is consistent with the literature."
+    },
+    {
+      "claim": "Treemap area encoding has ~10-25% error",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Area estimation error rates in the 10-25% range are consistent with perceptual research (Cleveland & McGill, Heer & Bostock 2010)."
+    },
+    {
+      "claim": "Sunburst uses angle/area encoding with ~5-15% error",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Angle estimation error falls in this range per Cleveland & McGill. Sunbursts do encode via angle and area."
+    },
+    {
+      "claim": "Qualitative color palettes should max at ~7 categories",
+      "type": "factual",
+      "verified": true,
+      "evidence": "This aligns with standard guidance (Ware, Few, and others) that human ability to distinguish qualitative colors reliably tops out around 7-12 hues, with 7 being a conservative practical limit."
+    },
+    {
+      "claim": "Discrete quarters are best shown as bars, not lines, because lines imply continuity",
+      "type": "quality",
+      "verified": true,
+      "evidence": "This is a well-established visualization principle. Lines suggest interpolation between points; bars correctly signal discrete aggregates."
+    },
+    {
+      "claim": "Truncating the y-axis inflates perceived differences by up to 400%",
+      "type": "factual",
+      "verified": false,
+      "evidence": "The 400% figure is not a standard cited number in the literature. The general point about truncation being misleading is correct, but the specific '400%' claim cannot be verified."
+    }
+  ],
+  "user_notes_summary": null,
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "Recommends sunburst or treemap for the hierarchical breakdown",
+        "reason": "This assertion is arguably too prescriptive. The response makes a well-reasoned case that sunburst/treemap are WRONG for this scenario because the temporal dimension conflicts with their strengths. A response that correctly argues against sunburst/treemap (and explains why) arguably demonstrates deeper understanding than one that naively recommends them. Consider rewording to: 'Discusses sunburst or treemap as options for hierarchical breakdown' or 'Addresses how hierarchy could be visualized (e.g., sunburst, treemap, faceting)' to allow for both recommending and recommending-against with good reasoning."
+      },
+      {
+        "reason": "No assertion checks whether the code examples are syntactically correct or would actually produce the recommended chart type. The code could be broken or produce a different chart and still pass the 'provides at least one code example' assertion."
+      }
+    ],
+    "overall": "The failed assertion is debatable -- the response does discuss sunburst and treemap in depth but correctly argues against them for this temporal-hierarchical use case. The eval penalizes a nuanced, well-reasoned answer. Consider rewording to test for 'discusses' rather than 'recommends'."
+  }
+}

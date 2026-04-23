@@ -1,0 +1,12 @@
+{
+  "eval_id": 2,
+  "eval_name": "bimodal-distributions",
+  "prompt": "I'm comparing the distribution of response times across 3 API endpoints. About 10,000 requests each. Some endpoints have bimodal distributions. What chart?",
+  "assertions": [
+    {"text": "Recommends violin plot as the primary choice"},
+    {"text": "Explicitly explains why violin is better than box plot for bimodal data"},
+    {"text": "Mentions that box plots hide bimodality"},
+    {"text": "Considers the sample size (10K per endpoint) in the recommendation"},
+    {"text": "Provides a plotly code example for the violin plot"}
+  ]
+}

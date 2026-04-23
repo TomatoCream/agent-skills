@@ -1,0 +1,51 @@
+{
+  "skill_name": "java-code-review",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "Can you review this UserService.java? It's a service class we use for user management in our Spring Boot app. We've been seeing some intermittent issues in production and I want a fresh pair of eyes on it.",
+      "expected_output": "Should identify: SQL injection vulnerabilities, resource leaks (no try-with-resources), thread-unsafe SimpleDateFormat, singleton anti-pattern without thread safety, empty catch blocks, hardcoded credentials, string comparison with ==, null returns instead of Optional, string concat in loop, instanceof chain instead of polymorphism",
+      "files": ["test-files/UserService.java"],
+      "assertions": [
+        {"name": "identifies_sql_injection", "description": "Flags SQL string concatenation as a security vulnerability and suggests PreparedStatement"},
+        {"name": "identifies_resource_leak", "description": "Notes missing try-with-resources for Connection/Statement/ResultSet"},
+        {"name": "identifies_thread_unsafe_dateformat", "description": "Catches shared static SimpleDateFormat as not thread-safe"},
+        {"name": "identifies_empty_catch", "description": "Calls out the silent catch block that swallows exceptions"},
+        {"name": "identifies_hardcoded_credentials", "description": "Flags hardcoded database credentials in source code"},
+        {"name": "identifies_string_comparison_with_eq", "description": "Catches == used for string comparison instead of .equals()"},
+        {"name": "identifies_instanceof_chain", "description": "Suggests polymorphism over instanceof chain in isAdmin()"},
+        {"name": "structured_output", "description": "Review follows a clear structure with severity-based categorization"}
+      ]
+    },
+    {
+      "id": 1,
+      "prompt": "Hey, I wrote this order processing class. Can you take a look and tell me if there are any issues? We're planning to deploy it next week.",
+      "expected_output": "Should identify: ArrayList used in concurrent context (not thread-safe), CachedThreadPool used for potentially blocking DB I/O, resource leak in saveOrder, double rounding issue (integer division), divide-by-zero in calculateAverageOrderValue, unnecessary parallel stream for simple filter, string status instead of enum, processing flag race condition",
+      "files": ["test-files/OrderProcessor.java"],
+      "assertions": [
+        {"name": "identifies_thread_safety_arraylist", "description": "Flags ArrayList used with concurrent ExecutorService submissions"},
+        {"name": "identifies_resource_leak_saveorder", "description": "Notes Connection/PreparedStatement not closed in saveOrder"},
+        {"name": "identifies_divide_by_zero", "description": "Catches potential division by zero in calculateAverageOrderValue when list is empty"},
+        {"name": "identifies_rounding_bug", "description": "Notes integer division issue in Math.round(total * 100) / 100"},
+        {"name": "identifies_cachedthreadpool_io", "description": "Warns about CachedThreadPool with blocking database I/O"},
+        {"name": "identifies_string_status", "description": "Suggests enum over string literals for order status"},
+        {"name": "structured_output", "description": "Review follows a clear structure with severity-based categorization"}
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review this generic cache implementation. I want to make sure it's production-ready before we start using it across our microservices.",
+      "expected_output": "Should identify: Not thread-safe despite likely multi-threaded usage, ConcurrentModificationException in evictExpired, singleton with raw types and unchecked cast, getAll() exposes internal mutable state, reflection-based loadFromObject is dangerous and fragile, StringBuilder should be used in generateReport, race condition in getOrDefault",
+      "files": ["test-files/CacheManager.java"],
+      "assertions": [
+        {"name": "identifies_not_thread_safe", "description": "Flags HashMap-based cache as not thread-safe for multi-threaded microservice use"},
+        {"name": "identifies_concurrent_modification", "description": "Catches ConcurrentModificationException risk in evictExpired iterating and removing"},
+        {"name": "identifies_mutable_state_exposure", "description": "Flags getAll() returning internal mutable map directly"},
+        {"name": "identifies_reflection_abuse", "description": "Warns about loadFromObject using reflection - fragile, unsafe, and unnecessary"},
+        {"name": "identifies_string_concat_loop", "description": "Notes StringBuilder should be used in generateReport instead of string concatenation"},
+        {"name": "identifies_singleton_raw_type", "description": "Catches unchecked cast and raw type issue with the singleton pattern"},
+        {"name": "structured_output", "description": "Review follows a clear structure with severity-based categorization"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "expectations": [
+    {
+      "text": "Uses uv for package management (not pip or conda)",
+      "passed": true,
+      "evidence": "The entire response is built around uv. Step 1 installs it ('brew install uv direnv'), Step 2 uses 'uv init --app' and 'uv add', the 'Why This Stack?' section explicitly states 'uv over pip/conda: uv resolves and installs dependencies 10-100x faster than pip', and the quick reference table uses uv commands exclusively. pip and conda are only mentioned as things uv replaces."
+    },
+    {
+      "text": "Includes direnv setup with .envrc",
+      "passed": true,
+      "evidence": "Step 1 installs direnv ('brew install uv direnv'), adds the shell hook ('eval \"$(direnv hook zsh)\"'), and creates a custom direnvrc with a 'use_uv()' function. Step 2 creates .envrc ('echo \"use_uv\" > .envrc') and runs 'direnv allow'. The project structure also lists '.envrc -- contains \"use_uv\" -- globally gitignored'."
+    },
+    {
+      "text": "Shows the per-project setup steps (uv init, uv add, etc.)",
+      "passed": true,
+      "evidence": "Step 2 'Per-Project Setup' shows the complete sequence: 'mkdir my-analysis && cd my-analysis', 'uv init --app', 'uv add plotly pandas numpy scipy kaleido nbformat', 'echo \"use_uv\" > .envrc', 'direnv allow'. Step 4 adds 'uv run python -c \"...\"' for verification."
+    },
+    {
+      "text": "Mentions dependency tiers (minimum vs statistical vs ML etc.)",
+      "passed": true,
+      "evidence": "Step 3 'Choose Your Dependency Tier' contains a full table with seven tiers: Minimum ('plotly pandas numpy'), Statistical ('+ scipy'), ML Viz ('+ scikit-learn'), Export ('+ kaleido'), Notebooks ('+ nbformat jupyterlab'), Dashboards ('+ dash'), and Alt engines ('matplotlib seaborn altair'). Each tier includes packages and a 'When to Use' description."
+    },
+    {
+      "text": "Provides complete runnable commands",
+      "passed": true,
+      "evidence": "Every step has complete, copy-pasteable bash commands in fenced code blocks: Step 1 has 'brew install uv direnv' and shell hook setup, Step 2 has the full project init sequence, Step 3 has 'uv add plotly pandas numpy scipy kaleido nbformat jupyterlab', Step 4 has a full Python verification script run via 'uv run python -c \"...\"', and the quick reference table lists commands like 'uv add <package>', 'uv run python script.py', 'uv run jupyter lab', etc."
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "output_chars": 5765,
+    "transcript_chars": null
+  },
+  "timing": {
+    "total_tokens": 14735,
+    "executor_duration_seconds": 48.5,
+    "total_duration_seconds": 48.5
+  },
+  "claims": [
+    {
+      "claim": "uv resolves and installs dependencies 10-100x faster than pip",
+      "type": "factual",
+      "verified": true,
+      "evidence": "This is a well-known benchmark claim from the uv project (Astral). Widely cited and consistent with published benchmarks."
+    },
+    {
+      "claim": "uv replaces pip, pip-tools, virtualenv, and pyenv in a single binary",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Accurate description of uv's scope as of its stable releases. uv handles package installation, dependency locking, virtual environment creation, and Python version management."
+    },
+    {
+      "claim": "The custom direnvrc use_uv() function will auto-create a venv, activate it, and sync deps",
+      "type": "process",
+      "verified": true,
+      "evidence": "The use_uv() function checks for .venv, runs 'uv venv' if missing, sources the activate script, and runs 'uv sync'. This is a correct and functional direnv setup pattern."
+    },
+    {
+      "claim": "Setup gets you from zero to a working environment in under two minutes",
+      "type": "quality",
+      "verified": false,
+      "evidence": "Plausible but unverifiable from outputs alone. Depends on network speed, machine performance, and whether Homebrew packages are already cached."
+    }
+  ],
+  "user_notes_summary": null,
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "Provides complete runnable commands",
+        "reason": "This assertion passes if commands are present and look syntactically correct, but does not verify they actually run successfully. A stronger version could execute the commands in a sandbox and check exit codes. However, for a text-output eval this is reasonable."
+      },
+      {
+        "reason": "No assertion checks the quality of the project structure recommendation (Step 5) or the 'Why This Stack?' rationale (bottom section). These are valuable parts of the response that go ungraded. Consider adding an assertion like 'Explains the rationale for choosing uv and direnv over alternatives' to ensure the response is educational, not just procedural."
+      }
+    ],
+    "overall": "The assertions cover the key structural elements well -- tool choice, direnv integration, per-project workflow, dependency tiers, and runnability. The main gap is that no assertion checks the explanatory quality of the response (the 'why' behind the recommendations), which is arguably the most important part of setup guidance."
+  }
+}

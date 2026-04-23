@@ -1,0 +1,82 @@
+{
+  "expectations": [
+    {
+      "text": "Recommends violin plot as the primary choice",
+      "passed": true,
+      "evidence": "Title is '# Recommendation: Violin Plot' and body states 'The violin plot is the single best chart here because:' — unambiguous primary recommendation."
+    },
+    {
+      "text": "Explicitly explains why violin is better than box plot for bimodal data",
+      "passed": true,
+      "evidence": "Point 1 explains: 'It reveals bimodality that box plots hide. A bimodal distribution and a unimodal distribution with the same median and IQR produce nearly identical box plots. The box plot compresses all shape information into five summary statistics (min, Q1, median, Q3, max), so two distinct peaks are invisible.' The comparison table further elaborates: 'Box plot | Reject | Hides bimodality entirely -- the whole point of this analysis. Two peaks collapse into one box.'"
+    },
+    {
+      "text": "Mentions that box plots hide bimodality",
+      "passed": true,
+      "evidence": "Stated explicitly in three places: (1) 'bimodality that box plots hide', (2) 'Hides bimodality entirely', (3) 'Two peaks collapse into one box.' Also in anti-patterns: 'Simplicity that hides the key insight (bimodality) is not simplicity -- it is misinformation.'"
+    },
+    {
+      "text": "Considers the sample size (10K per endpoint) in the recommendation",
+      "passed": true,
+      "evidence": "Dedicated point 3 states: 'Your sample size (n=10,000 per group) is in the sweet spot. The decision tree marks n=200-5K as \"Excellent\" for violins, and n=5K-50K as \"Good.\" At 10,000 requests per endpoint, kernel density estimation produces a smooth, reliable shape without noise.' Also rejects strip/jitter because 'At 10,000 points per group, it becomes an unreadable mass of dots' and configures points='outliers' in the code 'to avoid clutter at n=10K'."
+    },
+    {
+      "text": "Provides a plotly code example for the violin plot",
+      "passed": true,
+      "evidence": "Complete Python code block using plotly.express with px.violin(), including box=True overlay, outlier points, axis labels, template, and fig.show(). A second code snippet adds optional median annotations."
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "output_chars": 4377
+  },
+  "timing": {
+    "total_tokens": 32363,
+    "duration_ms": 52616,
+    "total_duration_seconds": 52.6
+  },
+  "claims": [
+    {
+      "claim": "The decision tree marks n=200-5K as 'Excellent' for violins, and n=5K-50K as 'Good'",
+      "type": "factual",
+      "verified": "unverifiable",
+      "evidence": "References an internal 'decision tree' presumably from the skill's knowledge base. Cannot verify the exact thresholds from available outputs, but the claim is plausible and internally consistent with the recommendation."
+    },
+    {
+      "claim": "Cleveland & McGill (1984) ranks position on a common scale as the most accurate perceptual channel",
+      "type": "factual",
+      "verified": true,
+      "evidence": "This is a well-known result from the Cleveland & McGill graphical perception paper. The citation is accurate."
+    },
+    {
+      "claim": "Ridgeline plots are designed for 6-20 distributions",
+      "type": "factual",
+      "verified": "unverifiable",
+      "evidence": "This appears to come from the skill's decision tree. The general principle is sound — ridgeline plots are most useful with many distributions — though the exact range '6-20' may be from the skill's heuristics."
+    },
+    {
+      "claim": "Box plots compress all shape information into five summary statistics",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Standard statistical fact. Box plots display min, Q1, median, Q3, max (the five-number summary)."
+    }
+  ],
+  "user_notes_summary": null,
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "Provides a plotly code example for the violin plot",
+        "reason": "This assertion checks that a plotly code example exists but not whether it would actually run correctly. Consider asserting that the code includes specific key arguments (e.g., px.violin call, box=True for embedded box plot) or that it references the correct dataframe columns from the prompt. A response could include broken or irrelevant plotly code and still pass."
+      },
+      {
+        "reason": "No assertion checks whether the response addresses the comparison across the 3 endpoints (not just the distributional shape). The user's scenario involves comparing distributions across groups, and the response handles this well (shared y-axis, side-by-side violins), but it would go uncaught if it only discussed single-distribution visualization."
+      }
+    ],
+    "overall": "Assertions cover the core requirements well — the bimodal-specific reasoning is the crux and is tested from multiple angles. The two suggestions above would strengthen the code quality check and ensure the multi-group comparison aspect is addressed."
+  }
+}

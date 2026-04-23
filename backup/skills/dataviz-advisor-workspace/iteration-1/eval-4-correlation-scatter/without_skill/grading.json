@@ -1,0 +1,89 @@
+{
+  "expectations": [
+    {
+      "text": "Recommends scatter plot as the primary choice",
+      "passed": true,
+      "evidence": "The response title is 'Recommended Chart: Scatter Plot' and opens with 'A scatter plot is the best choice for examining the relationship between two continuous variables.'"
+    },
+    {
+      "text": "Suggests adding a trendline (OLS)",
+      "passed": true,
+      "evidence": "The response states 'Add a trend line: Overlay a linear regression line (line of best fit)' and the code examples use sns.regplot and geom_smooth(method = \"lm\"), both of which perform OLS regression by default."
+    },
+    {
+      "text": "Mentions marginal distributions as an enhancement",
+      "passed": true,
+      "evidence": "The response explicitly lists 'Marginal distributions (optional): Adding small histograms or density plots along the x-axis and y-axis margins' and provides a sns.jointplot code example for this."
+    },
+    {
+      "text": "Notes that 200 data points is a good size for scatter without overplotting",
+      "passed": true,
+      "evidence": "The response states '200 points is an ideal range for scatter plots -- enough to reveal a pattern without excessive overplotting.'"
+    },
+    {
+      "text": "Provides a plotly code example",
+      "passed": false,
+      "evidence": "The response provides Python code using Seaborn/Matplotlib and R code using ggplot2, but no Plotly code example is included anywhere in the output."
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 1,
+    "total": 5,
+    "pass_rate": 0.8
+  },
+  "execution_metrics": {
+    "output_chars": 3648,
+    "transcript_chars": 0
+  },
+  "timing": {
+    "executor_duration_seconds": 35.1,
+    "total_duration_seconds": 35.1
+  },
+  "claims": [
+    {
+      "claim": "A scatter plot is the best choice for examining the relationship between two continuous variables",
+      "type": "quality",
+      "verified": true,
+      "evidence": "This is a well-established data visualization best practice. Scatter plots are the standard recommendation for bivariate continuous data."
+    },
+    {
+      "claim": "200 points is an ideal range for scatter plots without excessive overplotting",
+      "type": "factual",
+      "verified": true,
+      "evidence": "200 points is widely regarded as a comfortable range for scatter plots. Overplotting typically becomes a concern at thousands of points."
+    },
+    {
+      "claim": "sns.regplot overlays a linear regression line",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Seaborn's regplot does indeed fit and display a linear regression line by default."
+    },
+    {
+      "claim": "sns.jointplot with kind='reg' shows marginal distributions alongside a scatter plot",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Seaborn's jointplot with kind='reg' displays a scatter with regression line in the center and marginal histograms/KDE on the axes."
+    },
+    {
+      "claim": "Heatmap/2D density plots are better for thousands of points with heavy overplotting",
+      "type": "factual",
+      "verified": true,
+      "evidence": "This is standard data visualization guidance -- density representations handle overplotting better than raw scatter points at large N."
+    }
+  ],
+  "user_notes_summary": null,
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "Provides a plotly code example",
+        "reason": "This assertion is very library-specific. A quality response might use Seaborn, Matplotlib, Altair, or ggplot2 and still be excellent. Consider broadening to 'Provides a runnable code example' unless Plotly is genuinely required by the skill's contract. The current assertion penalizes a thorough response that chose equally valid libraries."
+      },
+      {
+        "assertion": "Suggests adding a trendline (OLS)",
+        "reason": "The assertion conflates the visual recommendation (trendline) with a specific method (OLS). The response recommends a linear regression line and also a LOESS smoother, which is arguably richer advice. Consider splitting into two: 'suggests a trendline' and optionally 'mentions OLS or linear regression specifically' if the method matters."
+      }
+    ],
+    "overall": "Assertions cover the key aspects of a good correlation-visualization recommendation. The Plotly-specific assertion is the weakest -- it tests library choice rather than quality of advice. Consider replacing it with an assertion about providing any runnable code example, or about mentioning interactive visualization as an option."
+  }
+}

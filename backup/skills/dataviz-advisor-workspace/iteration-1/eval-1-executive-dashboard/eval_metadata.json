@@ -1,0 +1,13 @@
+{
+  "eval_id": 1,
+  "eval_name": "executive-dashboard",
+  "prompt": "I have a CSV with 50,000 rows of customer transactions — columns are date, amount, category (12 categories), and region (4 regions). My VP wants a dashboard for the quarterly review. What should I build?",
+  "assertions": [
+    {"text": "Recommends a line chart for temporal trends"},
+    {"text": "Recommends bar charts for category comparison"},
+    {"text": "Considers the executive audience and keeps recommendations simple"},
+    {"text": "Mentions sample size implications (50K rows may need WebGL or aggregation for scatter)"},
+    {"text": "Suggests a limited number of charts (4-6) for a dashboard"},
+    {"text": "Provides plotly code snippets or patterns for at least one recommended chart"}
+  ]
+}

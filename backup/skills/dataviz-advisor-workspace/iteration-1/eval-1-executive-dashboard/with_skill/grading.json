@@ -1,0 +1,96 @@
+{
+  "expectations": [
+    {
+      "text": "Recommends a line chart for temporal trends",
+      "passed": true,
+      "evidence": "Section 'Row 2, Left: Line Chart -- Revenue Trend Over Time' explicitly recommends a line chart with rationale: 'Lines imply continuity and temporal ordering -- exactly what time series data has. The brain naturally traces trends (slopes) pre-attentively.'"
+    },
+    {
+      "text": "Recommends bar charts for category comparison",
+      "passed": true,
+      "evidence": "Two bar chart recommendations: (1) 'Row 2, Right: Horizontal Bar Chart -- Revenue by Category' with 12 categories sorted by value, and (2) 'Row 3, Left: Grouped Bar Chart -- Category Performance by Region' for cross-dimensional comparison. Rationale cites Cleveland & McGill (1984) on length encoding accuracy."
+    },
+    {
+      "text": "Considers the executive audience and keeps recommendations simple",
+      "passed": true,
+      "evidence": "Dedicated 'Audience Analysis' section states: 'Your audience is a VP at a quarterly review -- this is the textbook executive audience.' Lists executive dashboard rules including 'Answer how are we doing? in under 5 seconds per chart', 'Max 4-6 charts per view -- no more than 2-3 chart types', and explicitly lists chart types to avoid (violin plots, parallel coordinates, scatter matrices, ECDF, heatmaps)."
+    },
+    {
+      "text": "Mentions sample size implications (50K rows may need WebGL or aggregation for scatter)",
+      "passed": true,
+      "evidence": "Data Characterization table states: 'Rows | 50,000 | Mid-large -- bar/line aggregations are fine; scatter needs WebGL or aggregation'. Directly addresses both the 50K size and the WebGL/aggregation recommendation."
+    },
+    {
+      "text": "Suggests a limited number of charts (4-6) for a dashboard",
+      "passed": true,
+      "evidence": "Audience Analysis section explicitly states 'Max 4-6 charts per view'. The final dashboard summary table shows 5 visual components: 4 KPI cards (one row), line chart, horizontal bar, grouped bar, and stacked bar/treemap -- staying within the 4-6 range."
+    },
+    {
+      "text": "Provides plotly code snippets or patterns for at least one recommended chart",
+      "passed": true,
+      "evidence": "Provides 5 complete plotly.express code snippets: (1) px.line for revenue trend, (2) px.bar horizontal for category comparison, (3) px.bar grouped for region-category, (4) px.bar stacked for composition, (5) px.treemap for hierarchical view. Each snippet includes data prep, chart creation, and layout customization."
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "output_chars": 8692
+  },
+  "timing": {
+    "total_tokens": 34277,
+    "executor_duration_seconds": 97.0,
+    "total_duration_seconds": 97.0
+  },
+  "claims": [
+    {
+      "claim": "Cleveland & McGill (1984) proved that humans decode aligned lengths on a common baseline more accurately than any other encoding except position",
+      "type": "factual",
+      "verified": true,
+      "evidence": "This is an accurate characterization of the Cleveland & McGill graphical perception hierarchy published in JASA 1984. Their experiment ranked position along a common scale and length as the most accurate encodings."
+    },
+    {
+      "claim": "Pie chart angle encoding has 5-15% error while length encoding has 2-5% error",
+      "type": "factual",
+      "verified": false,
+      "evidence": "These specific percentage error ranges are approximate and commonly cited in data visualization literature, but the exact numbers vary by study. The relative ordering (angle less accurate than length) is well-established, but these precise ranges are not universally agreed upon."
+    },
+    {
+      "claim": "Pre-attentive processing of large isolated numbers is under 250ms",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Pre-attentive visual processing is generally accepted to occur in under 250ms in perception science literature. This is a standard claim in visualization research (Healey & Enns, Ware)."
+    },
+    {
+      "claim": "The 7-color limit for pre-attentive color discrimination",
+      "type": "factual",
+      "verified": true,
+      "evidence": "This aligns with established visualization guidelines. Ware's 'Information Visualization' and similar texts commonly cite 5-8 distinguishable colors as the practical limit, with 7 being a standard recommendation."
+    },
+    {
+      "claim": "The dashboard answers the four questions a VP cares about",
+      "type": "quality",
+      "verified": true,
+      "evidence": "The response maps VP questions to chart types in both the opening table and the final summary: trend (line), comparison (bar), composition (stacked bar/treemap), and overall performance (KPI cards)."
+    }
+  ],
+  "user_notes_summary": null,
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "Provides plotly code snippets or patterns for at least one recommended chart",
+        "reason": "This assertion is easily satisfied by pasting any Plotly snippet. Consider verifying that the code is syntactically valid (e.g., the column names match the described dataset schema) or that the code would actually run against a DataFrame with the stated columns (date, amount, category, region)."
+      },
+      {
+        "reason": "No assertion checks whether the response explains WHY each chart type was chosen over alternatives. The response excels at this (e.g., 'why line chart over bar chart', 'why not pie chart'), but a weaker response could simply list chart types without reasoning and still pass all assertions."
+      },
+      {
+        "reason": "No assertion checks whether the recommended charts collectively cover all four columns in the dataset (date, amount, category, region). A response that ignores one dimension entirely could still pass all current assertions."
+      }
+    ],
+    "overall": "All six assertions pass convincingly with substantial evidence. The assertions cover the key aspects well but lean toward checking presence of recommendations rather than quality of reasoning. Consider adding an assertion for justification depth or anti-pattern awareness, since the response's strength lies in its detailed rationale."
+  }
+}

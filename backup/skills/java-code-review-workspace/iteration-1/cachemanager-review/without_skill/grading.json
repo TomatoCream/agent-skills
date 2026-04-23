@@ -1,0 +1,48 @@
+{
+  "expectations": [
+    {
+      "text": "Flags HashMap-based cache as not thread-safe for multi-threaded microservice use",
+      "passed": true,
+      "evidence": "Issue #1 (Critical): 'Not Thread-Safe' identifies HashMap with no synchronization"
+    },
+    {
+      "text": "Catches ConcurrentModificationException risk in evictExpired iterating and removing",
+      "passed": true,
+      "evidence": "Issue #2 (Critical): 'ConcurrentModificationException in evictExpired()' explains iterator issue"
+    },
+    {
+      "text": "Flags getAll() returning internal mutable map directly",
+      "passed": true,
+      "evidence": "Issue #4 (High): 'getAll() Exposes Mutable Internal State' recommends unmodifiable copy"
+    },
+    {
+      "text": "Warns about loadFromObject using reflection - fragile, unsafe, and unnecessary",
+      "passed": true,
+      "evidence": "Issue #6 (High): 'loadFromObject() Is Unsafe and Misguided' covers unchecked casts, security, silent failure"
+    },
+    {
+      "text": "Notes StringBuilder should be used in generateReport instead of string concatenation",
+      "passed": true,
+      "evidence": "Issue #11 (Medium): 'generateReport() Uses String Concatenation in a Loop' with O(n^2) explanation"
+    },
+    {
+      "text": "Catches unchecked cast and raw type issue with the singleton pattern",
+      "passed": true,
+      "evidence": "Issue #3 (Critical): 'Singleton With Generics Is Unsound' explains shared raw-type instance"
+    },
+    {
+      "text": "Review follows a clear structure with severity-based categorization",
+      "passed": true,
+      "evidence": "Uses Critical -> High-Severity -> Medium-Severity -> Low-Severity / Design -> Summary table structure"
+    }
+  ],
+  "summary": {
+    "passed": 7,
+    "failed": 0,
+    "total": 7,
+    "pass_rate": 1.0
+  },
+  "timing": {
+    "total_duration_seconds": 68.3
+  }
+}

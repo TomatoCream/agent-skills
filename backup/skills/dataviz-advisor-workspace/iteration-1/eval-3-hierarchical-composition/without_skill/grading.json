@@ -1,0 +1,77 @@
+{
+  "expectations": [
+    {
+      "text": "Identifies this as a composition question with a time dimension",
+      "passed": true,
+      "evidence": "The response opens with: 'revenue that breaks down hierarchically (product line, then region within each product line) across time' and structures the entire answer around the dual nature of the question -- hierarchical composition plus temporal tracking."
+    },
+    {
+      "text": "Recommends sunburst or treemap for the hierarchical breakdown",
+      "passed": true,
+      "evidence": "Option B explicitly recommends 'Sunburst / Treemap (One Per Quarter)' for the hierarchical breakdown, noting they are 'Excellent at conveying part-to-whole relationships in a hierarchical structure.' The summary table also lists 'Sunburst or treemap' as the recommended chart for 'Single-quarter deep dive' scenarios."
+    },
+    {
+      "text": "Addresses the temporal dimension separately (stacked bar, faceted view, or small multiples)",
+      "passed": true,
+      "evidence": "The primary recommendation is a grouped-and-stacked bar chart with quarters on the x-axis. Option A covers 'Small Multiples (Faceted Stacked Bar Charts)' with Q1-Q4 on each panel's x-axis. Option C covers 'Stacked Area Chart (One Per Product Line).' All three approaches from the expectation are addressed."
+    },
+    {
+      "text": "Discusses the tradeoff between hierarchy and time visualization",
+      "passed": true,
+      "evidence": "The tradeoff is discussed in multiple places: (1) Sunburst/treemap is described as 'Excellent at conveying part-to-whole relationships' but 'Poor at showing change over time'; (2) The primary recommendation is justified as preserving both hierarchy ('Product lines are visually separated as distinct bars; regions are nested within them') and time ('Placing quarters along the x-axis lets you track trends'); (3) The summary table maps different tradeoff scenarios to different chart types."
+    },
+    {
+      "text": "Provides at least one code example",
+      "passed": true,
+      "evidence": "Two Python code examples are provided: (1) A Plotly Express example using px.bar with facet_col for small multiples, and (2) A Plotly graph_objects example using go.Bar with explicit offset groups for a grouped-and-stacked approach."
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "pass_rate": 1.0
+  },
+  "timing": {
+    "executor_duration_seconds": 54.1,
+    "total_duration_seconds": 54.1
+  },
+  "claims": [
+    {
+      "claim": "Plotly Express handles grouped-and-stacked bars well with the facet_col parameter",
+      "type": "factual",
+      "verified": true,
+      "evidence": "The px.bar example with facet_col='Product_Line' and barmode='stack' is valid Plotly Express usage that would produce faceted stacked bars (small multiples), which is a reasonable approach to grouped-and-stacked display."
+    },
+    {
+      "claim": "The grouped-and-stacked bar chart preserves hierarchy while supporting time comparison",
+      "type": "quality",
+      "verified": true,
+      "evidence": "This is a well-established data visualization principle. Grouping spatially separates product lines while stacking segments within each bar shows the regional sub-composition, and the x-axis provides the temporal dimension."
+    },
+    {
+      "claim": "Sunburst/treemap is poor at showing change over time",
+      "type": "factual",
+      "verified": true,
+      "evidence": "This is a widely accepted limitation in the data visualization community. Sunburst and treemap charts are inherently static snapshots of hierarchical composition and require multiple side-by-side charts for temporal comparison, making trends difficult to perceive."
+    },
+    {
+      "claim": "Area charts work better with more time points than just 4 quarters",
+      "type": "quality",
+      "verified": true,
+      "evidence": "This is sound advice. Stacked area charts with only 4 data points produce a sparse visual that doesn't leverage the area encoding's strength of showing continuous trends."
+    }
+  ],
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "Recommends sunburst or treemap for the hierarchical breakdown",
+        "reason": "This assertion could pass even if the response merely mentions sunburst/treemap in passing without substantively explaining why they suit hierarchical data. It also assumes sunburst/treemap is the 'correct' answer for hierarchy, but a response that recommends a different hierarchy-appropriate chart (e.g., icicle chart, nested bar chart) would fail despite being equally valid. Consider rewording to 'Recommends at least one chart type suited to hierarchical part-to-whole breakdown.'"
+      },
+      {
+        "reason": "No assertion checks whether the response correctly identifies the specific challenges of combining hierarchy and time in a single visualization (e.g., the risk of visual clutter with too many segments, the difficulty of comparing across groups). The response does discuss design tips and tradeoffs, but this quality is not tested."
+      }
+    ],
+    "overall": "The assertions cover the key dimensions of a good response well (problem identification, hierarchy approach, time approach, tradeoff discussion, code). The sunburst/treemap assertion is somewhat prescriptive about the specific chart type rather than testing for the underlying reasoning."
+  }
+}

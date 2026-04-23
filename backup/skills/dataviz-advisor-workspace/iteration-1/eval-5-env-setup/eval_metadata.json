@@ -1,0 +1,12 @@
+{
+  "eval_id": 5,
+  "eval_name": "env-setup",
+  "prompt": "set up a new python project for data analysis",
+  "assertions": [
+    {"text": "Uses uv for package management (not pip or conda)"},
+    {"text": "Includes direnv setup with .envrc"},
+    {"text": "Shows the per-project setup steps (uv init, uv add, etc.)"},
+    {"text": "Mentions dependency tiers (minimum vs statistical vs ML etc.)"},
+    {"text": "Provides complete runnable commands"}
+  ]
+}
