@@ -46,7 +46,7 @@ description: When to use this skill and what it does
 | `vercel-labs/skills` | find-skills |
 | `context7` | context7 |
 | `karpathy/autoresearch` | autoresearch |
-| Local | create-skill-from-repo, df-src-ref-sops-nix, df-src-ref-nix-openclaw, df-ref-nixarr |
+| Local | create-skill-from-repo, df-src-ref-sops-nix, df-src-ref-nix-openclaw, df-ref-nixarr, df-low-latency-java |
 
 ## Related Documentation
 
