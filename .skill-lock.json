@@ -279,6 +279,105 @@
       "skillFolderHash": "09d394189462c66d1e0b00baf1f83a194a11f1ce",
       "installedAt": "2026-04-05T17:06:12.762Z",
       "updatedAt": "2026-04-05T17:06:12.762Z"
+    },
+    "add-molab-badge": {
+      "source": "marimo-team/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/marimo-team/skills.git",
+      "skillPath": "skills/add-molab-badge/SKILL.md",
+      "skillFolderHash": "22e7711ebc22b054cefb7d4660613355e24d9061",
+      "installedAt": "2026-07-26T03:47:14.325Z",
+      "updatedAt": "2026-07-26T03:47:14.325Z"
+    },
+    "anywidget-generator": {
+      "source": "marimo-team/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/marimo-team/skills.git",
+      "skillPath": "skills/anywidget/SKILL.md",
+      "skillFolderHash": "e30630fd7c20fdc5acd27d5eeb7eee1b9bca82d7",
+      "installedAt": "2026-07-26T03:47:14.905Z",
+      "updatedAt": "2026-07-26T03:47:14.905Z"
+    },
+    "auto-paper-demo": {
+      "source": "marimo-team/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/marimo-team/skills.git",
+      "skillPath": "skills/auto-paper-demo/SKILL.md",
+      "skillFolderHash": "1288d8b18ad35978639c6d853eec4fa37de33e92",
+      "installedAt": "2026-07-26T03:47:15.341Z",
+      "updatedAt": "2026-07-26T03:47:15.341Z"
+    },
+    "implement-paper": {
+      "source": "marimo-team/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/marimo-team/skills.git",
+      "skillPath": "skills/implement-paper/SKILL.md",
+      "skillFolderHash": "263eb8b9cb8f704725fb7a5b1f91865d2fc7260e",
+      "installedAt": "2026-07-26T03:47:16.211Z",
+      "updatedAt": "2026-07-26T03:47:16.211Z"
+    },
+    "implement-paper-auto": {
+      "source": "marimo-team/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/marimo-team/skills.git",
+      "skillPath": "skills/implement-paper-auto/SKILL.md",
+      "skillFolderHash": "f27029325b3f35d64e779fa449cc8f00566a375e",
+      "installedAt": "2026-07-26T03:47:16.633Z",
+      "updatedAt": "2026-07-26T03:47:16.633Z"
+    },
+    "jupyter-to-marimo": {
+      "source": "marimo-team/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/marimo-team/skills.git",
+      "skillPath": "skills/jupyter-to-marimo/SKILL.md",
+      "skillFolderHash": "e18aa8a4443facadbcd769e3ffeacae40b33d2a7",
+      "installedAt": "2026-07-26T03:47:17.055Z",
+      "updatedAt": "2026-07-26T03:47:17.055Z"
+    },
+    "marimo-batch": {
+      "source": "marimo-team/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/marimo-team/skills.git",
+      "skillPath": "skills/marimo-batch/SKILL.md",
+      "skillFolderHash": "f5ed9b0b8ef01522180f21e0c939978a92ccd38c",
+      "installedAt": "2026-07-26T03:47:17.489Z",
+      "updatedAt": "2026-07-26T03:47:17.489Z"
+    },
+    "marimo-notebook": {
+      "source": "marimo-team/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/marimo-team/skills.git",
+      "skillPath": "skills/marimo-notebook/SKILL.md",
+      "skillFolderHash": "f558bbb030cdb2b513b1e15321891ebfd9d2b2cd",
+      "installedAt": "2026-07-26T03:47:18.367Z",
+      "updatedAt": "2026-07-26T03:47:18.367Z"
+    },
+    "streamlit-to-marimo": {
+      "source": "marimo-team/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/marimo-team/skills.git",
+      "skillPath": "skills/streamlit-to-marimo/SKILL.md",
+      "skillFolderHash": "daa3c9a275acb667c52f7d1d8d858d3c01da0047",
+      "installedAt": "2026-07-26T03:47:18.801Z",
+      "updatedAt": "2026-07-26T03:47:18.801Z"
+    },
+    "wasm-compatibility": {
+      "source": "marimo-team/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/marimo-team/skills.git",
+      "skillPath": "skills/wasm-compatibility/SKILL.md",
+      "skillFolderHash": "92a76bc4a85e66ee34e671d2df32abe0732084bf",
+      "installedAt": "2026-07-26T03:47:19.221Z",
+      "updatedAt": "2026-07-26T03:47:19.221Z"
+    },
+    "interview-system-designer": {
+      "source": "alirezarezvani/claude-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/alirezarezvani/claude-skills.git",
+      "skillPath": "engineering/skills/interview-system-designer/SKILL.md",
+      "skillFolderHash": "02dfa55161f84bc8e21ccbecdbc6ff37881d5654",
+      "installedAt": "2026-07-30T14:29:08.888Z",
+      "updatedAt": "2026-07-30T14:29:08.888Z"
     }
   },
   "dismissed": {

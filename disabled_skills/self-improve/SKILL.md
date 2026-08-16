@@ -78,9 +78,14 @@ Append new entries to the appropriate section:
 
 If an entry contradicts an existing one, UPDATE the existing entry with the new info and today's date.
 
-### Step 4: Update CLAUDE.md Active Context
+### Step 4: Update Active Context (CLAUDE.md or AGENTS.md)
 
-Read the project's `CLAUDE.md`. Find the `## Active Context` section.
+Detect which context file this project uses:
+- **OpenCode projects**: look for `AGENTS.md` in the project root
+- **Claude Code projects**: look for `CLAUDE.md` in the project root
+- If both exist, update both. If neither exists, skip this step (use `init` to bootstrap).
+
+Find the `## Active Context` section in whichever file applies.
 
 Update it with the MOST IMPORTANT current state:
 - What branch/MR is active and why
@@ -114,7 +119,7 @@ Tell the user what you captured:
 Run this periodically (weekly or when LEARNINGS.md exceeds ~100 entries).
 
 ### Phase 1: Orient
-Read LEARNINGS.md and CLAUDE.md Active Context. Inventory what exists.
+Read LEARNINGS.md and the Active Context section from whichever file the project uses (`AGENTS.md` for OpenCode, `CLAUDE.md` for Claude Code). Inventory what exists.
 
 ### Phase 2: Prune
 - Remove entries referencing deleted files, deprecated APIs, or completed work
@@ -123,7 +128,7 @@ Read LEARNINGS.md and CLAUDE.md Active Context. Inventory what exists.
 
 ### Phase 3: Consolidate
 - Merge duplicate/overlapping entries into single authoritative statements
-- Promote patterns that appeared 3+ times to CLAUDE.md conventions section (ask user first)
+- Promote patterns that appeared 3+ times to the project's conventions section (`AGENTS.md` or `CLAUDE.md`) — ask user first
 - Convert relative dates to absolute dates
 - Move resolved Open Questions to appropriate sections or delete
 
@@ -166,18 +171,36 @@ Create the self-improving infrastructure for a new project.
 <!-- Unresolved items needing investigation -->
 ```
 
-### Step 2: Add Active Context to CLAUDE.md
+### Step 2: Add Active Context to the project's AI context file
 
-If the project has a CLAUDE.md, append (before any existing dynamic sections):
+Detect the project's tooling:
+- If `AGENTS.md` exists → it's an **OpenCode** project. Append to `AGENTS.md`.
+- If `CLAUDE.md` exists → it's a **Claude Code** project. Append to `CLAUDE.md`.
+- If neither exists → ask the user which tool they use, then create the appropriate file.
+
+Append to the detected file (before any existing dynamic sections):
 
 ```markdown
 
 ## Active Context
-<!-- Claude maintains this section. Keep under 20 lines. -->
+<!-- AI assistant maintains this section. Keep under 20 lines. -->
 <!-- Updated automatically by /self-improve. Remove stale entries. -->
 ```
 
-If no CLAUDE.md exists, create a minimal one:
+If creating a new file from scratch (OpenCode / AGENTS.md):
+
+```markdown
+# [Project Name]
+
+## Conventions
+<!-- Add project conventions here -->
+
+## Active Context
+<!-- AI assistant maintains this section. Keep under 20 lines. -->
+<!-- Updated automatically by /self-improve. Remove stale entries. -->
+```
+
+If creating a new file from scratch (Claude Code / CLAUDE.md):
 
 ```markdown
 # [Project Name]
@@ -216,7 +239,7 @@ Always use this format when appending:
 
 - DO NOT add vague entries: "be careful with X" is useless
 - DO NOT bloat Active Context beyond 20 lines
-- DO NOT modify static CLAUDE.md sections (Architecture, Conventions) without user permission
+- DO NOT modify static sections of `CLAUDE.md` / `AGENTS.md` (Architecture, Conventions) without user permission
 - DO NOT duplicate what's already in LEARNINGS.md — update the existing entry
 - DO NOT record sensitive data (passwords, tokens, keys) — only record the PATTERN
 - DO NOT record things derivable from code/git — only record non-obvious knowledge
