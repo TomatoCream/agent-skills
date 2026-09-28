@@ -41,11 +41,12 @@ All handled by `org-anki--get-fields` (dispatched from `org-anki--note-at-point`
    from the child subheadings, it is taken from the pre-child body text.
    Branch: `(= fields-length (+ 1 found-length))`. More than one missing → error.
 4. **Cloze in the title.** `org-anki--is-cloze` matches `{{c[0-9]+::…}}` in the
-   title → note type forced to `Cloze`, `Text` = title. If body is non-empty and
-   not itself cloze, body → `Extra`.
-5. **Cloze in the body.** Same detection on the body → `Text` = body.
-6. **Cloze title + Extra.** Special case of 4: `("Cloze" "Text" title "Extra" content)`.
-
+   headline title → note type forced to `Cloze`, `Text` = title. If the entry's
+   body is non-empty and not itself cloze, the body routes to `Extra`
+   (`("Cloze" "Text" title "Extra" content)` branch).
+5. **Cloze in the body.** Cloze syntax is found in the body text → `Text` = body.
+6. **Cloze title + Extra.** Explicit title cloze with supplemental notes in the
+   body.
 Cloze syntax: `{{c1::hidden answer::optional hint}}`. Multiple `cN` groups per
 note make multiple cards.
 
@@ -123,6 +124,14 @@ Then:
   fixed match `ANKI_NOTE_ID<>""`.
 - `org-anki-sync-all` additionally drops incomplete notes via
   `org-anki--note-complete` (any field value `""` → skipped).
+
+### 7.1 Field Subheadings & Tag Inheritance Interaction (Critical Gotcha)
+During `org-anki-sync-all`, `org-map-entries` scans every heading in the buffer matching `org-anki--get-match` (e.g. `+anki-noexport`).
+- If `org-anki-inherit-tags` is `t` (default), child field subheadings (such as `*** Front`, `*** Back`) inherit the `:anki:` tag from their parent card heading.
+- Because `*** Front` has non-empty body text, `org-anki--note-complete` treats it as a complete card and sends `Front` as an independent `Basic` note to Anki.
+- **Resolution:** Tag all field subheadings `:noexport:` (`*** Front :noexport:`).
+  1. `org-map-entries` skips them during buffer scanning because of the `-noexport` condition in `ANKI_MATCH`.
+  2. `org-anki--get-fields` scans direct children (`level + 1`) with `MATCH = nil` (`'tree` scope), bypassing tag filtering completely, and successfully extracts the field values.
 
 ---
 
