@@ -1,25 +1,25 @@
-#+TITLE: Flashcard Deck Template (Basic Front & Back)
-#+AUTHOR: Study Notes
+#+TITLE: org-anki Subheading Field Mapping Showcase (Basic Front & Back)
+#+AUTHOR: org-anki Master Reference
 #+STARTUP: overview showeverything
 # ---------------------------------------------------------------------------
-# BUFFER-WIDE SETTINGS (org-anki Precedence Tier 3)
+# BUFFER-WIDE SETTINGS (Precedence Tier 3 in org-anki)
 # ---------------------------------------------------------------------------
-# Replace with your target Anki deck name:
-#+ANKI_DECK: Default
+# Target deck for all entries lacking a local :ANKI_DECK: property
+#+ANKI_DECK: test_03
 
-# Note type strictly set to Basic (2 fields: Front & Back)
+# Default note type for entries lacking a local :ANKI_NOTE_TYPE: property
 #+ANKI_NOTE_TYPE: Basic
 
-# Sync only headings tagged :anki: that do NOT have :noexport:
+# Match query for org-anki-sync-all (+anki tag included, -noexport excluded)
 #+ANKI_MATCH: anki-noexport
 
-# Global tags appended to every note synced from this file
-# Hierarchical separator "__" maps "topic__subtopic" -> "topic::subtopic" in Anki
-#+ANKI_TAGS: study__notes flashcard__export
+# Global tags automatically appended to every note generated from this buffer
+# Hierarchical separator "__" rewrites "showcase__mastery" -> "showcase::mastery" in Anki
+#+ANKI_TAGS: showcase__mastery batch__export
 
 # ---------------------------------------------------------------------------
-# COMPANION EMACS CONFIGURATION:
-# (setq org-anki-default-deck "Default"
+# COMPANION ELISP SETTINGS (Place in your config.el / init.el):
+# (setq org-anki-default-deck "test_03"
 #       org-anki-default-note-type "Basic"
 #       org-anki-inherit-tags t
 #       org-anki-ignored-tags '("anki" "noexport" "todo")
@@ -28,74 +28,98 @@
 #       org-anki-allow-duplicates nil)
 # ---------------------------------------------------------------------------
 
-* Topic Category 1: Systems & Concurrency :anki:systems__concurrency:
-# RULE: Do not place loose body text directly under category headings without
-# :noexport:, as org-anki-sync-all will attempt to turn it into a flashcard.
+* Category: Advanced Computer Systems & Algorithms :anki:cs__systems:performance__tuning:
 
-** Atomic Compare-And-Swap (CAS) Semantics :lock_free:
+** Multi-Line Front (Subheading Field Mapping Masterclass)
 :PROPERTIES:
 :ANKI_NOTE_TYPE: Basic
 :END:
-# Optional in-buffer study notes/commentary go here (above *** Front).
-# org-anki ignores this commentary because both Front and Back are supplied
-# as child subheadings below.
+# ---------------------------------------------------------------------------
+# ARCHITECTURAL ANNOTATION (Why this pattern is the gold standard):
+#
+# 1. FIELD RESOLUTION (=org-anki--get-fields=):
+#    Because the child headings (*** Front and *** Back) exactly match the
+#    model's registered field names ("Front" and "Back"), org-anki enters the
+#    `(= fields-length found-length)` branch.
+#
+# 2. DOCUMENTATION BUFFER (Ignored in Flashcard Payload):
+#    This descriptive text right here above `*** Front` is NOT sent to Anki!
+#    It serves as in-buffer developer/student commentary, source citations,
+#    and notes, keeping the actual flashcard fields 100% clean.
+#
+# 3. TAG ISOLATION VIA :noexport::
+#    Both `*** Front` and `*** Back` MUST be tagged `:noexport:`.
+#    With `org-anki-inherit-tags t`, child subheadings inherit the parent's
+#    `:anki:` tag. Without `:noexport:`, `org-anki-sync-all` would treat Front
+#    and Back as separate standalone cards. `:noexport:` tells `sync-all` to
+#    skip them during buffer traversal, while `org-anki--get-fields` still
+#    parses their contents via direct child scanning.
+#
+# 4. NOTE ID LIFECYCLE:
+#    Notice there is NO :ANKI_NOTE_ID: in the properties drawer above.
+#    On first sync (C-c a s or C-c a a), org-anki invokes AnkiConnect `addNote`
+#    and stamps the returned ID into :PROPERTIES: automatically. Subsequent
+#    syncs call `updateNoteFields` + tag diffing.
+# ---------------------------------------------------------------------------
 
 *** Front :noexport:
-What are the semantics of an atomic *Compare-And-Swap (CAS)* operation?
-What condition determines whether the memory update succeeds?
+In concurrent operating system kernel architectures, analyze the following
+virtual memory page table descriptor layout:
 
 #+BEGIN_SRC c
-bool atomic_compare_and_swap(uint64_t *ptr, uint64_t expected, uint64_t desired);
+/* 64-bit Virtual Memory Translation Descriptor */
+struct PageTableEntry {
+    uint64_t physical_frame : 40; /* 40-bit physical page frame address */
+    uint16_t reserved       : 11; /* Architecture-reserved bits          */
+    uint8_t  cache_disable  : 1;  /* Disable L1/L2 hardware caching      */
+    uint8_t  write_through  : 1;  /* Write-through vs write-back policy  */
+    uint8_t  user_accessible: 1;  /* Ring 0 kernel vs Ring 3 user mode   */
+    uint8_t  read_write     : 1;  /* 0 = Read-only, 1 = Read/Write       */
+    uint8_t  present        : 1;  /* Page residency flag                 */
+};
 #+END_SRC
 
-*** Back :noexport:
-*Atomic Semantics:*
-1. Reads the current value at ~*ptr~.
-2. If ~*ptr == expected~:
-   - Writes ~desired~ into ~*ptr~.
-   - Returns ~true~ (operation succeeded).
-3. If ~*ptr != expected~:
-   - Leaves ~*ptr~ unchanged.
-   - Returns ~false~ (operation failed).
+*Analytical Questions:*
+1. What occurs at the hardware level when a thread executes a *write* instruction to an address mapped by this entry if ~present == 1~ but ~read_write == 0~?
+2. If page size is $P = 4\text{ KiB} = 2^{12}\text{ bytes}$, what is the maximum physical memory addressable by this descriptor?
 
-The entire read-compare-write sequence executes as an *indivisible hardware transaction*.
+\begin{equation}
+\text{Max Physical Address} = 2^{(\text{frame bits} + \text{offset bits})}
+\end{equation}
 
-** Virtual Memory Translation Complexity :mmu:
-:PROPERTIES:
-:ANKI_NOTE_TYPE: Basic
-:END:
-
-*** Front :noexport:
-In a 4-level page table architecture on x86-64:
-What is the worst-case number of memory accesses required to translate a virtual address to a physical address upon a *TLB miss*?
+| Flag            | Value | Architectural State                         |
+|-----------------+-------+---------------------------------------------|
+| ~present~         |     1 | Page resident in physical DRAM              |
+| ~read_write~    |     0 | Page protected as *read-only*                 |
+| ~user_accessible~ |     0 | Accessible only in supervisor mode (Ring 0) |
 
 *** Back :noexport:
-*4 memory accesses* (one read for each table hierarchy level):
-1. Page Map Level 4 (PML4)
-2. Page Directory Pointer Table (PDPT)
-3. Page Directory (PD)
-4. Page Table (PT)
+*1. Hardware & Kernel Exception Sequence:*
+- The CPU Memory Management Unit (MMU) checks page privileges during virtual-to-physical address translation.
+- Detecting a store attempt against a descriptor with ~read_write == 0~, the MMU raises a *#PF (Page Fault Exception)* (Vector 14).
+- The CPU pushes an error code onto the kernel interrupt stack:
+  - Bit 0 (~P~ flag) = 1 (fault caused by page protection violation, *not* a missing page).
+  - Bit 1 (~W/R~ flag) = 1 (access was a write).
+- Control vectors to the OS interrupt handler, which terminates the violating process with ~SIGSEGV~ (Segmentation Fault) or invokes *Copy-On-Write (COW)* logic.
 
-Each level reads an 8-byte entry to determine the base address of the next level.
-(A 5th memory access then fetches the actual target data).
+*2. Address Space Mathematical Proof:*
+Since the descriptor dedicates 40 bits to ~physical_frame~ and the offset within a 4 KiB page occupies $\log_2(4096) = 12\text{ bits}$:
 
----
+\begin{align}
+\text{Total Address Bits} &= 40\text{ (frame)} + 12\text{ (offset)} = 52\text{ bits} \\
+\text{Max Addressable Space} &= 2^{52}\text{ bytes} \\
+&= 4 \times 2^{50}\text{ bytes} = 4\text{ PiB (Pebibytes)}
+\end{align}
 
-* Topic Category 2: Algorithms & Complexity :anki:algorithms__trees:
+*3. Architectural Topology & Memory Diagram:*
+The relationship between translation tables and hardware cache barriers:
 
-** Balanced Red-Black Tree Lookup Bound :complexity:
-:PROPERTIES:
-:ANKI_NOTE_TYPE: Basic
-:END:
+[[file:./assets/page_table_diagram.png]]
 
-*** Front :noexport:
-What is the maximum height and worst-case search complexity of a Red-Black Tree with $n$ internal nodes?
-
-*** Back :noexport:
-*Height Bound:*
-$$h \le 2 \log_2(n + 1)$$
-
-*Worst-case Search Complexity:*
-$$O(\log n)$$
-
-Proof: Every root-to-leaf path contains the same number of black nodes ($bh$), and no path has two consecutive red nodes. The shortest possible path has length $bh$, and the longest has length $\le 2bh$.
+*4. Comparison Summary:*
+| Dimension        | Translation Failure (~present == 0~)   | Protection Fault (~read_write == 0~)          |
+|------------------+--------------------------------------+---------------------------------------------|
+| *Exception*        | #PF (Missing entry)                  | #PF (Permission violation)                  |
+| *Error Code Bit 0* | 0 (Non-present page)                 | 1 (Protection check failed)                 |
+| *Resolution*       | Demand paging from swap/storage      | COW fork replication or ~SIGSEGV~ termination |
+| *Hardware Cost*    | High ($> 10^5$ CPU cycles / disk IO) | Low ($\approx 10^2$ cycles if COW)                |

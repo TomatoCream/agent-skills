@@ -128,25 +128,72 @@ When generating a new flashcard deck, use this exact skeleton:
 
 ## 4. Worked Card Recipes
 
-### Recipe A: Conceptual / Mechanism Card
+### Recipe A: Comprehensive Masterclass Card (Code, Math, Tables, Media)
 ```org
-** Virtual Memory Translation Overhead :mmu:
+** Virtual Memory Page Table Descriptors :mmu:kernel:
 :PROPERTIES:
 :ANKI_NOTE_TYPE: Basic
 :END:
+# Architectural study notes:
+# - x86-64 4-level paging descriptor format
+# - Page fault exception vector 14 (#PF)
 
 *** Front :noexport:
-In a 4-level page table architecture on x86-64:
-What is the worst-case number of memory accesses required to translate a virtual address to a physical address upon a *TLB miss*?
+In concurrent operating system kernel architectures, analyze the following virtual memory page table descriptor layout:
+
+#+BEGIN_SRC c
+/* 64-bit Virtual Memory Translation Descriptor */
+struct PageTableEntry {
+    uint64_t physical_frame : 40; /* 40-bit physical page frame address */
+    uint16_t reserved       : 11; /* Architecture-reserved bits          */
+    uint8_t  cache_disable  : 1;  /* Disable L1/L2 hardware caching      */
+    uint8_t  write_through  : 1;  /* Write-through vs write-back policy  */
+    uint8_t  user_accessible: 1;  /* Ring 0 kernel vs Ring 3 user mode   */
+    uint8_t  read_write     : 1;  /* 0 = Read-only, 1 = Read/Write       */
+    uint8_t  present        : 1;  /* Page residency flag                 */
+};
+#+END_SRC
+
+*Analytical Questions:*
+1. What occurs at the hardware level when a thread executes a *write* instruction to an address mapped by this entry if ~present == 1~ but ~read_write == 0~?
+2. If page size is $P = 4\text{ KiB} = 2^{12}\text{ bytes}$, what is the maximum physical memory addressable by this descriptor?
+
+\begin{equation}
+\text{Max Physical Address} = 2^{(\text{frame bits} + \text{offset bits})}
+\end{equation}
+
+| Flag            | Value | Architectural State                         |
+|-----------------+-------+---------------------------------------------|
+| ~present~         |     1 | Page resident in physical DRAM              |
+| ~read_write~    |     0 | Page protected as *read-only*                 |
+| ~user_accessible~ |     0 | Accessible only in supervisor mode (Ring 0) |
 
 *** Back :noexport:
-*4 memory accesses* (one read per level):
-1. PML4 (Page Map Level 4)
-2. PDPT (Page Directory Pointer Table)
-3. PD (Page Directory)
-4. PT (Page Table)
+*1. Hardware & Kernel Exception Sequence:*
+- The CPU Memory Management Unit (MMU) checks page privileges during virtual-to-physical address translation.
+- Detecting a store attempt against a descriptor with ~read_write == 0~, the MMU raises a *#PF (Page Fault Exception)* (Vector 14).
+- The CPU pushes an error code onto the kernel interrupt stack:
+  - Bit 0 (~P~ flag) = 1 (fault caused by page protection violation, *not* a missing page).
+  - Bit 1 (~W/R~ flag) = 1 (access was a write).
+- Control vectors to the OS interrupt handler, which terminates the violating process with ~SIGSEGV~ or invokes *Copy-On-Write (COW)* logic.
 
-Each level reads an 8-byte entry to obtain the next table's base physical address. (A 5th memory access then fetches the target data).
+*2. Address Space Mathematical Proof:*
+Since the descriptor dedicates 40 bits to ~physical_frame~ and the offset within a 4 KiB page occupies $\log_2(4096) = 12\text{ bits}$:
+
+\begin{align}
+\text{Total Address Bits} &= 40\text{ (frame)} + 12\text{ (offset)} = 52\text{ bits} \\
+\text{Max Addressable Space} &= 2^{52}\text{ bytes} = 4\text{ PiB (Pebibytes)}
+\end{align}
+
+*3. Architectural Topology & Memory Diagram:*
+[[file:./assets/page_table_diagram.png]]
+
+*4. Comparison Summary:*
+| Dimension        | Translation Failure (~present == 0~)   | Protection Fault (~read_write == 0~)          |
+|------------------+--------------------------------------+---------------------------------------------|
+| *Exception*        | #PF (Missing entry)                  | #PF (Permission violation)                  |
+| *Error Code Bit 0* | 0 (Non-present page)                 | 1 (Protection check failed)                 |
+| *Resolution*       | Demand paging from swap/storage      | COW fork replication or ~SIGSEGV~ termination |
 ```
 
 ### Recipe B: Code Analysis Card
