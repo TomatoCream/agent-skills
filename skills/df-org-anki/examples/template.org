@@ -1,0 +1,101 @@
+#+TITLE: Flashcard Deck Template (Basic Front & Back)
+#+AUTHOR: Study Notes
+#+STARTUP: overview showeverything
+# ---------------------------------------------------------------------------
+# BUFFER-WIDE SETTINGS (org-anki Precedence Tier 3)
+# ---------------------------------------------------------------------------
+# Replace with your target Anki deck name:
+#+ANKI_DECK: Default
+
+# Note type strictly set to Basic (2 fields: Front & Back)
+#+ANKI_NOTE_TYPE: Basic
+
+# Sync only headings tagged :anki: that do NOT have :noexport:
+#+ANKI_MATCH: anki-noexport
+
+# Global tags appended to every note synced from this file
+# Hierarchical separator "__" maps "topic__subtopic" -> "topic::subtopic" in Anki
+#+ANKI_TAGS: study__notes flashcard__export
+
+# ---------------------------------------------------------------------------
+# COMPANION EMACS CONFIGURATION:
+# (setq org-anki-default-deck "Default"
+#       org-anki-default-note-type "Basic"
+#       org-anki-inherit-tags t
+#       org-anki-ignored-tags '("anki" "noexport" "todo")
+#       org-anki-hierarchical-tags-separator "__"
+#       org-anki-media-method 'filesystem
+#       org-anki-allow-duplicates nil)
+# ---------------------------------------------------------------------------
+
+* Topic Category 1: Systems & Concurrency :anki:systems__concurrency:
+# RULE: Do not place loose body text directly under category headings without
+# :noexport:, as org-anki-sync-all will attempt to turn it into a flashcard.
+
+** Atomic Compare-And-Swap (CAS) Semantics :lock_free:
+:PROPERTIES:
+:ANKI_NOTE_TYPE: Basic
+:END:
+# Optional in-buffer study notes/commentary go here (above *** Front).
+# org-anki ignores this commentary because both Front and Back are supplied
+# as child subheadings below.
+
+*** Front :noexport:
+What are the semantics of an atomic *Compare-And-Swap (CAS)* operation?
+What condition determines whether the memory update succeeds?
+
+#+BEGIN_SRC c
+bool atomic_compare_and_swap(uint64_t *ptr, uint64_t expected, uint64_t desired);
+#+END_SRC
+
+*** Back :noexport:
+*Atomic Semantics:*
+1. Reads the current value at ~*ptr~.
+2. If ~*ptr == expected~:
+   - Writes ~desired~ into ~*ptr~.
+   - Returns ~true~ (operation succeeded).
+3. If ~*ptr != expected~:
+   - Leaves ~*ptr~ unchanged.
+   - Returns ~false~ (operation failed).
+
+The entire read-compare-write sequence executes as an *indivisible hardware transaction*.
+
+** Virtual Memory Translation Complexity :mmu:
+:PROPERTIES:
+:ANKI_NOTE_TYPE: Basic
+:END:
+
+*** Front :noexport:
+In a 4-level page table architecture on x86-64:
+What is the worst-case number of memory accesses required to translate a virtual address to a physical address upon a *TLB miss*?
+
+*** Back :noexport:
+*4 memory accesses* (one read for each table hierarchy level):
+1. Page Map Level 4 (PML4)
+2. Page Directory Pointer Table (PDPT)
+3. Page Directory (PD)
+4. Page Table (PT)
+
+Each level reads an 8-byte entry to determine the base address of the next level.
+(A 5th memory access then fetches the actual target data).
+
+---
+
+* Topic Category 2: Algorithms & Complexity :anki:algorithms__trees:
+
+** Balanced Red-Black Tree Lookup Bound :complexity:
+:PROPERTIES:
+:ANKI_NOTE_TYPE: Basic
+:END:
+
+*** Front :noexport:
+What is the maximum height and worst-case search complexity of a Red-Black Tree with $n$ internal nodes?
+
+*** Back :noexport:
+*Height Bound:*
+$$h \le 2 \log_2(n + 1)$$
+
+*Worst-case Search Complexity:*
+$$O(\log n)$$
+
+Proof: Every root-to-leaf path contains the same number of black nodes ($bh$), and no path has two consecutive red nodes. The shortest possible path has length $bh$, and the longest has length $\le 2bh$.
