@@ -1,10 +1,10 @@
 ---
 name: df-org-anki
 description: >-
-  Master guide for the org-anki Emacs package (v4.x): sync Org-mode entries to Anki
-  via AnkiConnect. Covers complete card syntax, all 7 card types, field-layout
-  resolution rules, cloze syntax, LaTeX/MathJax, media syncing, tag inheritance &
-  hierarchies, batch operations, Emacs configuration, and battle-tested gotchas.
+  Complete guide and generator for org-anki: create, format, and sync Org-mode
+  flashcards to Anki via AnkiConnect. Use when asked to generate Anki flashcards,
+  create Org-mode card decks, or sync/update/troubleshoot org-anki. Enforces the
+  standardized multiline Basic Front & Back template.
 ---
 
 # Teaching Guide: Complete org-anki Mastery
@@ -12,11 +12,54 @@ description: >-
 `org-anki` (https://github.com/eyeinsky/org-anki, v4.x) synchronizes Org-mode entries to Anki via the **AnkiConnect** HTTP API. Anki must be running with the AnkiConnect add-on (code `2055492159`) installed.
 
 Worked reference files are bundled in the skill:
-- `examples/test_03.org` — Comprehensive, battle-tested deck exercising all 7 card types, media assets, MathJax, and custom models.
+- `examples/template.org` — Standard default template for generating cards (strictly multiline Basic Front & Back).
+- `examples/test_03.org` — Comprehensive showcase exercising media assets, MathJax, and custom models.
 - `examples/demo.org` — Annotated feature reference with code-path explanations.
 - `examples/assets/page_table_diagram.png` — Sample verified image asset.
-
 ---
+## 0. The Default Flashcard Generation Template (Basic Front & Back)
+
+When generating new flashcards or converting notes/code into an `org-anki` deck, **always** use this standardized skeleton (`examples/template.org`):
+
+```org
+#+TITLE: <Deck Title>
+#+AUTHOR: <Author / Topic>
+#+STARTUP: overview showeverything
+# ---------------------------------------------------------------------------
+# BUFFER-WIDE SETTINGS (Precedence Tier 3 in org-anki)
+# ---------------------------------------------------------------------------
+#+ANKI_DECK: <Target Deck Name>
+#+ANKI_NOTE_TYPE: Basic
+#+ANKI_MATCH: anki-noexport
+#+ANKI_TAGS: <global_tag_1> <global_tag_2>
+
+* <Category Name> :anki:<category_tag>:
+
+** <Card Title / Concept Name> :<topic_tag>:
+:PROPERTIES:
+:ANKI_NOTE_TYPE: Basic
+:END:
+# Optional in-buffer study notes or citations go here.
+# org-anki ignores text above *** Front because both fields are
+# supplied by child subheadings below.
+
+*** Front :noexport:
+<Question, code snippet, math formula, or analytical prompt>
+
+*** Back :noexport:
+<Direct answer, proof, mechanism, or key takeaway>
+```
+
+### The 5 Strict Generation Rules
+1. **Strictly Basic Note Type:** Always set `:ANKI_NOTE_TYPE: Basic`. Do not mix in cloze or custom models unless requested.
+2. **Never Output `:ANKI_NOTE_ID:`:** Leave the properties drawer empty on generation. `org-anki` calls `addNote` on first sync and stamps real IDs automatically.
+3. **Mandatory `:noexport:` on Subheadings:** Subheadings must be verbatim `*** Front :noexport:` and `*** Back :noexport:`. This allows `org-anki--get-fields` to parse them as fields while preventing `sync-all` from creating redundant cards from the subheadings.
+4. **Bodyless Category Headings:** Level-1 category headings (`* Category :anki:topic:`) must have no direct body text under them before the first card heading. Put study notes inside card bodies above `*** Front :noexport:`.
+5. **Syntax Standards:**
+   - Code: `#+BEGIN_SRC <lang>` ... `#+END_SRC`.
+   - Math: `$inline$` and `\begin{equation}` / `\begin{align}` (auto-converted to Anki MathJax `\[ ... \]`).
+   - Tags: `lower_snake_case` with `__` for Anki hierarchy (`domain__topic` $\to$ `domain::topic`).
+
 
 ## 1. The Core Mental Model
 
