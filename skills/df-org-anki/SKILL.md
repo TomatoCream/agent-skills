@@ -12,10 +12,9 @@ description: >-
 `org-anki` (https://github.com/eyeinsky/org-anki, v4.x) synchronizes Org-mode entries to Anki via the **AnkiConnect** HTTP API. Anki must be running with the AnkiConnect add-on (code `2055492159`) installed.
 
 Worked reference files are bundled in the skill:
-- `examples/template.org` — Standard default template for generating cards (strictly multiline Basic Front & Back).
-- `examples/test_03.org` — Comprehensive showcase exercising media assets, MathJax, and custom models.
-- `examples/demo.org` — Annotated feature reference with code-path explanations.
-- `examples/assets/page_table_diagram.png` — Sample verified image asset.
+- `examples/template.org` — The generation skeleton (strictly multiline Basic Front & Back). Contains no cards; replace every `<...>` placeholder before syncing.
+- `examples/showcase.org` — Annotated feature reference: every card type, tag/media/math behaviour, and the code path behind each, verified against `org-anki.el`.
+- `examples/assets/page_table_diagram.png` — Sample image asset used by `showcase.org`.
 ---
 ## 0. The Default Flashcard Generation Template (Basic Front & Back)
 
@@ -117,13 +116,15 @@ When generating new flashcards or converting notes/code into an `org-anki` deck,
 | `org-anki-sync-entry` | `C-c a s` (or `C-c n`) | Sync or update the single card under point (`addNote` or `updateNoteFields`). Writes `:ANKI_NOTE_ID:`. |
 | `org-anki-sync-all` | `C-c a a` (or `C-c s n`) | Scans buffer matching `ANKI_MATCH`, skips via `skip-function`, validates non-empty fields, and batches push via `multi`. |
 | `org-anki-update-all` | `C-c a u` | Fast re-push of notes that already have `ANKI_NOTE_ID`. Never creates new notes. |
-| `org-anki-update-dir` | `C-u M-x org-anki-update-all` | Runs `update-all` across all `.org` files in a chosen folder. Prefix `C-u` recurses subdirectories. |
+| `org-anki-update-dir` | `M-x org-anki-update-dir` (prompts for a directory; `C-u` recurses) | Runs `update-all` across all `.org` files in a chosen folder. |
 | `org-anki-delete-entry` | `C-c a d` | Deletes note at point from Anki (`deleteNotes`) and removes local `:ANKI_NOTE_ID:`. |
 | `org-anki-delete-all` | `M-x org-anki-delete-all` | Deletes every note in current buffer carrying `ANKI_NOTE_ID` from Anki and clears the drawers. |
 | `org-anki-cloze-dwim` | `C-c a c` | Wraps active region or word at point in cloze syntax `{{cN::text::hint}}`. Prefix arg sets `N`. |
 | `org-anki-browse-entry` | `C-c a b` | Opens Anki GUI card browser focused on `nid:<ANKI_NOTE_ID>` (`guiBrowse`). |
 | `org-anki-import-deck` | `M-x org-anki-import-deck` | Reverse import: pulls existing Anki deck into Org headings via Pandoc (`org-anki-html-to-org`). |
 | `org-anki-add-model` | `M-x org-anki-add-model` | Runtime model registration: `(org-anki-add-model "ModelName" "Field1" "Field2" ...)`. |
+
+**The package ships no keybindings** — only autoloaded commands. Every `C-c ...` binding shown here and in §2 is an example user binding you install yourself. Also note `org-anki-sync-entry` does *not* apply `ANKI_MATCH` or the completeness check; `org-anki-sync-all` applies both.
 
 ---
 
@@ -199,6 +200,11 @@ What does POSIX =mmap()= return on failure?
 =(void *) -1= (i.e. =MAP_FAILED=), NOT =NULL=.
 ```
 
+The third field is named `Add Reverse`, and org-anki only transmits fields listed in `org-anki-model-fields`. The shipped default registers just `Front` and `Back` for this model, so a `*** Add Reverse` subheading is **silently dropped**. Register it first:
+```elisp
+(org-anki-add-model "Basic (optional reversed card)" "Front" "Back" "Add Reverse")
+```
+
 ---
 
 ### Recipe 3: Cloze Deletions
@@ -221,6 +227,7 @@ When cloze syntax is in the body text:
 :END:
 Receive buffer is configured via {{c1::SO_RCVBUF::socket option}}, while global ceiling across TCP sockets is bounded by {{c2::/proc/sys/net/ipv4/tcp_rmem::sysctl path}}.
 ```
+For body cloze the **heading is discarded** and no `Extra` field is produced: the entire body becomes `Text`. Anything that must be visible has to live in the body, and comment (`# ...`) lines vanish during export, so they can never fill a field.
 
 ---
 
@@ -301,7 +308,7 @@ struct PageTableEntry {
 Tags from 3 distinct sources are combined on sync:
 1. Entry's own Org tags (`:anki:cs:`).
 2. Inherited `ALLTAGS` from ancestor headings (when `org-anki-inherit-tags` is `t`).
-3. Global buffer tags (`#+ANKI_TAGS: org_mode::exported semester_1`).
+3. Global buffer tags (`#+ANKI_TAGS: org_mode__exported:semester_1`) — **colon-separated**: the value is concatenated with `ALLTAGS` and split on `:`, so a space-separated value collapses into one tag containing spaces.
 
 #### Hierarchical Tags
 Org tags cannot contain colons (`::`). When `org-anki-hierarchical-tags-separator` is set to `"__"`, `languages__cpp` in Org becomes `languages::cpp` in Anki:
@@ -369,3 +376,18 @@ Card content here will be synced.
 **Symptom:** `AnkiConnect error: cannot create note because it is a duplicate`.
 **Cause:** Anki rejects notes with identical first fields in the same deck when `options.allowDuplicate` is false.
 **Fix:** Make the front field unique, or set `(setq org-anki-allow-duplicates t)` in your Emacs config.
+
+### Gotcha 7: Space-Separated `#+ANKI_TAGS` Becomes One Tag
+**Symptom:** Anki shows a single tag like `from-org demo-file` instead of two tags.
+**Cause:** `org-anki--get-tags` concatenates `ALLTAGS` with the global value and splits the result on `:`. Spaces are not separators.
+**Fix:** Use colons: `#+ANKI_TAGS: from-org:demo-file:showcase__mastery`. (`__` still maps to Anki's `::`.)
+
+### Gotcha 8: Text Above the Property Drawer Is Discarded
+**Symptom:** A card loses its first paragraph (and cloze detection on it fails).
+**Cause:** `org-anki--entry-content-until-any-heading` skips the heading, then skips the `:PROPERTIES:` drawer, so content between the heading and the drawer never enters the payload.
+**Fix:** Put `:PROPERTIES:`/`:END:` immediately after the heading; write body text below the drawer.
+
+### Gotcha 9: Subheading Silently Dropped (Unregistered Field)
+**Symptom:** A `*** Add Reverse` (or any extra field) subheading never reaches Anki, with no error.
+**Cause:** `org-anki--get-fields` only collects subheadings whose titles are in `org-anki-model-fields` for that model.
+**Fix:** Register the full field list first: `(org-anki-add-model "Basic (optional reversed card)" "Front" "Back" "Add Reverse")`.

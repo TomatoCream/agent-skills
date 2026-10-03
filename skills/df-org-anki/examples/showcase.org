@@ -1,0 +1,426 @@
+#+TITLE: org-anki Feature Showcase (reference, not a template)
+#+AUTHOR: df-org-anki skill
+#+STARTUP: overview showeverything
+# ---------------------------------------------------------------------------
+# READ ME
+#  - This file demonstrates every org-anki feature and documents the code path
+#    that implements it. For card *generation*, use examples/template.org.
+#  - It contains NO :ANKI_NOTE_ID: properties on purpose. First sync calls
+#    AnkiConnect `addNote' and `org-anki--handle-pair' stamps the returned ID.
+#    If you copy notes from a file that already has IDs, delete them first:
+#    a stale ID makes org-anki call `updateNoteFields' and Anki answers
+#    "note was not found".
+#  - Media asset referenced: examples/assets/page_table_diagram.png
+#  - Requires Anki running with the AnkiConnect add-on (code 2055492159).
+#  - Everything asserted below was checked against org-anki v4.x
+#    (`org-anki.el'): function names are cited so you can re-verify.
+# ---------------------------------------------------------------------------
+# GOTCHAS THAT BITE
+#  * Put :PROPERTIES: immediately after the heading. `org-anki--entry-content-
+#    until-any-heading' skips the heading, then skips the property drawer, so
+#    any text written ABOVE the drawer is silently discarded from the payload.
+#  * #+ANKI_TAGS: is colon-separated. Space-separated values become one tag.
+#  * Fields absent from `org-anki-model-fields' are silently dropped, even if a
+#    matching subheading exists (see the Add Reverse card in Part 1).
+#  * Comment lines ("# ...") do not survive org export, so they cannot fill a
+#    field; a card whose only body is comments is incomplete.
+# ---------------------------------------------------------------------------
+# BUFFER-WIDE SETTINGS (resolution tier 3; see `org-anki--find-prop')
+# ---------------------------------------------------------------------------
+# Only the FIRST matching keyword is used; a second #+ANKI_DECK: is ignored.
+#+ANKI_DECK: showcase
+#+ANKI_NOTE_TYPE: Basic
+# MATCH passed to `org-map-entries' by `org-anki-sync-all'
+# (`org-anki--get-match'): tagged :anki: AND not tagged :noexport:.
+#+ANKI_MATCH: anki-noexport
+# Buffer-wide tags (`org-anki--get-tags'). COLON-separated; a space-separated
+# value becomes ONE tag containing spaces. "__" is rewritten to "::" when
+# `org-anki-hierarchical-tags-separator' is set, and the rewrite covers these
+# tags too -- so "showcase__mastery" reaches Anki as "showcase::mastery".
+#+ANKI_TAGS: from-org:demo-file:showcase__mastery
+
+# ---------------------------------------------------------------------------
+# COMPANION ELISP SETTINGS (see Part 8 for the complete block):
+# (setq org-anki-default-deck "showcase"
+#       org-anki-default-note-type "Basic"
+#       org-anki-inherit-tags t                       ; pull ALLTAGS from parents
+#       org-anki-ignored-tags '("anki" "noexport" "todo" "drill")
+#       org-anki-hierarchical-tags-separator "__"      ; "a__b" -> Anki "a::b"
+#       org-anki-allow-duplicates nil
+#       org-anki-media-method 'filesystem              ; or 'http via AnkiConnect
+#       org-anki-ankiconnnect-listen-address "http://127.0.0.1:8765"
+#       ;; ^ upstream spells this with THREE n's, not two. Copy it verbatim.
+#       org-anki-api-key nil
+#       org-anki-skip-function nil)
+# ---------------------------------------------------------------------------
+
+* Part 1: Core Card Types & Field Mapping
+
+** Basic note: title is Front, body is Back :anki:
+This body text becomes the Back field.
+
+`org-anki--get-fields' finds no child headings matching the model fields, so it
+takes the entry title as the first field and this content as the second
+(the "no fields found in subheadings" branch). The entry has no
+:ANKI_NOTE_ID:, so `org-anki--sync-notes' routes it to `addNote' and
+`org-anki--handle-pair' writes the returned integer ID into this entry's
+:PROPERTIES: drawer. Later syncs use `updateNoteFields' plus a tag diff
+(`org-anki--tag-diff' -> addTags/removeTags).
+
+** What library synchronizes org entries to Anki? :anki:
+org-anki, via the AnkiConnect add-on (code 2055492159).
+
+** Explicit field subheadings (fields pulled from child headings) :anki:
+:PROPERTIES:
+:ANKI_NOTE_TYPE: Basic
+:END:
+
+*** Front :noexport:
+When are child headings used as fields?
+
+*** Back :noexport:
+When a child heading title exactly matches a field name of the model.
+`org-anki--get-fields' scans children at =org-current-level + 1=; matched
+headings contribute their *entire subtree* as HTML (`org-anki--entry-content-full').
+The :noexport: tag does not affect field collection -- it only stops
+`org-anki-sync-all' from treating the subheading as its own card when
+`org-anki-inherit-tags' hands it the parent's :anki: tag.
+
+** One field from a subheading, the other from body text :anki:
+Everything above the first child heading becomes the missing field. Here that
+is the Front, because only Back is given as a subheading -- the
+"one field is missing in subheadings" branch of `org-anki--get-fields'.
+
+*** Back :noexport:
+The remaining field supplied explicitly as a child heading.
+
+** Reversed cards: forward + backward generated by Anki :anki:
+:PROPERTIES:
+:ANKI_NOTE_TYPE: Basic (and reversed card)
+:END:
+Latin: /mare/ = the sea.
+
+** Optional reversed card, with the Add Reverse field :anki:
+:PROPERTIES:
+:ANKI_NOTE_TYPE: Basic (optional reversed card)
+:END:
+# Anki reverses this note only when the "Add Reverse" field is non-empty.
+# IMPORTANT: org-anki only sends fields listed in `org-anki-model-fields'.
+# The shipped default registers just Front and Back for this model, so a
+# "*** Add Reverse" subheading is silently DROPPED. Register the third field
+# first (see Part 8):
+#   (org-anki-add-model "Basic (optional reversed card)" "Front" "Back" "Add Reverse")
+
+*** Front :noexport:
+capital of France
+
+*** Back :noexport:
+Paris
+
+*** Add Reverse :noexport:
+yes
+# Any non-empty value tells Anki to generate the reverse card.
+
+** Per-entry deck override :anki:
+:PROPERTIES:
+:ANKI_DECK: showcase::Subdeck
+:END:
+This note goes to =showcase::Subdeck= instead of the buffer-wide =#+ANKI_DECK:=.
+Resolution order (`org-anki--find-prop'): entry property (inherited from a
+parent, `org-entry-get ... t') -> first buffer-wide keyword -> Elisp default.
+Note that `updateNoteFields' never moves an already-synced note between decks.
+
+* Part 2: Cloze Deletions
+
+** The {{c1::mitochondrion::organelle}} is the powerhouse of the {{c2::cell}} :anki:
+:PROPERTIES:
+:ANKI_NOTE_TYPE: Cloze
+:END:
+# `org-anki--is-cloze' matches "{{cN::...}}" in the heading, so the model is
+# forced to Cloze regardless of :ANKI_NOTE_TYPE: (the property above is
+# therefore redundant). Text = the heading; this non-cloze body becomes Extra.
+# The "::hint" tail is optional. M-x org-anki-cloze-dwim wraps a region/word.
+
+** The powerhouse of the cell is the {{c1::mitochondrion}} :anki:
+:PROPERTIES:
+:ANKI_NOTE_TYPE: Cloze
+:END:
+This body text is non-empty and is not itself a cloze, so it is exported to
+HTML and sent as the *Extra* field of the Cloze model. Comment lines do not
+export, so they cannot fill Extra -- it needs real prose, code, or an image.
+
+** Body cloze: the whole body becomes Text :anki:
+Receive buffers are sized with {{c1::SO_RCVBUF::socket option}}, while the
+global ceiling is bounded by {{c2::/proc/sys/net/ipv4/tcp_rmem::sysctl path}}.
+# When the cloze lives in the BODY, `org-anki--get-fields' returns
+# ("Cloze" "Text" <content>) with NO Extra field, and the *heading is
+# discarded*. Anything you want visible must be here; there is no separate
+# "Extra" slot for body cloze.
+
+* Part 3: Custom Models & Multi-Field Notes
+
+** Custom model with named fields :anki:
+:PROPERTIES:
+:ANKI_NOTE_TYPE: NameDescr
+:END:
+
+*** Name :noexport:
+AnkiConnect
+
+*** Descr :noexport:
+HTTP API (default =http://127.0.0.1:8765=) that org-anki talks to.
+Register the model first, either by customizing `org-anki-model-fields' or with
+=(org-anki-add-model "NameDescr" "Name" "Descr")=; otherwise
+`org-anki--get-model-fields' errors with "No fields for ...".
+
+** Three-field custom model :anki:
+:PROPERTIES:
+:ANKI_NOTE_TYPE: ArchitectureDecision
+:END:
+# Registered with (org-anki-add-model "ArchitectureDecision"
+#   "Context" "Decision" "Tradeoffs"). All three fields are supplied by
+# subheadings, so `org-anki--get-fields' takes the "all fields found" branch.
+
+*** Context :noexport:
+High-frequency market making under sub-microsecond latency requirements.
+
+*** Decision :noexport:
+Use kernel bypass via Solarflare OpenOnload or DPDK instead of POSIX sockets.
+
+*** Tradeoffs :noexport:
+Eliminates context switches and kernel-stack latency, but monopolizes
+dedicated CPU cores and bypasses the standard firewall and monitoring hooks.
+
+* Part 4: Gold-Standard Multi-Line Front (code, math, tables, media)
+
+** Analyze the page table descriptor layout :anki:cs__systems:performance__tuning:
+:PROPERTIES:
+:ANKI_NOTE_TYPE: Basic
+:END:
+# ---------------------------------------------------------------------------
+# 1. FIELD RESOLUTION: child headings "Front" and "Back" match the model's
+#    field names, so `org-anki--get-fields' takes the "all fields found" branch.
+# 2. DOCUMENTATION BUFFER: this text is NOT sent to Anki. Add source
+#    citations and study notes here to keep the card payload clean.
+# 3. TAG ISOLATION: field subheadings carry :noexport:, so `org-anki-sync-all'
+#    skips them while `org-anki--get-fields' still reads them.
+# 4. NOTE ID: there is no :ANKI_NOTE_ID: above; the first sync stamps it.
+# ---------------------------------------------------------------------------
+
+*** Front :noexport:
+In a concurrent kernel architecture, analyze this virtual memory page table
+descriptor layout:
+
+#+BEGIN_SRC c
+/* 64-bit Virtual Memory Translation Descriptor */
+struct PageTableEntry {
+    uint64_t physical_frame : 40; /* 40-bit physical page frame address */
+    uint16_t reserved       : 11; /* Architecture-reserved bits          */
+    uint8_t  cache_disable  : 1;  /* Disable L1/L2 hardware caching      */
+    uint8_t  write_through  : 1;  /* Write-through vs write-back policy  */
+    uint8_t  user_accessible: 1;  /* Ring 0 kernel vs Ring 3 user mode   */
+    uint8_t  read_write     : 1;  /* 0 = Read-only, 1 = Read/Write       */
+    uint8_t  present        : 1;  /* Page residency flag                 */
+};
+#+END_SRC
+
+*Analytical Questions:*
+1. What happens at the hardware level when a thread executes a *write* to an
+   address mapped by this entry if ~present == 1~ but ~read_write == 0~?
+2. If page size is $P = 4\text{ KiB} = 2^{12}\text{ bytes}$, what is the
+   maximum physical memory addressable by this descriptor?
+
+\begin{equation}
+\text{Max Physical Address} = 2^{(\text{frame bits} + \text{offset bits})}
+\end{equation}
+
+| Flag              | Value | Architectural State                         |
+|-------------------+-------+---------------------------------------------|
+| ~present~         |     1 | Page resident in physical DRAM              |
+| ~read_write~      |     0 | Page protected as *read-only*               |
+| ~user_accessible~ |     0 | Accessible only in supervisor mode (Ring 0) |
+
+*** Back :noexport:
+*1. Hardware & Kernel Exception Sequence:*
+- The MMU checks page privileges during virtual-to-physical translation.
+- On a store against a descriptor with ~read_write == 0~, the MMU raises a
+  *#PF (Page Fault Exception)* (vector 14).
+- The CPU pushes an error code:
+  - bit 0 (~P~) = 1 (protection violation, not a missing page).
+  - bit 1 (~W/R~) = 1 (the access was a write).
+- The OS handler then terminates the process with ~SIGSEGV~, or resolves the
+  fault through *Copy-On-Write (COW)*.
+
+*2. Address Space Proof:*
+40 frame bits plus $\log_2(4096) = 12$ offset bits:
+
+\begin{align}
+\text{Total Address Bits} &= 40 + 12 = 52\text{ bits} \\
+\text{Max Addressable Space} &= 2^{52}\text{ bytes} = 4\text{ PiB}
+\end{align}
+
+*3. Architectural Topology:*
+
+[[file:./assets/page_table_diagram.png]]
+
+*4. Comparison Summary:*
+| Dimension          | ~present == 0~ (translation)     | ~read_write == 0~ (protection)         |
+|--------------------+----------------------------------+----------------------------------------|
+| *Exception*        | #PF (missing entry)              | #PF (permission violation)             |
+| *Error code bit 0* | 0 (non-present page)             | 1 (protection check failed)            |
+| *Resolution*       | demand paging from swap/storage  | COW fork replication or ~SIGSEGV~      |
+| *Hardware cost*    | high ($> 10^5$ cycles / disk IO) | low ($\approx 10^2$ cycles if COW)     |
+
+# Media: `org-anki--collect-file-links' scans src=/href= in the exported HTML,
+# rewrites the basename to "<inode>_<basename>" (replacing "#" with "_"), and
+# either copies the file into Anki's media dir ('filesystem, default) or
+# base64-uploads it via storeMediaFile ('http). file:// and bare relative
+# paths are localized; http(s):// links are left alone.
+# Caveat: on org-anki 4.0.5 a missing local file is skipped SILENTLY (the
+# when-let* in `org-anki--collect-file-links' fails and the link is left
+# unresolved), so verify the asset exists before syncing.
+
+\begin{equation}
+\oint_C \mathbf{F} \cdot d\mathbf{r} = \iint_S (\nabla \times \mathbf{F})\cdot d\mathbf{S}
+\end{equation}
+
+* Part 5: Tags -- Inheritance, Hierarchy, Ignored, Global
+
+** Tags: inheritance, hierarchy, ignored, global :anki:geo__europe:drill:
+The Rhine flows through Germany and the Netherlands.
+
+# What `org-anki--get-tags' produces for this entry (verified):
+#   geo::europe          <- "geo__europe" via org-anki-hierarchical-tags-separator
+#   from-org, demo-file  <- from #+ANKI_TAGS (colon-separated)
+#   showcase::mastery    <- "showcase__mastery" from #+ANKI_TAGS, hierarchy applied
+#   inherited ALLTAGS    <- because org-anki-inherit-tags is t
+# Dropped: "drill" (in org-anki-ignored-tags), plus "anki"/"noexport" if you
+# also list them there. Tags are sent as-is otherwise: even :anki: reaches Anki
+# unless it is in org-anki-ignored-tags.
+# On update, `org-anki--tag-diff' computes add/remove sets against the tags
+# currently on the Anki note (fetched with notesInfo) and issues addTags /
+# removeTags, so only deltas are transferred.
+
+* Tag Inheritance Context :toplevel:
+:PROPERTIES:
+:ANKI_DECK: showcase::Inherited
+:END:
+
+** Child note inherits deck and tags from parent :anki:
+This note's deck is =showcase::Inherited= and it carries the =toplevel= tag
+(verified: `org-entry-get ... t' for the deck and ALLTAGS for the tag).
+
+* Part 6: Sync Scoping
+
+** Entry skipped by sync-all
+No :anki: tag here, so =#+ANKI_MATCH: anki-noexport= makes `org-anki-sync-all'
+skip it. `org-anki-skip-function' accepts an `org-map-entries' SKIP form for
+further programmatic exclusion. Note that `org-anki-sync-entry' does NOT apply
+the MATCH filter -- it syncs the entry at point.
+
+** Duplicate handling :anki:
+org-anki, via the AnkiConnect add-on (code 2055492159).
+# Same Front as an earlier note. addNote sends
+#   options.allowDuplicate = org-anki-allow-duplicates (default :json-false)
+#   options.duplicateScope = "deck"
+# so this fails unless (setq org-anki-allow-duplicates t).
+
+** Incomplete notes are dropped by sync-all :anki:
+:PROPERTIES:
+:ANKI_NOTE_TYPE: Basic
+:END:
+
+*** Front :noexport:
+This card has an empty Back field, so `org-anki--note-complete' returns nil.
+
+*** Back :noexport:
+
+# Consequence: `org-anki-sync-all' silently skips it. Category headings with
+# no body are dropped for the same reason (Front = heading, Back = "").
+# `org-anki-sync-entry' does not check completeness, so it would still create
+# the note with an empty field if you sync at point.
+
+# ---------------------------------------------------------------------------
+# Part 7: Command Reference (all verified present in org-anki.el)
+#
+#   org-anki-sync-entry    sync the single entry at point (add or update+tag diff).
+#   org-anki-sync-all      org-map-entries over MATCH (#+ANKI_MATCH: else
+#                          org-anki-default-match) with org-anki-skip-function,
+#                          filtering via org-anki--note-complete; pushes through
+#                          the AnkiConnect "multi" action.
+#   org-anki-update-all    entries where ANKI_NOTE_ID<>"" (hardcoded MATCH);
+#                          never creates notes.
+#   org-anki-update-dir    interactive: prompts for a directory, then runs
+#                          org-anki-update-all over every .org in it; C-u recurses.
+#   org-anki-delete-entry  y-or-n-p confirmation, deleteNotes, strips the property.
+#   org-anki-delete-all    same over every ANKI_NOTE_ID entry in the buffer.
+#   org-anki-cloze-dwim    wraps region or word as {{cN::...::hint}}; the prefix
+#                          argument sets N, and M-x always prompts for the hint
+#                          (empty hint = none).
+#   org-anki-browse-entry  guiBrowse with query "nid:<ANKI_NOTE_ID>".
+#   org-anki-import-deck   findNotes deck:"NAME" + notesInfo, converted back to
+#                          Org via pandoc (`org-anki-html-to-org'); best-effort.
+#   org-anki-add-model     prepends a (model field...) entry to
+#                          org-anki-model-fields via customize-set-variable.
+#
+# The package ships NO keybindings -- only autoloaded commands. The C-c
+# bindings in Part 8 are example user bindings, not defaults.
+# ---------------------------------------------------------------------------
+
+* Part 8: Companion Emacs Configuration
+
+#+BEGIN_SRC emacs-lisp
+;; Connection. NOTE: upstream really does spell this with three n's.
+(setq org-anki-ankiconnnect-listen-address "http://127.0.0.1:8765"
+      org-anki-api-key nil)                     ; set a string if AnkiConnect authenticates
+
+;; Fallbacks
+(setq org-anki-default-deck "showcase"
+      org-anki-default-note-type "Basic"
+      org-anki-allow-duplicates nil)
+
+;; Media: 'filesystem copies locally (fast, same machine);
+;;        'http base64-uploads via storeMediaFile (remote/containerized).
+(setq org-anki-media-method 'filesystem)
+
+;; Tags
+(setq org-anki-inherit-tags t
+      org-anki-ignored-tags '("anki" "noexport" "todo" "drill")
+      org-anki-hierarchical-tags-separator "__") ; "tag__subtag" -> "tag::subtag"
+
+;; Model field layouts. Fields missing here are silently dropped from the
+;; payload, so register every field a model should receive.
+(setq org-anki-model-fields
+      '(("Basic" "Front" "Back")
+        ("Basic (and reversed card)" "Front" "Back")
+        ("Basic (optional reversed card)" "Front" "Back" "Add Reverse")
+        ("NameDescr" "Name" "Descr")
+        ("Cloze" "Text" "Extra")
+        ("ArchitectureDecision" "Context" "Decision" "Tradeoffs")))
+
+;; Equivalent runtime registration (prepends to the list above):
+;; (org-anki-add-model "ArchitectureDecision" "Context" "Decision" "Tradeoffs")
+
+;; Per-field string transformers, applied before the payload is built.
+(setq org-anki-field-templates
+      '(("ArchitectureDecision"
+         ("Context" . (lambda (val) (concat "<div class=\"context\">" val "</div>")))
+         ("Decision" . (lambda (val) (concat "<b>Decision:</b> " val))))))
+
+;; HTML -> Org converter used by org-anki-import-deck (pandoc by default).
+(setq org-anki-html-to-org 'org-anki--html-to-org)
+
+;; Scoping
+(setq org-anki-default-match "anki-noexport"
+      org-anki-skip-function nil)
+
+;; Example keybindings (the package defines none).
+(dolist (spec '(("C-c a s" . org-anki-sync-entry)
+                ("C-c a a" . org-anki-sync-all)
+                ("C-c a u" . org-anki-update-all)
+                ("C-c a D" . org-anki-update-dir)
+                ("C-c a d" . org-anki-delete-entry)
+                ("C-c a c" . org-anki-cloze-dwim)
+                ("C-c a b" . org-anki-browse-entry)))
+  (define-key org-mode-map (kbd (car spec)) (cdr spec)))
+#+END_SRC
