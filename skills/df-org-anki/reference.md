@@ -165,6 +165,33 @@ Transport is `org-anki-media-method`:
    `((model . ((field . fn))))` where `fn` is `string → string`, applied by
    `org-anki--apply-templates` after field extraction. Use for boilerplate
    wrapping, prompts, CSS spans, etc.
+4. **Syntax colouring** — htmlize only, driven by two ox-html variables that
+   org-anki never sets:
+   - `org-html-htmlize-output-type`: `inline-css` (Emacs ≥30 default) → per-token
+     `<span style="color: #rrggbb">`, stored in the note, no stylesheet needed.
+     `css` (Emacs ≤29 default) → `<span class="org-keyword">`; since the export is
+     body-only the matching `<style>` is dropped and code renders black unless the
+     CSS is pasted into the note type's Styling. `inline` → all face attributes
+     inline, background included.
+   - `org-html-htmlize-font-prefix` (default `org-`) — only relevant to the `css`
+     mode class names.
+   - Faces come from the active Emacs theme, so colours are frozen at sync time
+     and are not re-derived by Anki's night mode.
+5. **Monospace** — not styled by org-anki or the note type: ox-html emits
+   `<pre class="src src-LANG"><code>…</code></pre>`, and the rendering engine
+   (Qt WebEngine) supplies `pre, code { font-family: monospace }` from its built-in
+   stylesheet. That direct declaration overrides the `font-family` inherited from
+   `.card`, so code stays monospace under any note type.
+6. **Known gaps with default note-type CSS** (verified against the stock `Basic`
+   model: `.card { font-family: arial; font-size: 20px; text-align: center; color: black; background-color: white; }`):
+   - Verified in Chromium (≈ Anki's Qt WebEngine): `text-align: center` is
+     inherited into `<pre>` (code lines centred) and `white-space: pre` makes long
+     lines overflow. Fix with `pre.src { text-align: left; white-space: pre-wrap; }`.
+   - Org tables become bare `<table>`/`<td>` with no border rules.
+7. **Inline verbatim** — `=…=` / `~…~` export as bare `<code>…</code>` with no
+   style attribute (htmlize only fontifies `#+BEGIN_SRC` blocks). Their colour is
+   note-type CSS, e.g. `code { color: #da8548; }` — render-time, so it affects
+   existing notes without a re-sync.
 
 ---
 

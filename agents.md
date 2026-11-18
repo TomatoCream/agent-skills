@@ -11,6 +11,7 @@ This directory contains agent skills for coding agents (opencode, claude-code, e
 │   ├── tavily-*/       # Tavily web search/integration skills
 │   ├── brainstorming   # From obra/superpowers
 │   └── ...
+├── context/            # Machine context sheets (n1n1.md)
 ├── install.org         # Idempotent installation instructions
 ├── agents.md           # This file
 └── .skill-lock.json    # Lock file tracking installed skills
@@ -47,6 +48,11 @@ description: When to use this skill and what it does
 | `context7` | context7 |
 | `karpathy/autoresearch` | autoresearch |
 | Local | create-skill-from-repo, df-src-ref-sops-nix, df-src-ref-nix-openclaw, df-ref-nixarr, df-low-latency-java, para-java-aeron-cluster, para-java-25-new |
+
+## Machine Context
+
+Machine facts live in `context/`. Start with `context/n1n1.md` — host identity,
+network, where things are, persistence rules, projects.
 
 ## Related Documentation
 

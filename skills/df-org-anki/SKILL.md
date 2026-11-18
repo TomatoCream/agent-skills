@@ -60,6 +60,13 @@ When generating new flashcards or converting notes/code into an `org-anki` deck,
    - Tags: `lower_snake_case` with `__` for Anki hierarchy (`domain__topic` $\to$ `domain::topic`).
 
 
+### Card Prose Formatting Standards
+Formatting is a core feature of the deck, not an afterthought:
+- **Point form over run-on sentences.** One idea per bullet; break multi-clause sentences into `- ` bullets.
+- **Wrap every identifier, flag, path, and command in `=code=`** — with the note-type `code` rule (§6) these render as coloured monospace chips.
+- **Use real Org markup for structure, not soft line breaks.** ox-html joins single newlines inside a paragraph into one running sentence — enumerate with actual lists (`- item` / `1. item`) or separate paragraphs (blank line).
+- Keep `*** Front` asking exactly one question; put enumerations in `*** Back` as a list.
+
 ## 1. The Core Mental Model
 
 1. **One Org Heading = One Anki Note**
@@ -124,7 +131,11 @@ When generating new flashcards or converting notes/code into an `org-anki` deck,
 | `org-anki-import-deck` | `M-x org-anki-import-deck` | Reverse import: pulls existing Anki deck into Org headings via Pandoc (`org-anki-html-to-org`). |
 | `org-anki-add-model` | `M-x org-anki-add-model` | Runtime model registration: `(org-anki-add-model "ModelName" "Field1" "Field2" ...)`. |
 
-**The package ships no keybindings** — only autoloaded commands. Every `C-c ...` binding shown here and in §2 is an example user binding you install yourself. Also note `org-anki-sync-entry` does *not* apply `ANKI_MATCH` or the completeness check; `org-anki-sync-all` applies both.
+**Keybinding & filtering caveats:**
+- **The package ships no keybindings** — only autoloaded commands.
+- Every `C-c ...` binding in §2 and in the table above is an example user binding you install yourself.
+- `org-anki-sync-entry` does **not** apply `ANKI_MATCH` and does **not** run the completeness check.
+- `org-anki-sync-all` applies both: `ANKI_MATCH` scoping, plus `org-anki--note-complete` (drops any note with an empty field).
 
 ---
 
@@ -200,7 +211,11 @@ What does POSIX =mmap()= return on failure?
 =(void *) -1= (i.e. =MAP_FAILED=), NOT =NULL=.
 ```
 
-The third field is named `Add Reverse`, and org-anki only transmits fields listed in `org-anki-model-fields`. The shipped default registers just `Front` and `Back` for this model, so a `*** Add Reverse` subheading is **silently dropped**. Register it first:
+Third field is named `Add Reverse`:
+- org-anki transmits only fields listed in `org-anki-model-fields`.
+- The shipped default registers just `Front` and `Back` for this model.
+- A `*** Add Reverse` subheading is therefore **silently dropped** — no error, no warning.
+- Register the full field list first:
 ```elisp
 (org-anki-add-model "Basic (optional reversed card)" "Front" "Back" "Add Reverse")
 ```
@@ -227,7 +242,10 @@ When cloze syntax is in the body text:
 :END:
 Receive buffer is configured via {{c1::SO_RCVBUF::socket option}}, while global ceiling across TCP sockets is bounded by {{c2::/proc/sys/net/ipv4/tcp_rmem::sysctl path}}.
 ```
-For body cloze the **heading is discarded** and no `Extra` field is produced: the entire body becomes `Text`. Anything that must be visible has to live in the body, and comment (`# ...`) lines vanish during export, so they can never fill a field.
+Body-cloze consequences:
+- The **heading is discarded** and no `Extra` field is produced — the entire body becomes `Text`.
+- Anything that must be visible has to live in the body.
+- Comment (`# ...`) lines vanish during export, so they can never fill a field.
 
 ---
 
@@ -334,7 +352,88 @@ Resulting tags in Anki: `languages::cpp`, `memory::alignment`, `org_mode::export
 
 ---
 
-## 6. Critical Gotchas & Troubleshooting
+## 6. Rendering Pipeline & Syntax Colouring
+
+### Pipeline, one field at a time
+| # | Step | Implementation |
+|---|---|---|
+| 1 | Field string → HTML, **body-only** (no `<head>`, no `<style>`, no TOC). | `org-anki--org-to-html` → `(org-export-string-as STRING 'html t '(:with-toc nil))` |
+| 2 | `#+BEGIN_SRC` blocks fontified by **htmlize** in the block's language major mode, using the **active Emacs theme**. | ox-html `org-html-fontify-code` → htmlize |
+| 3 | LaTeX → Anki MathJax delimiters (`equation`/`align` → `\[…\]`; inline `$…$`, `\(…\)` pass through). | `org-anki--string-to-anki-mathjax` |
+| 4 | Media `src=`/`href=` rewritten to `<inode>_<basename>` and copied to `collection.media`. | `org-anki--collect-file-links`, `org-anki--copy-files` |
+| 5 | Fields sent as JSON: `addNote` (new) / `updateNoteFields` (has `ANKI_NOTE_ID`), batched via `multi`. | `org-anki--create-note-single`, `org-anki--update-note-single` |
+| 6 | Anki substitutes the fields into the card template and renders in Qt WebEngine. | Anki itself |
+
+### Colours are inline styles, not CSS
+- Format is set by `org-html-htmlize-output-type` (an ox-html variable, **not** an org-anki one):
+  - `inline-css` — **default on Emacs ≥30** (verified here) → `<span style="color: #51afef;">class</span>`. Self-contained; needs no stylesheet.
+  - `css` — **default on Emacs ≤29** → `<span class="org-keyword">`; the stylesheet lives in `<head>`, which body-only export throws away → code renders **black** unless you paste the htmlize CSS into the note type's Styling.
+  - `inline` — every face attribute inline, including background.
+- The palette is the Emacs theme at sync time, not anything in Anki.
+- Verified stored payload (note in an Anki `Basic` model):
+  ```html
+  <pre class="src src-cpp"><code><span style="color: #51afef;">template</span><span style="color: #51afef;">&lt;</span> <span style="color: #51afef;">class</span> <span style="color: #ECBE7B;">InputIt</span>…
+  ```
+- Anki's note-type CSS is irrelevant to code colour. Default `Basic` styling is only:
+  ```css
+  .card { font-family: arial; font-size: 20px; line-height: 1.5;
+          text-align: center; color: black; background-color: white; }
+  ```
+- **Colours are frozen at sync time** and do not follow Anki's night mode; re-sync after a theme change to recolour.
+
+### Monospace comes from the webview, not from Anki
+- ox-html emits `<pre class="src src-LANG"><code>…</code></pre>`.
+- Qt WebEngine's built-in stylesheet declares `pre, code { font-family: monospace; }`.
+- That direct declaration beats the `arial` inherited from `.card` → code is always monospace, in every note type.
+- `font-size`/`color` are inherited from `.card`; nothing sets code-specific sizing.
+
+### Inline `=verbatim=` is the one place where it IS CSS
+- `=…=` / `~…~` export as bare `<code>…</code>` with **no** style attribute — htmlize only fontifies `#+BEGIN_SRC` blocks.
+- Their colour therefore comes from the note-type CSS (the `code` rule in the baseline set below), not from the export.
+- Monospace itself still comes free from the webview; the rule adds colour + the chip background.
+
+### Verified rendering defects (measured in Chromium, ≈ Anki's Qt WebEngine)
+- Default `Basic` styling measured on a rendered card: `pre.src` computed `text-align: center` (inherited from `.card`) → code lines are centred.
+- `white-space: pre` (default) → `scrollWidth > clientWidth` on long lines → the line overflows the card instead of wrapping.
+- One rule fixes both (verified: left-aligned and wrapping after the fix):
+  ```css
+  pre.src { text-align: left; white-space: pre-wrap; }
+  ```
+- Org tables export as plain `<table>`/`<td>` with no rules from `Basic` → add borders.
+
+### Recommended baseline rule set (append under the stock `.card` block)
+```css
+code {
+    font-family: monospace; color: #da8548;
+    background-color: rgba(0, 0, 0, 0.06);
+    padding: 2px 4px; border-radius: 3px;
+}
+pre.src { text-align: left; white-space: pre-wrap; font-size: 0.85em; }
+table, th, td { border: 1px solid #444; border-collapse: collapse; padding: 4px 6px; }
+.nightMode code { background-color: rgba(255, 255, 255, 0.08); }
+```
+- Take colour hexes from the active Emacs theme, not from this file, e.g. `(face-attribute 'org-code :foreground)` → `#da8548` in the current theme.
+
+### Applying formatting to a note type (repeatable process)
+1. **Probe the markup** a card produces, so you style real output, not guesses — run in the Emacs daemon:
+   ```elisp
+   (with-temp-buffer
+     (insert "<paste a representative card body here>")
+     (require 'ox-html)
+     (princ (org-export-string-as (buffer-string) 'html t '(:with-toc nil))))
+   ```
+2. **Read the current sheet:**
+   `curl -s 127.0.0.1:8765 -d '{"action":"modelStyling","version":6,"params":{"modelName":"Basic"}}'`
+3. **Push the FULL CSS** — the update replaces the entire sheet, so always send stock `.card` + additions:
+   `{"action":"updateModelStyling","version":6,"params":{"model":{"name":"Basic","css":"<full CSS>"}}}`.
+   The installed addon rejects the flat `{"model":…,"css":…}` shape (verified); it wants the nested dict.
+4. **Verify** with a `modelStyling` read-back.
+5. **Repeat per note type** — styling is per model; `Basic`, `Cloze`, and every custom model need the same treatment.
+6. **No re-sync needed:** note-type CSS is render-time and hits existing notes immediately. Exception: src-block colours are baked into field text at sync time (see above) — recolouring those requires a theme change + `org-anki-update-all`.
+
+---
+
+## 7. Critical Gotchas & Troubleshooting
 
 ### Gotcha 1: Unintended Cards from Category Headings
 **Symptom:** Running `sync-all` creates weird cards for section titles (e.g. "Card Type 5: Math").
@@ -391,3 +490,13 @@ Card content here will be synced.
 **Symptom:** A `*** Add Reverse` (or any extra field) subheading never reaches Anki, with no error.
 **Cause:** `org-anki--get-fields` only collects subheadings whose titles are in `org-anki-model-fields` for that model.
 **Fix:** Register the full field list first: `(org-anki-add-model "Basic (optional reversed card)" "Front" "Back" "Add Reverse")`.
+
+### Gotcha 10: Source-Block Colours Missing, Wrong, or Unreadable
+**Symptom:** C++/Python blocks render all black, clash with the theme, or are unreadable in Anki night mode.
+**Cause:** Colours are htmlize output embedded in the field text; their format depends on `org-html-htmlize-output-type` (see §6):
+- `css` (Emacs ≤29 default) emits classes whose stylesheet body-only export drops → black code.
+- `inline-css` / `inline` bake the *current Emacs theme* into the note → frozen at sync time; night mode is not honoured.
+**Fix:**
+- `(setq org-html-htmlize-output-type 'inline-css)` for portable, stylesheet-free colour.
+- Or keep `css` and paste htmlize's generated CSS into the note type's Styling field.
+- After changing theme or output type, re-run `org-anki-update-all` to recolour existing notes.
